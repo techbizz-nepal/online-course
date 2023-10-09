@@ -8,6 +8,7 @@ Route::controller(LoginController::class)
     ->group(function () {
         Route::get('/login', 'showLoginForm')->name('getLoginForm');
         Route::post('/login', 'login')->name('postLogin');
+        Route::post('logout', 'logout')->name('postLogout')->middleware('guest:student');
     });
 
 Route::controller(DashboardController::class)
