@@ -13,16 +13,24 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class StudentController extends Controller
 {
-    public function index(){
-        $students = Student::all();
-        return view('admin.students.index', compact('students'));
+    public function index()
+    {
+        $students = Student::query()->select(['id', 'name', 'email', 'pdf'])->simplePaginate(5);
+        $viewData = [
+            'students' => $students,
+            'next_page_url' => $students->nextPageUrl(),
+            'prev_page_url' => $students->previousPageUrl()
+        ];
+        return view('admin.students.index', $viewData);
     }
 
-    public function create(){
+    public function create()
+    {
         return view('admin.students.create');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $data = $request->validate([
             'name' => 'required | min: 1 | max: 250',
             "pdf" => "required|mimes:pdf|max:10000"
@@ -30,62 +38,65 @@ class StudentController extends Controller
         DB::beginTransaction();
         try {
             $uniqueKey = generate_random_key();
-            $key = Str::slug($data['name']." ".$uniqueKey);
+            $key = Str::slug($data['name'] . " " . $uniqueKey);
 
             $pdf = $request->file('pdf');
-            $pdfName = $key.'.'.$pdf->extension();
+            $pdfName = $key . '.' . $pdf->extension();
             $pdf->move(public_path('storage/files/students'), $pdfName);
-            $data['key'] = $key ;
-            $data['pdf'] = "storage/files/students/".$pdfName;
+            $data['key'] = $key;
+            $data['pdf'] = "storage/files/students/" . $pdfName;
             Student::create($data);
 
             DB::commit();
             return redirect()->route('admin.student.index')->with('success', "Student Created Successfully");
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
             return back()->withErrors("Failed to add student.");
         }
     }
 
-    public function edit(Student $student){
+    public function edit(Student $student)
+    {
         return view('admin.students.edit', compact('student'));
     }
 
-    public function update(Request $request, Student $student){
+    public function update(Request $request, Student $student)
+    {
         $data = $request->validate([
             'name' => 'required | min: 1 | max: 250',
         ]);
         DB::beginTransaction();
         try {
             $key = $student->key;
-            if ($request->has('pdf')){
+            if ($request->has('pdf')) {
                 $request->validate([
                     "pdf" => "mimes:pdf|max:10000"
                 ]);
                 unlink(public_path($student->pdf));
                 $pdf = $request->file('pdf');
-                $pdfName = $key.'.'.$pdf->extension();
+                $pdfName = $key . '.' . $pdf->extension();
                 $pdf->move(public_path('storage/files/students'), $pdfName);
-                $data['pdf'] = "storage/files/students/".$pdfName;
+                $data['pdf'] = "storage/files/students/" . $pdfName;
             }
             $student->update($data);
             DB::commit();
             return redirect()->route('admin.student.index')->with('success', "Student Updated Successfully");
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
             return back()->withErrors("Failed to update student.");
         }
     }
 
-    public function downloadQR(Student $student){
+    public function downloadQR(Student $student)
+    {
         $url = asset($student->pdf);
         $headers = array('Content-Type' => ['svg']);
-        $imageName  = 'qr-code-'.uniqid().generate_random_key();
+        $imageName = 'qr-code-' . uniqid() . generate_random_key();
         $image = QrCode::format('svg')->size(200)->generate($url);
 
         Storage::disk("public")->put($imageName, $image);
 
-        return response()->download('storage/'.$imageName, $imageName.'.svg', $headers)->deleteFileAfterSend();
+        return response()->download('storage/' . $imageName, $imageName . '.svg', $headers)->deleteFileAfterSend();
     }
 
     public function destroy(Student $student)
