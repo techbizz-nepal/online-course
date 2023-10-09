@@ -3,6 +3,11 @@
         <div class="container">
             <div class="header-address">
                 <ul>
+                    @if(auth()->guard('student')->check())
+                        <li><a href={{route('student.dashboard')}}> <i class="fa fa-envelop"></i>Hello, {{auth()->guard('student')->user()->name}} </a></li>
+                    @else
+                        <li class="nav-auth"><a href="{{ route('student.getLogin') }}" class="">Sign in</a></li>
+                    @endif
                     <li><a href="mailto:info@key.edu.au"> <i class="fa fa-envelop"></i>info@key.edu.au</a></li>
                     <li><i class="fa fa-time"></i> Opening Hours: Mon - Fri: 9am - 4.30pm</li>
                 </ul>

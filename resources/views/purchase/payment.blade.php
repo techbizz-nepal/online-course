@@ -26,7 +26,8 @@
                 @csrf
                 <input type="hidden" name="payment_option" id="paymentOptionField">
                 <div class="container">
-                    <h4 class="alert alert-info">Please use email: {{$email}} and password: {{$password}} for login.</h4>
+                    <p class="alert alert-info">Please use email: <strong>{{$email}}</strong> and password:
+                        <strong>{{$password}}</strong> for login.</p>
                     <div class="terms-and-policy">
                         <div class="form-group">
                             <div class="form-group form-check">
