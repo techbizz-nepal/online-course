@@ -1,7 +1,7 @@
-
-
 jQuery(document).ready(function ($) {
     // wow animation
+    const courseListEl = $("#course-list")
+
     function wowAnimation() {
         wow = new WOW({
             boxClass: 'wow',      // default
@@ -13,18 +13,18 @@ jQuery(document).ready(function ($) {
         wow.init();
     }
 
-    // 
+    //
 
     //Dropdown Menu
     function dropdownMenu() {
 
         jQuery('.stellarnav').stellarNav({
-            theme: 'dark',
+            theme: 'light',
             breakpoint: 767,
             position: 'right'
         });
 
-        // 
+        //
         if ($(window).width() >= 992) {
             $('.navbar .menu-item-has-children, .navbar .dropdown').hover(function () {
                 $(this).find('.sub-menu, .dropdown-menu').first().stop(true, true).delay(250).slideDown();
@@ -38,7 +38,7 @@ jQuery(document).ready(function ($) {
             location.href = this.href;
         });
     }
-    
+
     //
     function matchHeights() {
         var options = {
@@ -51,6 +51,7 @@ jQuery(document).ready(function ($) {
         $('.product__info, .support__info').matchHeight(options);
         $('.section-news .news__info').matchHeight(options);
     }
+
     //
     function mainSlider() {
         $('.hero__slider').slick({
@@ -65,9 +66,10 @@ jQuery(document).ready(function ($) {
             cssEase: 'ease-in-out'
 
         });
-        // 
+        //
 
     }
+
     // img tags converted to svg
 
     function imgToSvg() {
@@ -103,16 +105,18 @@ jQuery(document).ready(function ($) {
     function conainerWidth() {
         jQuery(window).on("load resize", function (e) {
             if (jQuery('.hero-content').length > 0) {
-              var $ = jQuery
-              var fortalezaOffset = $('.navbar .container').offset().left;
-              $('.hero-content').css({
-                'padding-left': fortalezaOffset
-              });
+                var $ = jQuery
+                var fortalezaOffset = $('.navbar .container').offset().left;
+                $('.hero-content').css({
+                    'padding-left': fortalezaOffset
+                });
             }
-          });
+        });
     }
 
-    // 
+    function expandCourseListOnDesktop() {
+        courseListEl.css({"columns": "3 6em", "width": "60em"})
+    }
 
     // call functions
     wowAnimation();
@@ -121,13 +125,21 @@ jQuery(document).ready(function ($) {
     matchHeights();
     mainSlider();
     conainerWidth();
+    expandCourseListOnDesktop()
+    $(window).on('resize', function () {
+        let innerWidth = $(this).width()
+        console.log(innerWidth)
 
-    $(window).on('resize', function() {
-        // dropdownMenu();
-        // dropToggler();
+        if (innerWidth <= 767) {
+            courseListEl.css("all", "unset")
+        }
+        if (innerWidth <= 1160 && innerWidth > 890) {
+            courseListEl.css({"width": "45em", "columns": "2 6em"})
+        }
+        if (innerWidth > 1160) {
+            expandCourseListOnDesktop()
+        }
     });
-
-
 });
 
 

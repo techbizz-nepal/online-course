@@ -45,11 +45,10 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-home"><a href="/" class="@yield('homepage')"><i class="fa fa-home"></i> Home</a></li>
                     <li class="nav-product"><a href="#" class="@yield('courses')">Courses</a>
-                        <ul>
+                        <ul id="course-list">
                             @foreach(get_courses() as $course)
-                            <li><a href="{{ route('course', $course) }}">{{ $course->title }}</a></li>
+                                <li><a href="{{ route('course', $course) }}">{{ $course->title }}</a></li>
                             @endforeach
-
                         </ul>
                     </li>
 
