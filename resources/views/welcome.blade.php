@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('homepage', 'nav-active')
-@section('title', $page->title)
+@section('title', $page?->title)
 @section('metaTags')
-    @if(count($metaTags) > 0)
+    @if($metaTags && count($metaTags) > 0)
         @foreach($metaTags as $metaTag)
             <meta @if($metaTag->name !== null && trim($metaTag->name) !== '') name="{{ $metaTag->name }}" @endif @if($metaTag->property !== null && trim($metaTag->property) !== '') property="{{ $metaTag->property }}" @endif content="{{ $metaTag->content }}">
         @endforeach
@@ -10,6 +10,7 @@
 @endsection
 @section('content')
     <div class="site-content">
+        @if($banner)
         <div class="section section-hero">
             <span class="overlay"></span>
             <img class="hero-img" src="{{ asset('storage/images/banners/'.$banner->banner_image) }}" alt="Banner Image">
@@ -30,6 +31,7 @@
             </div>
 
         </div>
+        @endif
         <!-- hero section ends -->
 
         <div class="section section-welcome">
