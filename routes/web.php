@@ -54,6 +54,7 @@ Route::get('/paymet/eway/success', [PaymentController::class, 'ewaySuccess'])->n
 Route::get('/payment/eway', [PaymentController::class, 'eWay'])->name('eWay');
 
 Route::get('/test', function () {
+    dd(session()->get('user-checkout-details'));
     dd(session()->get('tacs'));
 });
 

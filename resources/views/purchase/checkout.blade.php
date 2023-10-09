@@ -10,17 +10,6 @@
                 </div>
             </div>
         </div>
-        @if ($errors->any())
-            <hr>
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            <hr>
-        @endif
 
         <div class="section section-duration" style="padding-bottom: 0;">
             <div class="container">
@@ -70,7 +59,19 @@
         </div>
         @if(count($cartItems) > 0)
             <div class="section section-duration">
+
                 <div class="container">
+                    @if ($errors->any())
+                        <hr>
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <hr>
+                    @endif
                     <form action="{{ route('checkout-details') }}" method="POST">
                         @csrf
                         <div class="table-responsive">

@@ -11,5 +11,5 @@ class Student extends \Illuminate\Foundation\Auth\User
     use HasApiTokens, HasFactory, Notifiable;
     use HasFactory, SoftDeletes;
 
-    protected string $guard = 'student';
+    protected $guarded = [];
 }
