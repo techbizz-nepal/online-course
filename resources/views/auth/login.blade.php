@@ -28,7 +28,7 @@
             <div class="login-wrap">
                 <div class="login-content">
                     <div class="login-form">
-                        <h2 class="my-2 text-center">Login</h2>
+                        <h2 class="my-2 text-center">Admin Login</h2>
                         <hr>
                         <form action="{{ route('login') }}" method="POST">
                             @csrf
