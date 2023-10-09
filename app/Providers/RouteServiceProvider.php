@@ -29,6 +29,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             $this->registerPlatformRoutes();
             $this->registerAdminRoutes();
+            $this->registerStudentRoutes();
         });
     }
 
@@ -50,12 +51,16 @@ class RouteServiceProvider extends ServiceProvider
             ->prefix('admin')
             ->name('admin.')
             ->namespace($this->namespace)
-            ->group(base_path('routes/web/admin/index.php'));
+            ->group(base_path('routes/web/admin/admin.php'));
+    }
+
+    private function registerStudentRoutes(): void
+    {
         Route::middleware('web')
-            ->prefix('admin')
-            ->name('admin.')
+            ->prefix('student')
+            ->name('student.')
             ->namespace($this->namespace)
-            ->group(base_path('routes/web/admin/student/index.php'));
+            ->group(base_path('routes/web/student/student.php'));
     }
 
     /**
