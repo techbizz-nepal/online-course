@@ -1,9 +1,25 @@
 [
-{"type":"header","version":"5.2.1","comment":"Export to JSON plugin for PHPMyAdmin"},
-{"type":"database","name":"keyeduau_muhamad"},
-{"type":"table","name":"banners","database":"keyeduau_muhamad","data":
-[
-{"id":"1","banner_text":"<h5><h3><b style=\"font-family: inherit;\">Book Now Pay Later with Zip!<\/b><\/h3><span style=\"font-family: inherit;\">We offer<br><\/span>Traffic Management Courses<br>White Card Course<br>First Aid Courses<br>Electrical Spotters Course<br>Roller Operator course<\/h5><div><br><\/div>","banner_image":"banner-6203d52c534db.jpg","created_at":"2022-02-09 19:51:35","updated_at":"2022-04-25 01:11:26"}
-]
-}
+    {
+        "type": "header",
+        "version": "5.2.1",
+        "comment": "Export to JSON plugin for PHPMyAdmin"
+    },
+    {
+        "type": "database",
+        "name": "keyeduau_muhamad"
+    },
+    {
+        "type": "table",
+        "name": "banners",
+        "database": "keyeduau_muhamad",
+        "data": [
+            {
+                "id": "1",
+                "banner_text": "<h5><h3><b style=\"font-family: inherit;\">Book Now Pay Later with Zip!<\/b><\/h3><span style=\"font-family: inherit;\">We offer<br><\/span>Traffic Management Courses<br>White Card Course<br>First Aid Courses<br>Electrical Spotters Course<br>Roller Operator course<\/h5><div><br><\/div>",
+                "banner_image": "banner-6203d52c534db.jpg",
+                "created_at": "2022-02-09 19:51:35",
+                "updated_at": "2022-04-25 01:11:26"
+            }
+        ]
+    }
 ]
