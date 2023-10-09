@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Course;
 use App\Models\Page;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class PagesSeeder extends Seeder
 {
@@ -14,36 +15,13 @@ class PagesSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $pages = Page::all();
-
-        if (count($pages) === 0){
-
-            Page::create([
-                'name' => 'Home',
-                'slug' => 'home'
-            ]);
-
-            Page::create([
-                'name' => 'Contact',
-                'slug' => 'contact'
-            ]);
-
-            Page::create([
-                'name' => 'About',
-                'slug' => 'about'
-            ]);
-            $courses = Course::all();
-            foreach ($courses as $course){
-                Page::create([
-                    'name' => $course->title,
-                    'slug' => $course->slug,
-                    'is_course' => true,
-                    'course_id' => $course->id
-                ]);
-            }
-
+        $rows = File::json(database_path('data/pages.json'))[2]["data"];
+        if (!Page::query()->count() && $rows) {
+            Arr::map($rows, function ($row) {
+                DB::table("pages")->insert($row);
+            });
         }
     }
 }
