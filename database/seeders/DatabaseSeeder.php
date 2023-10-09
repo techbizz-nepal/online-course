@@ -11,10 +11,18 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
-            CategorySeeder::class
+            AdminSeeder::class,
+            StudentSeeder::class,
+            BannerSeeder::class,
+            CategorySeeder::class,
+            CourseSeeder::class,
+            PagesSeeder::class,
+            MetaTagSeeder::class,
+            MetaTagPageSeeder::class,
+            BookingDateSeeder::class
         ]);
     }
 }
