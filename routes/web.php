@@ -1,20 +1,21 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\PagesController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CourseController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\MetaTagController;
-use Spatie\Honeypot\ProtectAgainstSpam;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PasswordController;
+use App\Http\Controllers\Admin\Student\Auth\LoginController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PurchaseController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,15 +53,15 @@ Route::get('/payment/zip/success', [PaymentController::class, 'zipSuccess'])->na
 Route::get('/paymet/eway/success', [PaymentController::class, 'ewaySuccess'])->name('eway.success');
 Route::get('/payment/eway', [PaymentController::class, 'eWay'])->name('eWay');
 
-Route::get('/test', function (){
+Route::get('/test', function () {
     dd(session()->get('tacs'));
 });
 
-Route::prefix('admin')->group(function (){
+Route::prefix('admin')->group(function () {
     Auth::routes();
 });
 
-Route::name('admin.')->prefix('admin')->group(function (){
+Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('home');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
@@ -78,3 +79,4 @@ Route::name('admin.')->prefix('admin')->group(function (){
     Route::get('/password/change', [PasswordController::class, 'showPasswordChangeForm'])->name('password.change');
     Route::patch('/password/change', [PasswordController::class, 'change'])->name('password.change.post');
 });
+
