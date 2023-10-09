@@ -4,19 +4,19 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class AdminSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        if (!User::first()){
-            User::create([
-                'name' => 'Administrator',
-                'username' => 'admin',
-                'password' => Hash::make('password'),
-                'email' => 'admin@admin.com',
-            ]);
+        $rows = File::json(database_path('data/users.json'))[2]["data"];
+        if (!User::query()->count() && $rows) {
+            Arr::map($rows, function ($row) {
+                DB::table("users")->insert($row);
+            });
         }
     }
 }
