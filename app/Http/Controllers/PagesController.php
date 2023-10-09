@@ -16,7 +16,7 @@ class PagesController extends Controller
 //        $courses = Course::with('bookingDates')->withCount('bookingDates')->orderBy('display_order')->get();
         $categories = Category::with('courses')->orderBy('display_order')->get();
         $page = Page::where('slug' , 'home')->with('metaTags')->first();
-        $metaTags = $page->metaTags;
+        $metaTags = $page?->metaTags;
         $banner = Banner::first();
         return view('welcome', compact('categories' ,'page' , 'metaTags', 'banner'));
     }
