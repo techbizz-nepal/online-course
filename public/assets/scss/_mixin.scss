@@ -1,0 +1,172 @@
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+    border-radius: $radius;
+}
+
+.btn {
+    //@include border-radius(3px);
+}
+
+@mixin transition ($transition) {
+    -webkit-transition: $transition;
+    -moz-transition: $transition;
+    -ms-transition: $transition;
+    -o-transition: $transition;
+    transition: $transition;
+}
+
+@mixin rotate($degrees) {
+    -webkit-transform: rotate($degrees);
+    -moz-transform: rotate($degrees);
+    -ms-transform: rotate($degrees);
+    -o-transform: rotate($degrees);
+    transform: rotate($degrees);
+}
+
+.rotate {
+    @include rotate(-45deg);
+}
+
+
+
+label {
+    @include transition(0.2s ease-out);
+}
+
+.navbar-toggler {
+    span {
+       @include transition(all 1s ease); 
+    }
+}
+button {
+    @include transition(all 1s ease);
+    &:after {
+        @include transition(all 1s ease);
+    }
+}
+.btn {
+    @include transition(all 1s ease);
+
+    &:hover {
+        @include transition(all 1s ease);
+    }
+}
+
+
+
+a {
+    @include transition(all 1s ease);
+
+    &:hover {
+        @include transition(all 1s ease);
+
+        
+    }
+    // &:before {
+    //     @include transition(all 1s ease);
+    // }
+
+    // &:after {
+    //     @include transition(all 1s ease);
+    // }
+
+    // &:focus {
+    //     @include transition(all 1s ease);
+    // }
+}
+
+
+input[type="radio"] {
+    + {
+        label {
+            @include transition(all .2s ease-in-out);
+
+            &::before {
+                @include transition(all .3s ease);
+            }
+
+            &::after {
+                @include transition(all .3s ease);
+            }
+        }
+    }
+}
+
+input[type="checkbox"]+label {
+    @include transition(all .2s ease-in-out);
+
+    &:before {
+        @include transition(all .3s ease);
+    }
+
+    &:after {
+
+        @include transition(all .3s ease);
+
+    }
+}
+
+
+//breakpoints
+// $xs: 576px,
+// $sm: 768px,
+// $md: 992px,
+// $lg: 1200px
+
+@mixin breakpoint($class) {
+    @if $class==xs {
+        @media (max-width: 767px) {
+            @content;
+        }
+    }
+
+    @else if $class==sm {
+        @media (min-width: 768px) {
+            @content;
+        }
+    }
+
+    @if $class==sm1 {
+        @media (max-width: 991px) {
+            @content;
+        }
+    }
+
+    @else if $class==md {
+        @media (min-width: 992px) {
+            @content;
+        }
+    }
+
+    @else if $class==md1 {
+        @media (max-width: 1024px) {
+            @content;
+        }
+    }
+
+    @else if $class==lg {
+        @media (min-width: 1200px) {
+            @content;
+        }
+    }
+
+    // @else {
+    //     @warn "Breakpoint mixin supports: xs, sm, md, lg";
+    // }
+
+}
+
+// Font Family
+@mixin font-family($elem) {
+	font-family: unquote(get-font-family($elem));
+}
+
+// Font Weight
+@mixin font-weight($elem) {
+	font-weight: get-font-weight($elem);
+}
+
+

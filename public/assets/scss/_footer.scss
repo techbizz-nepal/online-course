@@ -1,0 +1,117 @@
+.footer {
+    &__top {
+        background-color: color(typography, 12);
+        color: #c5c5c5;
+        font-size: 13px;
+        padding-top: 30px;
+        padding-bottom: 60px;
+        [class*="col-"] {
+            margin-bottom: 20px;
+        }
+        a {
+            color: #c5c5c5;
+        }
+        h3 {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #c5c5c5;
+            &:before {
+                background-color: #c5c5c5;
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                max-width: 300px;
+                width: 100%;
+                height: 1px;
+                z-index: 1;
+
+            }
+            &:after {
+                background-color: color(typography, 7);
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                max-width: 115px;
+                width: 100%;
+                height: 1px;
+                z-index: 2;
+
+            }
+        }
+        .courseoffer {
+            ul {
+                li {
+                    position: relative;
+                    padding-left: 20px;
+                    &:not(:last-child) {
+                        margin-bottom: 12px;
+                    }
+                    &:before {
+                        content: '';
+                        height: 10px;
+                        width: 10px;
+                        border: 1px solid #c5c5c5;
+                        border-radius: 50%;
+                        position: absolute;
+                        left: 0;
+                        top: 3px;
+                    }
+                }
+            }
+        }
+        .footer-contact {
+            ul {
+                li {
+                    position: relative;
+                    padding-left: 24px;
+                    line-height: 35px;
+                    &:not(:last-child) {
+                        // margin-bottom: 12px;
+                    }
+                    &:before {
+                        position: absolute;
+                        font-family:'FontAwesome';
+                        left: 0;
+                        font-size: 14px;
+                    }
+                    &.phone {
+                        &:before {
+                            content: '\f095';
+                        }
+                    }
+                    &.mailto {
+                        &:before {
+                            content: '\f0e0';
+                        }
+                    }
+                    &.location {
+                        &:before {
+                            content: '\f041';
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &__copyright {
+        background-color: color(typography, 13);
+        color: #c5c5c5;
+        padding-top: 37px;
+        padding-bottom: 37px;
+        font-size: 13px;
+        .copyright {
+            a {
+                color: #c5c5c5;
+            }
+        }
+        .poweredBy {
+            a {
+                color: #1a588b;
+            }
+        }
+    }
+}

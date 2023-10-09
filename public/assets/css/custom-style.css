@@ -1,0 +1,50 @@
+.payment__wrap .payments ul li {
+    margin-bottom: 25px;
+}
+
+.about__content p {
+    font-family: open-sans;
+    font-size: 18px;
+}
+
+.about__content h3 {
+    font-family: open-sans;
+}
+
+.course__content p{
+    font-family: open-sans;
+    font-size: 18px;
+    text-align: justify;
+}
+
+.course__content h3 {
+    font-family: open-sans;
+}
+
+.section-hero .hero-content {
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 28px;
+}
+
+.nav-active{
+    background-color: #4882b4;
+}
+@media(max-width: 767px) {
+    .primary-logo {
+        color: #4882b4 !important;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    
+    .primary-logo b {
+        color: #2c2c64 !important;
+    }
+    
+    .primary-logo  img {
+        display: inline-block;
+        width: 60px;
+    }
+}
