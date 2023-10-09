@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
     function dropdownMenu() {
 
         jQuery('.stellarnav').stellarNav({
-            theme: 'light',
+            theme: 'dark',
             breakpoint: 767,
             position: 'right'
         });
