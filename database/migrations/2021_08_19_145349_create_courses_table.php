@@ -15,6 +15,7 @@ class CreateCoursesTable extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->constrained();
             $table->string('title');
             $table->float('price');
             $table->string('image', 1500);
