@@ -22,7 +22,7 @@ class CreateStudentsTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->text('pdf');
+            $table->text('pdf')->nullable();
             $table->integer('display_order')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->json('extra')->nullable();
