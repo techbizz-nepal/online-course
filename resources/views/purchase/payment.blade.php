@@ -26,17 +26,24 @@
                 @csrf
                 <input type="hidden" name="payment_option" id="paymentOptionField">
                 <div class="container">
+                    <h4 class="alert alert-info">Please use email: {{$email}} and password: {{$password}} for login.</h4>
                     <div class="terms-and-policy">
                         <div class="form-group">
                             <div class="form-group form-check">
                                 <input required type="checkbox" class="form-check-input" id="termsAndConditions">
-                                <label class="form-check-label" for="exampleCheck1">I have read and agreed to the key.edu.au Terms and Condition for this Course <a href="{{ asset('Copyrights-key-2021.pdf') }}" target="_blank">Terms and Conditions*</a></label>
+                                <label class="form-check-label" for="exampleCheck1">I have read and agreed to the
+                                    key.edu.au Terms and Condition for this Course <a
+                                        href="{{ asset('Copyrights-key-2021.pdf') }}" target="_blank">Terms and
+                                        Conditions*</a></label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-group form-check">
                                 <input required type="checkbox" class="form-check-input" id="cancellationPolicy">
-                                <label class="form-check-label" for="exampleCheck1">I have read and agreed to the key.edu.au Terms and Condition for this Course <a href="{{ asset('Cancelation_policy.pdf') }}" target="_blank">Cancellation Policy*</a></label>
+                                <label class="form-check-label" for="exampleCheck1">I have read and agreed to the
+                                    key.edu.au Terms and Condition for this Course <a
+                                        href="{{ asset('Cancelation_policy.pdf') }}" target="_blank">Cancellation
+                                        Policy*</a></label>
                             </div>
                         </div>
                     </div>
@@ -111,18 +118,19 @@
                                                 disabled
                                         >
                                         </script>
-{{--                                        <script src="https://secure.ewaypayments.com/scripts/eCrypt.js"--}}
-{{--                                                class="eway-paynow-button"--}}
-{{--                                                data-publicapikey="epk-2C24D559-209F-4F0B-8DD2-582A106D7A71"--}}
-{{--                                                data-amount="{{ floatval(get_cart_total()) * 100 }}"--}}
-{{--                                                data-currency="AUD"--}}
-{{--                                                data-resulturl="{{ route('eway.success') }}"--}}
-{{--                                        >--}}
-{{--                                        </script>--}}
+                                        {{--                                        <script src="https://secure.ewaypayments.com/scripts/eCrypt.js"--}}
+                                        {{--                                                class="eway-paynow-button"--}}
+                                        {{--                                                data-publicapikey="epk-2C24D559-209F-4F0B-8DD2-582A106D7A71"--}}
+                                        {{--                                                data-amount="{{ floatval(get_cart_total()) * 100 }}"--}}
+                                        {{--                                                data-currency="AUD"--}}
+                                        {{--                                                data-resulturl="{{ route('eway.success') }}"--}}
+                                        {{--                                        >--}}
+                                        {{--                                        </script>--}}
                                     </li>
                                     <li>
                                         <div class="d-inline-block eway-pay-btn">
-                                            <img src="{{ asset('assets/images/eway-2.png') }}" class="w-50" alt="Pay with EWay">
+                                            <img src="{{ asset('assets/images/eway-2.png') }}" class="w-50"
+                                                 alt="Pay with EWay">
                                         </div>
                                     </li>
                                 </ul>
@@ -131,14 +139,19 @@
                                 <div>
                                     <h4 class="mb-2 mb-md-5">Pay with Zip</h4>
                                     <ul>
-                                        <li><a class="payment-btn" id="zip"><img src="{{ asset('assets/images/zip-logo.svg') }}" class="border" alt="Pay with Zip"></a></li>
+                                        <li><a class="payment-btn" id="zip"><img
+                                                    src="{{ asset('assets/images/zip-logo.svg') }}" class="border"
+                                                    alt="Pay with Zip"></a></li>
                                     </ul>
-                                </div></div>
+                                </div>
+                            </div>
                             <div class="col-md-4 mt-5 mt-md-2">
                                 <div>
                                     <h4 class="mb-2 mb-md-5">Pay with Paypal</h4>
                                     <ul>
-                                        <li><a class="payment-btn" id="paypal"><img class="w-50" src="{{ asset('assets/images/paypal-transparent.png') }}" alt="Pay with paypal"></a></li>
+                                        <li><a class="payment-btn" id="paypal"><img class="w-50"
+                                                                                    src="{{ asset('assets/images/paypal-transparent.png') }}"
+                                                                                    alt="Pay with paypal"></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -159,30 +172,30 @@
         const dummyEwayBtn = $('.eway-pay-btn');
         let paymentBtn = $('.payment-btn');
 
-        $( document ).ready(function() {
+        $(document).ready(function () {
             let ewayBtn = $('.eway-button').first();
             ewayBtn.hide();
-            dummyEwayBtn.on('click', function (){
+            dummyEwayBtn.on('click', function () {
                 checkBothChecked();
-                if (isBothChecked){
+                if (isBothChecked) {
                     ewayBtn.click();
-                }else{
+                } else {
                     $('#paymentFormSubmitBtn').click();
                 }
             });
         });
 
-        function checkBothChecked(){
+        function checkBothChecked() {
             isBothChecked = $('#termsAndConditions').is(':checked') && $('#cancellationPolicy').is(':checked');
         }
 
-        paymentBtn.on('click', function (){
+        paymentBtn.on('click', function () {
             checkBothChecked();
             if (isBothChecked === true) {
                 let paymentOption = this.id;
                 $('#paymentOptionField').val(paymentOption);
                 $('#paymentFormSubmitBtn').click();
-            }else {
+            } else {
                 $('#paymentFormSubmitBtn').click();
             }
         });
@@ -192,10 +205,11 @@
 @endpush
 @push('css')
     <style>
-        .eway-pay-btn:hover{
+        .eway-pay-btn:hover {
             cursor: pointer;
         }
-        .payment-btn:hover{
+
+        .payment-btn:hover {
             cursor: pointer;
         }
     </style>

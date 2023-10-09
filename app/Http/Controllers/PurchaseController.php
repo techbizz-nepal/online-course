@@ -49,6 +49,7 @@ class PurchaseController extends Controller
         try {
             Student::query()->create($studentData->getStudentRow());
             // TODO make authenticated this user
+            $userDetails['model_created'] = true;
             Session::put('user-checkout-details', $userDetails);
             return redirect()->route('payment');
         } catch (\Exception $exception) {
@@ -61,7 +62,9 @@ class PurchaseController extends Controller
         if (!Session::has('cart') || !Session::has('user-checkout-details') || get_cart_count() <= 0) {
             return redirect()->route('home')->withErrors('Cannot make payment. Make sure you have items in your cart or have filled in your user details form.');
         }
-        return view('purchase.payment');
+        $userEmail = Session::get('user-checkout-details')['email'];
+        $defaultPassword = StudentData::DEFAULT_PASSWORD;
+        return view('purchase.payment', ['email' => $userEmail, 'password' => $defaultPassword]);
     }
 
     private function validateRequest(Request $request): array
