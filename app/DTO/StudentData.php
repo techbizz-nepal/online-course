@@ -22,7 +22,7 @@ class StudentData
     {
     }
 
-    const DEFAULT_PASSWORD = 'student123';
+    public const DEFAULT_PASSWORD = 'student123';
 
     public function getName(): string
     {
