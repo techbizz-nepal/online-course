@@ -1,0 +1,106 @@
+[
+    {
+        "type": "header",
+        "version": "5.2.1",
+        "comment": "Export to JSON plugin for PHPMyAdmin"
+    },
+    {
+        "type": "database",
+        "name": "keyeduau_muhamad"
+    },
+    {
+        "type": "table",
+        "name": "categories",
+        "database": "keyeduau_muhamad",
+        "data": [
+            {
+                "id": "1",
+                "name": "Traffic Management",
+                "image": "storage\/images\/courses\/traffic-management-package-61ef6b621447e.jpg",
+                "description": null,
+                "slug": "traffic-management",
+                "display_order": "0",
+                "status": "1",
+                "created_at": "2022-06-28 21:51:55",
+                "updated_at": "2022-06-29 12:27:36"
+            },
+            {
+                "id": "2",
+                "name": "High risk work licence",
+                "image": "storage\/images\/courses\/traffic-management-and-white-card-package-61ef6b872ddd1.jpg",
+                "description": null,
+                "slug": "high-risk-work-licence",
+                "display_order": "1",
+                "status": "1",
+                "created_at": "2022-06-28 21:51:55",
+                "updated_at": "2022-06-29 12:35:24"
+            },
+            {
+                "id": "3",
+                "name": "White Card",
+                "image": "storage\/images\/courses\/2.jpg",
+                "description": null,
+                "slug": "white-card",
+                "display_order": "2",
+                "status": "1",
+                "created_at": "2022-06-28 21:51:55",
+                "updated_at": "2022-06-30 00:57:19"
+            },
+            {
+                "id": "4",
+                "name": "First Aid",
+                "image": "storage\/images\/categories\/first-aid-62bcf47115e31.jpg",
+                "description": null,
+                "slug": "first-aid",
+                "display_order": "3",
+                "status": "1",
+                "created_at": "2022-06-28 21:51:55",
+                "updated_at": "2022-06-30 00:55:13"
+            },
+            {
+                "id": "5",
+                "name": "Electrical Spotters Course",
+                "image": "storage\/images\/courses\/3.jpg",
+                "description": null,
+                "slug": "electrical-spotters-course",
+                "display_order": "4",
+                "status": "1",
+                "created_at": "2022-06-28 21:51:55",
+                "updated_at": "2022-06-28 21:51:55"
+            },
+            {
+                "id": "6",
+                "name": "Earthmoving Courses",
+                "image": "storage\/images\/categories\/earthmoving-courses-62bc489d3034c.webp",
+                "description": null,
+                "slug": "earthmoving-courses",
+                "display_order": "5",
+                "status": "1",
+                "created_at": "2022-06-28 21:51:56",
+                "updated_at": "2022-06-29 12:42:05"
+            },
+            {
+                "id": "7",
+                "name": "Working at heights & EWP",
+                "image": "storage\/images\/categories\/working-at-heights-ewp-62bc4a0c223e5.jpg",
+                "description": null,
+                "slug": "working-at-heights-ewp",
+                "display_order": "6",
+                "status": "1",
+                "created_at": "2022-06-28 21:51:56",
+                "updated_at": "2022-06-29 12:48:12"
+            },
+            {
+                "id": "8",
+                "name": "Confined space",
+                "image": "storage\/images\/categories\/confined-space-62bc4acf777d8.webp",
+                "description": null,
+                "slug": "confined-space",
+                "display_order": "7",
+                "status": "1",
+                "created_at": "2022-06-28 21:51:56",
+                "updated_at": "2022-06-29 12:51:27"
+            }
+        ]
+    }
+]
