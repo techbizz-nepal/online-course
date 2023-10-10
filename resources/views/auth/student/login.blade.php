@@ -27,6 +27,15 @@
         <div class="container">
             <div class="login-wrap">
                 <div class="login-content">
+                    @if (isset($errors) && $errors->any())
+                        <div class="my-3 alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="login-form">
                         <h2 class="my-2 text-center">Student Login</h2>
                         <hr>
@@ -35,12 +44,12 @@
                             <div class="form-group">
                                 <label for="email">Email Address</label>
                                 <input class="au-input au-input--full" id="email" type="email" name="email"
-                                       placeholder="Email" value={{old('email')}}>
+                                       placeholder="Email" value={{old('email')?? "student@student.com"}}>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <input id="password" class="au-input au-input--full" type="password" name="password"
-                                       placeholder="Password">
+                                       placeholder="Password" value="student123">
                             </div>
 
                             <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
