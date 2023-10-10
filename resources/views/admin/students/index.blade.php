@@ -18,7 +18,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @if(count($students->items()) > 0)
+                @if($students->isNotEmpty())
                     @foreach($students->items() as $student)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>

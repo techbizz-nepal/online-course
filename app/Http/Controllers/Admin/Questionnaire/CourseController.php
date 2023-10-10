@@ -13,11 +13,22 @@ use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
+    private const DEFAULT_PAGINATE = 5;
 
     public function index()
     {
-        $courses = Course::with('bookingDates')->withCount('bookingDates')->orderBy('display_order')->get();
-        return view('questionnaire.admin.courses.index', compact('courses'));
+        $courses = Course::query()
+            ->select(['id', 'slug', 'title', 'fee_details', 'course_code', 'course_length', 'campus', 'category_id'])
+            ->with('bookingDates')
+        ->withCount('bookingDates')
+        ->orderBy('display_order')
+        ->simplePaginate(self::DEFAULT_PAGINATE);
+        $viewData = [
+            'courses' => $courses,
+            'next_page_url' => $courses->nextPageUrl(),
+            'prev_page_url' => $courses->previousPageUrl()
+        ];
+        return view('questionnaire.admin.courses.index', $viewData);
     }
 
     public function create()
@@ -50,20 +61,20 @@ class CourseController extends Controller
             $originalSlug = Str::slug($data['title'], '-');
             $slug = $originalSlug;
             $count = 1;
-            $slugExists = (bool) Course::where('slug', $slug)->first();
+            $slugExists = (bool)Course::where('slug', $slug)->first();
 
             $order = Course::max('display_order') + 1;
-            while ($slugExists){
-                $slug = $originalSlug.'-'.$count;
-                $slugExists = (bool) Course::where('slug', $slug)->first();
+            while ($slugExists) {
+                $slug = $originalSlug . '-' . $count;
+                $slugExists = (bool)Course::where('slug', $slug)->first();
                 $count = $count + 1;
             }
 
             $image = $request->file('image');
             $detail_image = $request->file('course_details_image');
 
-            $imageName = $slug.'-'.uniqid().'.'.$image->extension();
-            $detailImageName = 'details-'.uniqid().'.'.$detail_image->extension();
+            $imageName = $slug . '-' . uniqid() . '.' . $image->extension();
+            $detailImageName = 'details-' . uniqid() . '.' . $detail_image->extension();
             // dd($imageName);
             // dd(public_path('storage/images/courses'));
 
@@ -101,8 +112,8 @@ class CourseController extends Controller
                 'course_id' => $course->id
             ]);
 
-            foreach ($dates as $date){
-                $bookingDate = date("Y-m-d",strtotime($date));
+            foreach ($dates as $date) {
+                $bookingDate = date("Y-m-d", strtotime($date));
                 BookingDate::create([
                     'course_id' => $course->id,
                     'booking_date' => $bookingDate
@@ -110,7 +121,7 @@ class CourseController extends Controller
             }
 
             DB::commit();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return back()->withErrors('Failed to create new course');
         }
@@ -126,10 +137,10 @@ class CourseController extends Controller
     {
         $categories = Category::orderBy('display_order')->get();
         $dates = [];
-        foreach ($course->bookingDates as $date){
+        foreach ($course->bookingDates as $date) {
             array_push($dates, strval($date->booking_date));
         }
-        return view('questionnaire.admin.courses.edit', compact('categories','course', 'dates'));
+        return view('questionnaire.admin.courses.edit', compact('categories', 'course', 'dates'));
     }
 
     public function update(Request $request, Course $course)
@@ -157,22 +168,22 @@ class CourseController extends Controller
             $originalSlug = Str::slug($data['title'], '-');
             $slug = $originalSlug;
             $count = 1;
-            $slugExists = (bool) Course::where('slug', $slug)->where('id', '<>', $course->id)->first();
-            while ($slugExists){
-                $slug = $originalSlug.'-'.$count;
-                $slugExists = (bool) Course::where('slug', $slug)->first();
+            $slugExists = (bool)Course::where('slug', $slug)->where('id', '<>', $course->id)->first();
+            while ($slugExists) {
+                $slug = $originalSlug . '-' . $count;
+                $slugExists = (bool)Course::where('slug', $slug)->first();
                 $count = $count + 1;
             }
 
-            if ($request->has('image')){
+            if ($request->has('image')) {
                 $image = $request->file('image');
-                $imageName = $slug.'-'.uniqid().'.'.$image->extension();
+                $imageName = $slug . '-' . uniqid() . '.' . $image->extension();
                 $image->move(public_path('storage/images/courses'), $imageName);
                 $data['image'] = $imageName;
             }
-            if ($request->has('course_details_image')){
+            if ($request->has('course_details_image')) {
                 $detail_image = $request->file('course_details_image');
-                $detailImageName = 'details-'.uniqid().'.'.$detail_image->extension();
+                $detailImageName = 'details-' . uniqid() . '.' . $detail_image->extension();
                 $detail_image->move(public_path('storage/images/courses'), $detailImageName);
                 $data['detail_image'] = $detailImageName;
             }
@@ -188,21 +199,21 @@ class CourseController extends Controller
 
             $course->update($data);
             $course = Course::find($course->id);
-            if ($course->page !== null){
+            if ($course->page !== null) {
                 $course->page->update([
                     'name' => $course->title,
-                    'title' => 'Course | '.$course->title,
+                    'title' => 'Course | ' . $course->title,
                     'slug' => $course->slug,
                     'is_course' => true,
                     'course_id' => $course->id
                 ]);
             }
 
-            foreach ($course->bookingDates as $bd){
+            foreach ($course->bookingDates as $bd) {
                 $bd->delete();
             }
-            foreach ($dates as $date){
-                $bookingDate = date("Y-m-d",strtotime($date));
+            foreach ($dates as $date) {
+                $bookingDate = date("Y-m-d", strtotime($date));
                 BookingDate::create([
                     'course_id' => $course->id,
                     'booking_date' => $bookingDate
@@ -210,7 +221,7 @@ class CourseController extends Controller
             }
 
             DB::commit();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return back()->withErrors('Failed to update course');
         }

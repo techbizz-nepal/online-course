@@ -11,12 +11,9 @@
                 <thead>
                 <tr>
                     <th class="text-center" style="width: 2%;">#</th>
-                    <th class="text-center" style="width: 15%;">Course</th>
-
-                    <th class="text-center" style="width: 8%;">Price</th>
-                    <th class="text-center" style="width: 15%;">Image</th>
-                    <th class="text-center" style="width: 10%;">Category</th>
                     <th class="text-center" style="width: 5%;">Code</th>
+                    <th class="text-center" style="width: 10%;">Category</th>
+                    <th class="text-center" style="width: 15%;">Course</th>
                     <th class="text-center" style="width: 10%;">Fee Details</th>
                     <th class="text-center" style="width: 10%;">Course Length</th>
                     <th class="text-center" style="width: 10%;">Campus</th>
@@ -24,25 +21,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                @if(count($courses) > 0)
-                @foreach($courses as $course)
+                @if($courses->isNotEmpty())
+                @foreach($courses->items() as $course)
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
-                    <td class="text-center">{{ $course->title }}</td>
-                    <td class="text-center">$ {{ $course->price }}</td>
-                    <td class="text-center">
-                        <img alt="{{ $course->title }}" src="{{ asset('storage/images/courses/'.$course->image) }}" class="img-thumbnail" style="height: 100px; width: 100px; object-fit: cover; object-position: center;">
-                    </td>
-                    <td class="text-center">{{ $course->category->name }}</td>
                     <td class="text-center">{{ $course->course_code }}</td>
+                    <td class="text-center">{{ $course->category->name }}</td>
+                    <td class="text-center">{{ $course->title }}</td>
                     <td class="text-center">{{ $course->fee_details }}</td>
                     <td class="text-center">{{ $course->course_length }}</td>
                     <td class="text-center">{{ $course->campus }}</td>
                     <td class="text-center">
                         <button href="#" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#bookingDateModalLong{{ $loop->iteration }}">Booking Dates</button>
-                        <br>
                         <a href="{{ route('admin.course.edit', $course) }}" class="btn btn-info mb-1">Edit</a>
-                        <br>
                         <a href="javascript:void(0)" onclick="document.getElementById('deleteCourse{{ $loop->iteration }}').submit();" class="btn btn-danger">Delete</a>
                         <form action="{{ route('admin.course.destroy', $course) }}" class="d-none" method="POST" id="deleteCourse{{ $loop->iteration }}">
                             @csrf
@@ -89,6 +80,14 @@
 
                 </tbody>
             </table>
+            <div class="py-4">
+                <a type="button"
+                   href="{{$prev_page_url ?? "#"}}"
+                   class="{{$prev_page_url ?? "disabled"}} btn btn-primary btn-sm">Previous</a>
+                <a type="button"
+                   href="{{$next_page_url ?? "#"}}"
+                   class="{{$next_page_url ?? "disabled"}} btn btn-primary btn-sm">Next</a>
+            </div>
         </div>
     </div>
 @endsection
