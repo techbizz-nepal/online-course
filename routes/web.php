@@ -1,32 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\CourseController;
-use App\Http\Controllers\Admin\MetaTagController;
-use App\Http\Controllers\Admin\PageController;
-use App\Http\Controllers\Admin\PasswordController;
-use App\Http\Controllers\Admin\Student\Auth\LoginController;
-use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PurchaseController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', [PagesController::class, 'index'])->name('home');
 Route::get('/about', [PagesController::class, 'about'])->name('about');
@@ -58,26 +37,5 @@ Route::get('/test', function () {
     dd(session()->get('tacs'));
 });
 
-Route::prefix('admin')->group(function () {
-    Auth::routes();
-});
 
-Route::name('admin.')->prefix('admin')->group(function () {
-    Route::get('/', [AdminController::class, 'dashboard'])->name('home');
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-
-    Route::resources([
-        'course' => CourseController::class,
-        'category' => CategoryController::class,
-        'meta-tag' => MetaTagController::class,
-        'page' => PageController::class,
-        'banner' => BannerController::class,
-        'student' => StudentController::class,
-    ]);
-
-    Route::get('student/{student}/qr/download', [StudentController::class, 'downloadQR'])->name('student.qr');
-
-    Route::get('/password/change', [PasswordController::class, 'showPasswordChangeForm'])->name('password.change');
-    Route::patch('/password/change', [PasswordController::class, 'change'])->name('password.change.post');
-});
 
