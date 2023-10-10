@@ -27,9 +27,9 @@ class CourseController extends Controller
         $courses = Course::query()
             ->select(['id', 'slug', 'title', 'price', 'course_code', 'course_length', 'campus', 'category_id'])
             ->with('bookingDates')
-        ->withCount('bookingDates')
-        ->orderBy('display_order')
-        ->simplePaginate(self::DEFAULT_PAGINATE);
+            ->withCount('bookingDates')
+            ->orderBy('display_order')
+            ->simplePaginate(self::DEFAULT_PAGINATE);
         $viewData = [
             'courses' => $courses,
             'next_page_url' => $courses->nextPageUrl(),
@@ -121,7 +121,9 @@ class CourseController extends Controller
 
     public function show(Course $course)
     {
-        return redirect()->route('admin.course.index');
+        $data = CourseData::from($course);
+//        return $data;
+        return view('questionnaire.admin.courses.show');
     }
 
     public function edit(Course $course)
@@ -134,7 +136,7 @@ class CourseController extends Controller
         return view('questionnaire.admin.courses.edit', compact('categories', 'course', 'dates'));
     }
 
-    public function update(CourseUpdateRequest $request, Course $course): RedirectResponse
+    public function update(CourseUpdateRequest $request, Course $course)
     {
         $data = CourseData::from($request);
         DB::beginTransaction();
@@ -178,7 +180,7 @@ class CourseController extends Controller
             foreach ($course->getRelationValue('bookingDates') as $bd) {
                 $bd->delete();
             }
-            Arr::map($dateArray, function($date) use ($course){
+            Arr::map($dateArray, function ($date) use ($course) {
                 $bookingDate = date("Y-m-d", strtotime($date));
                 BookingDate::query()->create([
                     'course_id' => $course->getAttributeValue('id'),
@@ -189,7 +191,7 @@ class CourseController extends Controller
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
-            return back()->withErrors('Failed to update course'. $exception->getMessage());
+            return back()->withErrors('Failed to update course' . $exception->getMessage());
         }
         return redirect()->route('admin.course.index')->with('success', 'Course Updated Successfully.');
     }
