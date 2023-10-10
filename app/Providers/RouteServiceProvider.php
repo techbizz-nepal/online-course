@@ -30,9 +30,9 @@ class RouteServiceProvider extends ServiceProvider
             $this->registerPlatformRoutes();
             $this->registerAdminRoutes();
             $this->registerStudentRoutes();
+            $this->questionnaireRoutes();
         });
     }
-
     private function registerPlatformRoutes(): void
     {
         Route::prefix('api')
@@ -51,16 +51,30 @@ class RouteServiceProvider extends ServiceProvider
             ->prefix('admin')
             ->name('admin.')
             ->namespace($this->namespace)
-            ->group(base_path('routes/web/admin/admin.php'));
+            ->group(base_path('routes/web/admin/index.php'));
     }
 
     private function registerStudentRoutes(): void
     {
-        Route::middleware('web')
+        Route::middleware('student')
             ->prefix('student')
             ->name('student.')
             ->namespace($this->namespace)
-            ->group(base_path('routes/web/student/student.php'));
+            ->group(base_path('routes/web/student/index.php'));
+    }
+
+    private function questionnaireRoutes(): void
+    {
+        Route::middleware('web')
+            ->prefix('questionnaire')
+            ->name('questionnaire.')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/questionnaire/admin.php'));
+        Route::middleware('student')
+            ->prefix('questionnaire')
+            ->name('questionnaire.')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/questionnaire/student.php'));
     }
 
     /**
