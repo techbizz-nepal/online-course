@@ -17,13 +17,13 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::with('bookingDates')->withCount('bookingDates')->orderBy('display_order')->get();
-        return view('admin.courses.index', compact('courses'));
+        return view('questionnaire.admin.courses.index', compact('courses'));
     }
 
     public function create()
     {
         $categories = Category::orderBy('display_order')->get();
-        return view('admin.courses.create', compact('categories'));
+        return view('questionnaire.admin.courses.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -129,7 +129,7 @@ class CourseController extends Controller
         foreach ($course->bookingDates as $date){
             array_push($dates, strval($date->booking_date));
         }
-        return view('admin.courses.edit', compact('categories','course', 'dates'));
+        return view('questionnaire.admin.courses.edit', compact('categories','course', 'dates'));
     }
 
     public function update(Request $request, Course $course)

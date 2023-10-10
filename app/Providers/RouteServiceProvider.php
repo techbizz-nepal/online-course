@@ -56,8 +56,8 @@ class RouteServiceProvider extends ServiceProvider
 
     private function registerStudentRoutes(): void
     {
-        Route::middleware('student')
-            ->prefix('student')
+        Route::prefix('student')
+            ->middleware('web')
             ->name('student.')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/student/index.php'));
@@ -66,15 +66,10 @@ class RouteServiceProvider extends ServiceProvider
     private function questionnaireRoutes(): void
     {
         Route::middleware('web')
-            ->prefix('questionnaire')
-            ->name('questionnaire.')
+            ->prefix('admin')
+            ->name('admin.')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/questionnaire/admin.php'));
-        Route::middleware('student')
-            ->prefix('questionnaire')
-            ->name('questionnaire.')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/web/questionnaire/student.php'));
     }
 
     /**

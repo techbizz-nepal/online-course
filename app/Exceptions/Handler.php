@@ -51,6 +51,9 @@ class Handler extends ExceptionHandler
         if ($request->is('student') || $request->is('student/*')) {
             return redirect()->guest('/student/login');
         }
+        if ($request->is('admin') || $request->is('admin/*')) {
+            return redirect()->guest('/admin/login');
+        }
         return parent::unauthenticated($request, $exception);
     }
 }

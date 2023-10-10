@@ -30,7 +30,7 @@
                     <div class="login-form">
                         <h2 class="my-2 text-center">Admin Login</h2>
                         <hr>
-                        <form action="{{ route('login') }}" method="POST">
+                        <form action="{{ route('admin.login') }}" method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email Address</label>
