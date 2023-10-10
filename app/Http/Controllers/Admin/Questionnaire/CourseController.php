@@ -121,9 +121,8 @@ class CourseController extends Controller
 
     public function show(Course $course)
     {
-        $data = CourseData::from($course);
-//        return $data;
-        return view('questionnaire.admin.courses.show');
+        $courseData = CourseData::from($course->load('bookingDates'))->toArray();
+        return view('questionnaire.admin.courses.show', $courseData);
     }
 
     public function edit(Course $course)
