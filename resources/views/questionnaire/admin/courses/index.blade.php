@@ -39,6 +39,7 @@
                             @csrf
                             @method('DELETE')
                         </form>
+                        <a href="{{ route('admin.course.show', $course) }}" class="btn btn-info mb-1">View Detail</a>
                     </td>
                 </tr>
                 <div class="modal fade" id="bookingDateModalLong{{ $loop->iteration }}" tabindex="-1" role="dialog" aria-labelledby="bookingDateModalLongTitle" aria-hidden="true">
