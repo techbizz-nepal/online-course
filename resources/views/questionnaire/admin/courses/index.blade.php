@@ -14,7 +14,7 @@
                     <th class="text-center" style="width: 5%;">Code</th>
                     <th class="text-center" style="width: 10%;">Category</th>
                     <th class="text-center" style="width: 15%;">Course</th>
-                    <th class="text-center" style="width: 10%;">Fee Details</th>
+                    <th class="text-center" style="width: 10%;">Price</th>
                     <th class="text-center" style="width: 10%;">Course Length</th>
                     <th class="text-center" style="width: 10%;">Campus</th>
                     <th class="text-center" style="width: 10%;">Action</th>
@@ -28,7 +28,7 @@
                     <td class="text-center">{{ $course->course_code }}</td>
                     <td class="text-center">{{ $course->category->name }}</td>
                     <td class="text-center">{{ $course->title }}</td>
-                    <td class="text-center">{{ $course->fee_details }}</td>
+                    <td class="text-center">${{ $course->price }}</td>
                     <td class="text-center">{{ $course->course_length }}</td>
                     <td class="text-center">{{ $course->campus }}</td>
                     <td class="text-center">

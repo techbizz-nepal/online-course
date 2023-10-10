@@ -26,6 +26,7 @@
         "league/omnipay": "^3.2",
         "omnipay/paypal": "^3.0",
         "simplesoftwareio/simple-qrcode": "~4",
+        "spatie/laravel-data": "^3.9",
         "spatie/laravel-honeypot": "^4.0",
         "techbizz/questionnaire-module": "@dev"
     },

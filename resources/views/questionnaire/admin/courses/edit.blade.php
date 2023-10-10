@@ -44,9 +44,9 @@
                         @enderror
                     </div>
                     <div class="col-6">
-                        <label for="course_details_image">Course Details Image</label>
-                        <input name="course_details_image" type="file" accept="image/*" class="form-control @error('course_details_image') is-invalid @enderror" id="course_details_image" placeholder="Course Details Image">
-                        @error('course_details_image')
+                        <label for="detail_image">Course Details Image</label>
+                        <input name="detail_image" type="file" accept="image/*" class="form-control @error('detail_image') is-invalid @enderror" id="detail_image" placeholder="Course Details Image">
+                        @error('detail_image')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
@@ -61,7 +61,7 @@
                     </div>
                     <div class="col-6">
                         <label for="category">Category</label>
-                        <select name="category" id="category" class="form-control @error('category') is-invalid @enderror">
+                        <select name="category_id" id="category" class="form-control @error('category') is-invalid @enderror">
                             <option selected disabled>Select a category</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ $category->id == $course->category->id ? 'selected' : '' }}>{{ $category->name }}</option>
