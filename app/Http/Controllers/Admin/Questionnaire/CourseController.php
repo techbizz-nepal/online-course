@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\Admin\Questionnaire;
 
+use App\DTO\CourseData;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseStoreRequest;
+use App\Http\Requests\CourseUpdateRequest;
 use App\Models\BookingDate;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Page;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -15,10 +22,10 @@ class CourseController extends Controller
 {
     private const DEFAULT_PAGINATE = 5;
 
-    public function index()
+    public function index(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         $courses = Course::query()
-            ->select(['id', 'slug', 'title', 'fee_details', 'course_code', 'course_length', 'campus', 'category_id'])
+            ->select(['id', 'slug', 'title', 'price', 'course_code', 'course_length', 'campus', 'category_id'])
             ->with('bookingDates')
         ->withCount('bookingDates')
         ->orderBy('display_order')
@@ -31,31 +38,15 @@ class CourseController extends Controller
         return view('questionnaire.admin.courses.index', $viewData);
     }
 
-    public function create()
+    public function create(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        $categories = Category::orderBy('display_order')->get();
+        $categories = Category::query()->orderBy('display_order')->get();
         return view('questionnaire.admin.courses.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(CourseStoreRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'title' => 'required | min: 1 | max: 149',
-            'price' => 'required | numeric | min: 0',
-            'booking_dates' => 'required | min: 1',
-            'image' => 'required | image | max: 2048',
-            'description' => 'max: 1500',
-            'course_code' => 'required | min: 1 | max: 19',
-            'campus' => 'required | min: 1 | max: 150',
-            'study_area' => 'required | min: 1 | max: 150',
-            'course_length' => 'required | min: 1 | max: 24',
-            'fee_details' => 'required | min: 1 | max: 1500',
-            'prerequisites' => 'max: 1500',
-            'course_duration' => 'max: 1500',
-            'additional_details' => 'max: 1500',
-            'course_details_image' => 'required | image | max: 2048',
-            'category' => 'required | exists:categories,id'
-        ]);
+        $data = CourseData::from($request)->toArray();
         DB::beginTransaction();
         try {
             $originalSlug = Str::slug($data['title'], '-');
@@ -143,87 +134,62 @@ class CourseController extends Controller
         return view('questionnaire.admin.courses.edit', compact('categories', 'course', 'dates'));
     }
 
-    public function update(Request $request, Course $course)
+    public function update(CourseUpdateRequest $request, Course $course): RedirectResponse
     {
-        $data = $request->validate([
-            'title' => 'required | min: 1 | max: 149',
-            'price' => 'required | numeric | min: 0',
-            'booking_dates' => 'required | min: 1',
-            'image' => 'image | max: 2048',
-            'description' => 'max: 1500',
-            'course_code' => 'required | min: 1 | max: 19',
-            'campus' => 'required | min: 1 | max: 150',
-            'study_area' => 'required | min: 1 | max: 150',
-            'course_length' => 'required | min: 1 | max: 24',
-            'fee_details' => 'required | min: 1 | max: 1500',
-            'prerequisites' => 'max: 1500',
-            'course_duration' => 'max: 1500',
-            'additional_details' => 'max: 1500',
-            'course_details_image' => 'image | max: 2048',
-            'display_order' => 'required | numeric | min: 0',
-            'category' => 'required | exists:categories,id'
-        ]);
+        $data = CourseData::from($request);
         DB::beginTransaction();
         try {
-            $originalSlug = Str::slug($data['title'], '-');
-            $slug = $originalSlug;
             $count = 1;
-            $slugExists = (bool)Course::where('slug', $slug)->where('id', '<>', $course->id)->first();
+            $slugExists = Course::query()
+                ->where('slug', $data->slug)
+                ->where('id', '<>', $course->getAttributeValue('id'))
+                ->count();
             while ($slugExists) {
-                $slug = $originalSlug . '-' . $count;
-                $slugExists = (bool)Course::where('slug', $slug)->first();
+                $slug = $data->slug . '-' . $count;
+                $slugExists = Course::query()->where('slug', $slug)->count();
                 $count = $count + 1;
             }
 
             if ($request->has('image')) {
                 $image = $request->file('image');
-                $imageName = $slug . '-' . uniqid() . '.' . $image->extension();
+                $imageName = $data->slug . '-' . uniqid() . '.' . $image->extension();
                 $image->move(public_path('storage/images/courses'), $imageName);
-                $data['image'] = $imageName;
+                $data->image = $imageName;
             }
             if ($request->has('course_details_image')) {
                 $detail_image = $request->file('course_details_image');
                 $detailImageName = 'details-' . uniqid() . '.' . $detail_image->extension();
                 $detail_image->move(public_path('storage/images/courses'), $detailImageName);
-                $data['detail_image'] = $detailImageName;
+                $data->detail_image = $detailImageName;
             }
+            $dateArray = explode(",", $data->booking_dates);
 
-            $data['slug'] = $slug;
-            $data['category_id'] = $data['category'];
+            $course->update($data->except('course_details_image', 'booking_dates')->toArray());
 
-            $bookingDates = $data['booking_dates'];
-            unset($data['booking_dates']);
-            unset($data['course_details_image']);
-            unset($data['category']);
-            $dates = explode(",", $bookingDates);
+            $course = Course::query()->find($course->getAttributeValue('id'));
+            $course->page?->update([
+                'name' => $course->getAttributeValue('title'),
+                'title' => 'Course | ' . $course->getAttributeValue('title'),
+                'slug' => $course->getAttributeValue('slug'),
+                'is_course' => true,
+                'course_id' => $course->getAttributeValue('id')
+            ]);
 
-            $course->update($data);
-            $course = Course::find($course->id);
-            if ($course->page !== null) {
-                $course->page->update([
-                    'name' => $course->title,
-                    'title' => 'Course | ' . $course->title,
-                    'slug' => $course->slug,
-                    'is_course' => true,
-                    'course_id' => $course->id
-                ]);
-            }
-
-            foreach ($course->bookingDates as $bd) {
+            foreach ($course->getRelationValue('bookingDates') as $bd) {
                 $bd->delete();
             }
-            foreach ($dates as $date) {
+            Arr::map($dateArray, function($date) use ($course){
                 $bookingDate = date("Y-m-d", strtotime($date));
-                BookingDate::create([
-                    'course_id' => $course->id,
+                BookingDate::query()->create([
+                    'course_id' => $course->getAttributeValue('id'),
                     'booking_date' => $bookingDate
                 ]);
-            }
+            });
 
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
-            return back()->withErrors('Failed to update course');
+            return back()->withErrors('Failed to update course'. $exception->getMessage());
         }
         return redirect()->route('admin.course.index')->with('success', 'Course Updated Successfully.');
     }
