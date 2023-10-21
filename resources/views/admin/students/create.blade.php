@@ -12,17 +12,23 @@
                 <div class="form-group row">
                     <div class="col-6">
                         <label for="name">Student Name</label>
-                        <input required class="form-control @error('name') is-invalid @enderror" type="text" name="name" id="name" placeholder="Student Name">
+                        <input @required(true) class="form-control @error('name') is-invalid @enderror" type="text" name="name" id="name" placeholder="Student Name" value="{{old('name')}}">
                         @error('name')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="col-6">
                         <label for="pdf">PDF File</label>
-                        <input required class="form-control @error('pdf') is-invalid @enderror" type="file" name="pdf" id="pdf" accept="application/pdf">
+                        <input @required(true) class="form-control @error('pdf') is-invalid @enderror" type="file" name="pdf" id="pdf" accept="application/pdf">
                         @error('pdf')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-6">
+                        <label for="email">Email</label>
+                        <input @required(true) class="form-control @error('email') is-invalid @enderror" type="email" name="email" id="email" placeholder="Student Email" value="{{old('email')}}">
                     </div>
                 </div>
                 <input type="hidden" name="submit" value="true">
