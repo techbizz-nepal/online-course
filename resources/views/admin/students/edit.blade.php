@@ -26,6 +26,12 @@
                         @enderror
                     </div>
                 </div>
+                <div class="form-group row">
+                    <div class="col-6">
+                        <label for="email">Change Email</label>
+                        <input @readonly(true) class="form-control @error('email') is-invalid @enderror" type="email" name="email" id="email" value="{{$student->email}}">
+                    </div>
+                </div>
                 <input type="hidden" name="submit" value="true">
                 <div class="row">
                     <div class="col-md-12 text-left">
