@@ -24,7 +24,7 @@ class CourseData extends Data
         public string          $course_duration,
         public string          $fee_details,
         public string          $prerequisites,
-        public string          $additional_details,
+        public ?string          $additional_details,
         public Optional|string $detail_image,
         public ?string         $display_order,
         public ?string         $category_id,
