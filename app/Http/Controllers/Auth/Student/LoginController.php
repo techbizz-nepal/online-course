@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth\Student;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -30,32 +32,8 @@ class LoginController extends Controller
         return view('auth.student.login');
     }
 
-    public function login(Request $request): RedirectResponse
+    protected function guard(): Guard|StatefulGuard
     {
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required|min:6'
-        ]);
-        if (Auth::guard('student')->attempt($request->only(['email', 'password']), $request->get('remember'))) {
-            return redirect()->intended($this->redirectTo);
-        }
-
-        return back()->withInput($request->only('email', 'remember'));
+        return Auth::guard('student');
     }
-
-    public function logout(Request $request): RedirectResponse|\Illuminate\Contracts\Foundation\Application|Redirector|JsonResponse|\Illuminate\Foundation\Application
-    {
-        Auth::guard('student')->logout();
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-        if ($response = $this->loggedOut($request)) {
-            return $response;
-        }
-
-        return $request->wantsJson()
-            ? new JsonResponse([], 204)
-            : redirect('/');
-    }
-
 }

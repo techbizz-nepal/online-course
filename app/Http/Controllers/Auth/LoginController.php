@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
@@ -42,19 +44,8 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
-    public function logout(Request $request): RedirectResponse|Application|Redirector|JsonResponse|\Illuminate\Foundation\Application
+    protected function guard(): Guard|StatefulGuard
     {
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-        if ($response = $this->loggedOut($request)) {
-            return $response;
-        }
-
-        return $request->wantsJson()
-            ? new JsonResponse([], 204)
-            : redirect('/');
+        return Auth::guard('web');
     }
 }

@@ -44,12 +44,12 @@
                             <div class="form-group">
                                 <label for="email">Email Address</label>
                                 <input class="au-input au-input--full" id="email" type="email" name="email"
-                                       placeholder="Email" value={{old('email')?? "student@student.com"}}>
+                                       placeholder="Email" value={{old('email')}}>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <input id="password" class="au-input au-input--full" type="password" name="password"
-                                       placeholder="Password" value="student123">
+                                       placeholder="Password">
                             </div>
 
                             <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>

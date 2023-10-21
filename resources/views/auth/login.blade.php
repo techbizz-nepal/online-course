@@ -27,6 +27,15 @@
         <div class="container">
             <div class="login-wrap">
                 <div class="login-content">
+                    @if (isset($errors) && $errors->any())
+                        <div class="my-3 alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="login-form">
                         <h2 class="my-2 text-center">Admin Login</h2>
                         <hr>
