@@ -6,6 +6,13 @@
             <span>All Students</span>
             <a href="{{ route('admin.student.create') }}" class="btn btn-primary">Add New Student</a>
         </h2>
+        <div class="w-100 h-100 mx-1 p-2 row">
+            <form action="{{ route('admin.student.index') }}" class="form-inline">
+                <input class="form-control mr-sm-2" type="search" name="query" placeholder="filter by name or email" value="{{request()->get('query')}}">
+                <button class="btn btn-primary mr-sm-2" type="submit">Filter</button>
+                <a class="btn btn-primary" href="{{route('admin.student.index')}}">Reset</a>
+            </form>
+        </div>
         <div class="w-100 h-100 bg-white mx-2 p-2">
             <table class="table table-striped table-bordered">
                 <thead>
@@ -68,6 +75,5 @@
                    class="{{$next_page_url ?? "disabled"}} btn btn-primary btn-sm">Next</a>
             </div>
         </div>
-
     </div>
 @endsection
