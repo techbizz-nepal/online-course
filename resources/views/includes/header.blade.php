@@ -5,6 +5,8 @@
                 <ul>
                     @if(auth()->guard('student')->check())
                         <li><a href={{route('student.dashboard')}}> <i class="fa fa-envelop"></i>Hello, {{auth()->guard('student')->user()->name}} </a></li>
+                    @elseif(auth()->guard('web')->check())
+                        <li><a href={{route('admin.dashboard')}}> <i class="fa fa-envelop"></i>Hello, {{auth()->guard('web')->user()->name}} </a></li>
                     @else
                         <li class="nav-auth"><a href="{{ route('student.getLogin') }}" class="">Sign in</a></li>
                     @endif
