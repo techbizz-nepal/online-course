@@ -4,27 +4,32 @@ namespace App\Http\Controllers\Admin;
 
 use App\DTO\StudentData;
 use App\Http\Controllers\Controller;
-use App\Mail\StudentCreated;
 use App\Models\Student;
+use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PHPUnit\Exception;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::query()->select(['id', 'name', 'email', 'pdf'])->simplePaginate(5);
+        $students = Student::query()
+            ->when($request->get('query'), function (Builder $builder) use ($request) {
+                $builder->where('name', 'like', "%{$request->get('query')}%")
+                    ->orWhere('email', 'like', "%{$request->get('query')}%");
+            })
+            ->select(['id', 'name', 'email', 'pdf'])
+            ->simplePaginate(5)
+            ->appends($request->except('page'));
+
         $viewData = [
             'students' => $students,
             'next_page_url' => $students->nextPageUrl(),
