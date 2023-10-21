@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTO\StudentData;
 use App\Http\Controllers\Controller;
+use App\Mail\StudentCreated;
 use App\Models\Student;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PHPUnit\Exception;
@@ -33,7 +42,8 @@ class StudentController extends Controller
     {
         $data = $request->validate([
             'name' => 'required | min: 1 | max: 250',
-            "pdf" => "required|mimes:pdf|max:10000"
+            "pdf" => "required|mimes:pdf|max:10000",
+            'email' => 'required|regex:/^.+@.+$/i'
         ]);
         DB::beginTransaction();
         try {
@@ -46,10 +56,10 @@ class StudentController extends Controller
             $data['key'] = $key;
             $data['pdf'] = "storage/files/students/" . $pdfName;
             $data['username'] = $key;
-            $data['email'] = sprintf('%s@student.com',$key);
             $data['password'] = bcrypt('student123');
-            Student::query()->create($data);
-
+            $newStudent = tap(Student::query()->create($data))->target;
+            $newStudent->setAttribute('password', bcrypt(StudentData::DEFAULT_PASSWORD));
+//            Mail::to($newStudent->email)->queue(new StudentCreated($newStudent));
             DB::commit();
             return redirect()->route('admin.student.index')->with('success', "Student Created Successfully");
         } catch (Exception $exception) {
@@ -58,24 +68,23 @@ class StudentController extends Controller
         }
     }
 
-    public function edit(Student $student)
+    public function edit(Student $student): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         return view('admin.students.edit', compact('student'));
     }
 
-    public function update(Request $request, Student $student)
+    public function update(Request $request, Student $student): RedirectResponse
     {
         $data = $request->validate([
             'name' => 'required | min: 1 | max: 250',
+            'pdf' => 'file|nullable|mimetypes:application/pdf|max:10000',
+            'email' => 'required|regex:/^.+@.+$/i'
         ]);
         DB::beginTransaction();
         try {
-            $key = $student->key;
-            if ($request->has('pdf')) {
-                $request->validate([
-                    "pdf" => "mimes:pdf|max:10000"
-                ]);
-                unlink(public_path($student->pdf));
+            $key = $student->getAttribute('key');
+            if ($request->hasFile('pdf')) {
+                unlink(public_path($student->getAttribute('pdf')));
                 $pdf = $request->file('pdf');
                 $pdfName = $key . '.' . $pdf->extension();
                 $pdf->move(public_path('storage/files/students'), $pdfName);
