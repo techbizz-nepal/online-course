@@ -25,7 +25,7 @@
         @include('includes.header')
         @yield('content')
         @include('includes.footer')
-        <script src="{{ asset('assets/js/jquery-3.4.1.min.js') }}"></script>
+        <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>

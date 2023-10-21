@@ -45,7 +45,10 @@ class StudentController extends Controller
             $pdf->move(public_path('storage/files/students'), $pdfName);
             $data['key'] = $key;
             $data['pdf'] = "storage/files/students/" . $pdfName;
-            Student::create($data);
+            $data['username'] = $key;
+            $data['email'] = sprintf('%s@student.com',$key);
+            $data['password'] = bcrypt('student123');
+            Student::query()->create($data);
 
             DB::commit();
             return redirect()->route('admin.student.index')->with('success', "Student Created Successfully");
