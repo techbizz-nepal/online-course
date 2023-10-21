@@ -18,10 +18,10 @@ Route::resources([
     'category' => CategoryController::class,
     'meta-tag' => MetaTagController::class,
     'page' => PageController::class,
-    'banner' => BannerController::class,
-    'student' => StudentController::class,
+    'banner' => BannerController::class
 ]);
-
+Route::resource('student', StudentController::class)->except(['index']);
+Route::get('student/{query?}', [StudentController::class, 'index'])->name('student.index');
 Route::get('student/{student}/qr/download', [StudentController::class, 'downloadQR'])->name('student.qr');
 
 Route::get('/password/change', [PasswordController::class, 'showPasswordChangeForm'])->name('password.change');
