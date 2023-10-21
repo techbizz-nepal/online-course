@@ -38,6 +38,9 @@
                     </div>
                 </div>
             </form>
+            <h4 class="py-3">
+                <i>Note: The newly created student's password will be set to <strong class="text-warning">student123</strong> by default.</i>
+            </h4>
         </div>
     </div>
 @endsection
