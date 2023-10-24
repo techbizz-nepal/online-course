@@ -16,7 +16,8 @@ use Spatie\LaravelData\{Attributes\Validation\Max,
 
 class AssessmentData extends Data
 {
-    const FILE_PATH = 'storage/files/assessments';
+    const SYSTEM_PATH = 'app/public/files/assessments';
+    const PUBLIC_PATH = 'storage/files/assessments';
 
     public function __construct(
         #[Max(300)]
