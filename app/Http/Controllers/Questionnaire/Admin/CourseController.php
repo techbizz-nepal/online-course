@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Questionnaire;
+namespace App\Http\Controllers\Questionnaire\Admin;
 
 use App\DTO\Questionnaire\CourseData;
 use App\Http\Controllers\Controller;
