@@ -66,7 +66,7 @@
                             <td class="text-center">{{ $assessment['name'] }}</td>
                             <td class="text-center">{{ \Illuminate\Support\Str::words($assessment['description'], 10, '...') }}</td>
                             <td class="text-center">
-                                <a href="{{ asset(\App\DTO\Questionnaire\AssessmentData::FILE_PATH.'/'.$assessment['material']) }}" class="btn btn-blueLight" target="_blank" >View File</a>
+                                <a href="{{ asset(\App\DTO\Questionnaire\AssessmentData::PUBLIC_PATH.'/'.$assessment['material']) }}" class="btn btn-blueLight" target="_blank" >View File</a>
                             </td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($assessment['created_at'])->format('d M Y') }}</td>
                             <td class="text-center">

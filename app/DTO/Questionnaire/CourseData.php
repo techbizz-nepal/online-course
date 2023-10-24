@@ -12,6 +12,8 @@ use Spatie\LaravelData\Optional;
 
 class CourseData extends Data
 {
+    const SYSTEM_PATH = 'app/public/files/students';
+    const PUBLIC_PATH = 'storage/files/students';
     public function __construct(
         public Optional|string         $id,
         public string          $title,
