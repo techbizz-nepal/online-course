@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class StudentData
 {
+    const SYSTEM_PATH = 'app/public/files/students';
+    const PUBLIC_PATH = 'storage/files/students';
     public function __construct(
         public string $first_name,
         public string $surname,
