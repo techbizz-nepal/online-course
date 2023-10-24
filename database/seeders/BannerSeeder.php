@@ -15,7 +15,7 @@ class BannerSeeder extends Seeder
      */
     public function run(): void
     {
-        $rows = File::json(database_path('data/banners.json'))[2]["data"];
+        $rows = Arr::get(Arr::keyBy(File::json(database_path('data/keyeduau_muhamad.json')), 'name'), 'banners')['data'];
         if (!Banner::query()->count() && $rows) {
             Arr::map($rows, function ($row) {
                 DB::table("banners")->insert($row);
