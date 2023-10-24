@@ -53,6 +53,7 @@
                     <th class="text-center" style="width: 2%;">#</th>
                     <th class="text-center" style="width: 5%;">Name</th>
                     <th class="text-center" style="width: 10%;">Description</th>
+                    <th class="text-center" style="width: 10%;">Material</th>
                     <th class="text-center" style="width: 15%;">Created At</th>
                     <th class="text-center" style="width: 10%;">Action</th>
                 </tr>
@@ -64,6 +65,9 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td class="text-center">{{ $assessment['name'] }}</td>
                             <td class="text-center">{{ \Illuminate\Support\Str::words($assessment['description'], 10, '...') }}</td>
+                            <td class="text-center">
+                                <a href="{{ asset(\App\DTO\Questionnaire\AssessmentData::FILE_PATH.'/'.$assessment['material']) }}" class="btn btn-blueLight" target="_blank" >View File</a>
+                            </td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($assessment['created_at'])->format('d M Y') }}</td>
                             <td class="text-center">
                                 <a href="{{ route('admin.courses.assessments.edit', ['course'=>$slug, 'assessment'=>$assessment['slug']]) }}"
