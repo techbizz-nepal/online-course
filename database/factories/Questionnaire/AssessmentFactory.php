@@ -2,10 +2,12 @@
 
 namespace Database\Factories\Questionnaire;
 
+use App\DTO\Questionnaire\AssessmentData;
+use App\Models\Questionnaire\Assessment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Questionnaire\Assessment>
+ * @extends Factory<Assessment>
  */
 class AssessmentFactory extends Factory
 {
@@ -16,8 +18,7 @@ class AssessmentFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
-        ];
+        $data = AssessmentData::from(['name'=> $this->faker->name, 'course_id'=> $this->faker->randomDigit()]);
+        return $data->toArray();
     }
 }
