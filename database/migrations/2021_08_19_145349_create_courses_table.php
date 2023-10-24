@@ -16,7 +16,7 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained();
-            $table->string('title');
+            $table->string('title', 300);
             $table->float('price');
             $table->string('image', 1500);
             $table->string('description', 1500)->nullable();
@@ -31,8 +31,9 @@ class CreateCoursesTable extends Migration
             $table->text('course_duration')->nullable();
             $table->text('additional_details')->nullable();
             $table->string('detail_image', 1500);
-            $table->string('slug', 1000);
+            $table->string('slug', 500)->index();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
