@@ -22,12 +22,12 @@ class BannerController extends Controller
         abort('404');
         // return view('admin.banners.create');
     }
-    
+
     public function store(Request $request)
     {
-        abort('404');    
+        abort('404');
     }
-    
+
     public function show(Banner $banner)
     {
         return redirect()->route('admin.banner.index');
@@ -49,7 +49,7 @@ class BannerController extends Controller
             if ($request->has('banner_image')){
                 $image = $request->file('banner_image');
                 $imageName = 'banner-'.uniqid().'.'.$image->extension();
-                $image->move(public_path('storage/images/banners'), $imageName);
+                $image->move(storage_path('app/public/images/banners'), $imageName);
                 $data['banner_image'] = $imageName;
             }
 
