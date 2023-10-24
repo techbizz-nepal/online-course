@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Questionnaire;
+namespace App\Http\Controllers\Questionnaire\Admin;
 
 use App\DTO\Questionnaire\AssessmentData;
 use App\Facades\Questionnaire\QuestionnaireAdmin;
@@ -11,9 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AssessmentController extends Controller
