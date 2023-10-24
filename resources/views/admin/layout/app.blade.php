@@ -67,7 +67,7 @@
                             <i class="fas fa-home"></i>Go To Home</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.course.index') }}">
+                        <a href="{{ route('admin.courses.index') }}">
                             <i class="fas fa-book"></i>Courses</a>
                     </li>
                     <li>
@@ -124,7 +124,7 @@
                             <i class="fas fa-clipboard-list"></i>Categories</a>
                     </li>
                     <li class="@yield('courses')">
-                        <a href="{{ route('admin.course.index') }}">
+                        <a href="{{ route('admin.courses.index') }}">
                             <i class="fas fa-book"></i>Courses</a>
                     </li>
                     <li>

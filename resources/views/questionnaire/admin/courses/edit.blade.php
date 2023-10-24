@@ -7,7 +7,7 @@
             <span>Edit {{ $course->title }} Course</span>
         </h2>
         <div class="w-100 h-100 bg-white mx-2 p-2">
-            <form action="{{ route('admin.course.update', $course) }}" method="POST" id="courseForm" enctype="multipart/form-data">
+            <form action="{{ route('admin.courses.update', $course) }}" method="POST" id="courseForm" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
                 <div class="form-group row">
