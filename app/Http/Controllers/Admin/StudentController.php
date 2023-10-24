@@ -14,6 +14,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -59,9 +60,9 @@ class StudentController extends Controller
 
             $pdf = $request->file('pdf');
             $pdfName = $key . '.' . $pdf->extension();
-            $pdf->move(storage_path(CourseData::SYSTEM_PATH), $pdfName);
+            $pdf->move(storage_path(StudentData::SYSTEM_PATH), $pdfName);
             $data['key'] = $key;
-            $data['pdf'] = sprintf("%s/%s", CourseData::PUBLIC_PATH, $pdfName);
+            $data['pdf'] = sprintf("%s/%s", StudentData::PUBLIC_PATH, $pdfName);
             $data['username'] = $key;
             $data['password'] = bcrypt('student123');
             $newStudent = tap(Student::query()->create($data))->target;
@@ -92,11 +93,14 @@ class StudentController extends Controller
         try {
             $key = $student->getAttribute('key');
             if ($request->hasFile('pdf')) {
-                unlink(public_path($student->getAttribute('pdf')));
+                $getSystemPath = Str::replace('storage', 'app/public', $student->getAttribute('pdf'));
+                if (File::exists(storage_path($getSystemPath))) {
+                    File::delete(storage_path($getSystemPath));
+                }
                 $pdf = $request->file('pdf');
                 $pdfName = $key . '.' . $pdf->extension();
-                $pdf->move(public_path('storage/files/students'), $pdfName);
-                $data['pdf'] = "storage/files/students/" . $pdfName;
+                $pdf->move(storage_path(StudentData::SYSTEM_PATH), $pdfName);
+                $data['pdf'] = sprintf("%s/%s", StudentData::PUBLIC_PATH, $pdfName);
             }
             $student->update($data);
             DB::commit();
