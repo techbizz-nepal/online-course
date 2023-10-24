@@ -86,7 +86,7 @@ class CategoryController extends Controller
             if ($request->has('image')){
                 $image = $request->file('image');
                 $imageName = $slug.'-'.uniqid().'.'.$image->extension();
-                $image->move(public_path('storage/images/categories'), $imageName);
+                $image->move(storage_path('app/public/images/categories'), $imageName);
                 $data['image'] = "storage/images/categories/".$imageName;
             }
 
