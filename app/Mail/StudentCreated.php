@@ -38,7 +38,7 @@ class StudentCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.students.registered',
+            markdown: 'mail.students.created',
             with: [
                 'password' => StudentData::DEFAULT_PASSWORD
             ]

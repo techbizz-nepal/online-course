@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "php": "^8",
+        "php": "^8.2",
         "ext-curl": "*",
         "ext-json": "*",
         "eway/eway-rapid-php": "^1.4",
@@ -28,15 +28,18 @@
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-data": "^3.9",
         "spatie/laravel-honeypot": "^4.0",
+        "symfony/http-client": "^6.3",
+        "symfony/mailer": "^6.3",
         "techbizz/questionnaire-module": "@dev"
     },
     "require-dev": {
-        "spatie/laravel-ignition": "^2.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.0"
+        "phpunit/phpunit": "^10.0",
+        "spatie/laravel-ignition": "^2.0",
+        "symfony/mailgun-mailer": "^6.3"
     },
     "autoload": {
         "psr-4": {

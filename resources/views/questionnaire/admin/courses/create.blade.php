@@ -7,7 +7,7 @@
             <span>Add New Course</span>
         </h2>
         <div class="w-100 h-100 bg-white mx-2 p-2">
-            <form action="{{ route('admin.course.store') }}" method="POST" id="courseForm" enctype="multipart/form-data">
+            <form action="{{ route('admin.courses.store') }}" method="POST" id="courseForm" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group row">
                     <div class="col-6">
