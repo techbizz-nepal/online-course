@@ -7,6 +7,10 @@ use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
+use App\Traits\HasRedirectResponse;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,17 +20,19 @@ use Illuminate\Support\Str;
 
 class AssessmentController extends Controller
 {
-    public function index()
+    use HasRedirectResponse;
+
+    public function index(): array
     {
         return [];
     }
 
-    public function create(Course $course)
+    public function create(Course $course): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         return view('questionnaire.admin.assessments.create', ['course' => $course]);
     }
 
-    public function store(Course $course, AssessmentData $assessmentData, Request $request)
+    public function store(Course $course, AssessmentData $assessmentData, Request $request): RedirectResponse
     {
         DB::beginTransaction();
         try {
@@ -37,14 +43,17 @@ class AssessmentController extends Controller
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
-            Log::error('on assessment insert', [$exception->getMessage()]);
-            return back()
-                ->withErrors(['errors' => __(key: 'assessment.errors.create')])
-                ->withInput($assessmentData->toArray());
+            $this->failureRedirectWithInputResponse(
+                translationKey: 'assessment.errors.create',
+                inputArray: $assessmentData->toArray()
+            );
         }
-        return redirect()
-            ->route('admin.courses.show', ['course' => $course->getAttribute('slug')])
-            ->with('success', __(key: 'assessment.success.create'));
+        return $this
+            ->successRedirectWithParamsResponse(
+                routeName: 'admin.courses.show',
+                routeParams: ['course' => $course->getAttribute('slug')],
+                translationKey: 'assessment.success.create',
+            );
     }
 
     public function show(Course $course, Assessment $assessment)
@@ -57,19 +66,22 @@ class AssessmentController extends Controller
         return view('questionnaire.admin.assessments.edit', ['course' => $course, 'assessment' => $assessment]);
     }
 
-    public function update(Course $course, Assessment $assessment, AssessmentData $assessmentData)
+    public function update(Course $course, Assessment $assessment, AssessmentData $assessmentData): RedirectResponse
     {
         $assessment->update($assessmentData->toArray());
-        return redirect()
-            ->route('admin.courses.show', ['course' => $course->getAttribute('slug')])
-            ->with('success', __(key: 'assessment.success.update'));
+        return $this
+            ->successRedirectWithParamsResponse(
+                routeName: 'admin.courses.show',
+                routeParams: ['course' => $course->getAttribute('slug')],
+                translationKey: 'assessment.success.update'
+            );
     }
 
     public function destroy(Course $course, Assessment $assessment): RedirectResponse
     {
         QuestionnaireAdmin::deleteCourseAssessmentMaterial($assessment);
         $assessment->delete();
-        return back()->with('success', __('assessment.success.delete'));
+        return $this->successRedirectResponse(translationKey: 'assessment.success.delete');
     }
 
     public function uploadMaterial(Request $request, Course $course, Assessment $assessment): JsonResponse
