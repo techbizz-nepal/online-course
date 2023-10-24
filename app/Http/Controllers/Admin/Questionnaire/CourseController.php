@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Questionnaire;
 
-use App\DTO\CourseData;
+use App\DTO\Questionnaire\CourseData;
+use App\Enums\Questionnaire\AssessmentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseStoreRequest;
 use App\Http\Requests\CourseUpdateRequest;
@@ -116,12 +117,12 @@ class CourseController extends Controller
             DB::rollBack();
             return back()->withErrors('Failed to create new course');
         }
-        return redirect()->route('admin.course.index')->with('success', 'Course Added Successfully.');
+        return redirect()->route('admin.courses.index')->with('success', 'Course Added Successfully.');
     }
 
     public function show(Course $course)
     {
-        $courseData = CourseData::from($course->load('bookingDates'))->toArray();
+        $courseData = CourseData::from($course->load(['bookingDates', 'assessments']));
         return view('questionnaire.admin.courses.show', $courseData);
     }
 
@@ -130,7 +131,7 @@ class CourseController extends Controller
         $categories = Category::orderBy('display_order')->get();
         $dates = [];
         foreach ($course->bookingDates as $date) {
-            array_push($dates, strval($date->booking_date));
+            $dates[] = strval($date->booking_date);
         }
         return view('questionnaire.admin.courses.edit', compact('categories', 'course', 'dates'));
     }
@@ -192,7 +193,7 @@ class CourseController extends Controller
             DB::rollBack();
             return back()->withErrors('Failed to update course' . $exception->getMessage());
         }
-        return redirect()->route('admin.course.index')->with('success', 'Course Updated Successfully.');
+        return redirect()->route('admin.courses.index')->with('success', 'Course Updated Successfully.');
     }
 
     public function destroy(Course $course)

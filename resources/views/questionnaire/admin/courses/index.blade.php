@@ -4,7 +4,7 @@
     <div class="main-content pt-lg-4">
         <h2 class="m-2 mb-0 d-flex justify-content-between">
             <span>All Courses</span>
-            <a href="{{ route('admin.course.create') }}" class="btn btn-primary">Add New Course</a>
+            <a href="{{ route('admin.courses.create') }}" class="btn btn-primary">Add New Course</a>
         </h2>
         <div class="w-100 h-100 bg-white mx-2 p-2">
             <table class="table table-striped table-bordered" style="font-size: small;">
@@ -33,13 +33,14 @@
                     <td class="text-center">{{ $course->campus }}</td>
                     <td class="text-center">
                         <button href="#" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#bookingDateModalLong{{ $loop->iteration }}">Booking Dates</button>
-                        <a href="{{ route('admin.course.edit', $course) }}" class="btn btn-info mb-1">Edit</a>
-                        <a href="javascript:void(0)" onclick="document.getElementById('deleteCourse{{ $loop->iteration }}').submit();" class="btn btn-danger">Delete</a>
-                        <form action="{{ route('admin.course.destroy', $course) }}" class="d-none" method="POST" id="deleteCourse{{ $loop->iteration }}">
+                        <a href="{{ route('admin.courses.edit', $course) }}" class="btn btn-info mb-1">Edit</a>
+                        <a href="javascript:void(0)" onclick="document.getElementById('deleteCourse{{ $loop->iteration }}').submit();"
+                           class="btn btn-danger mb-1">Delete</a>
+                        <form action="{{ route('admin.courses.destroy', $course) }}" class="d-none" method="POST" id="deleteCourse{{ $loop->iteration }}">
                             @csrf
                             @method('DELETE')
                         </form>
-                        <a href="{{ route('admin.course.show', $course) }}" class="btn btn-info mb-1">View Detail</a>
+                        <a href="{{ route('admin.courses.show', $course) }}" class="btn btn-info mb-1">View Detail</a>
                     </td>
                 </tr>
                 <div class="modal fade" id="bookingDateModalLong{{ $loop->iteration }}" tabindex="-1" role="dialog" aria-labelledby="bookingDateModalLongTitle" aria-hidden="true">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DTO\StudentData;
 use App\Http\Controllers\Controller;
+use App\Mail\StudentCreated;
 use App\Models\Student;
 use Exception;
 use Illuminate\Contracts\View\Factory;
@@ -13,6 +14,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -64,7 +66,7 @@ class StudentController extends Controller
             $data['password'] = bcrypt('student123');
             $newStudent = tap(Student::query()->create($data))->target;
             $newStudent->setAttribute('password', bcrypt(StudentData::DEFAULT_PASSWORD));
-//            Mail::to($newStudent->email)->queue(new StudentCreated($newStudent));
+            Mail::to($newStudent->email)->queue(new StudentCreated($newStudent));
             DB::commit();
             return redirect()->route('admin.student.index')->with('success', "Student Created Successfully");
         } catch (Exception $exception) {

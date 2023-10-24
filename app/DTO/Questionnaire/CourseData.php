@@ -1,9 +1,13 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\Questionnaire;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\DataCollection;
+use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Optional;
 
 class CourseData extends Data
@@ -14,6 +18,8 @@ class CourseData extends Data
         public ?string         $slug,
         public string          $price,
         public Optional|string $booking_dates,
+        #[DataCollectionOf(AssessmentData::class)]
+        public ?Collection $assessments,
         public Optional|string $image,
         public ?string         $department,
         public string          $description,
