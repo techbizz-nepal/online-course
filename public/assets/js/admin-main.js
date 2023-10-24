@@ -1602,8 +1602,7 @@
     // Hamburger Menu
     $('.hamburger').on('click', function () {
       $(this).toggleClass('is-active');
-
-      $('.navbar-mobile').css('display', 'block');
+      $('.navbar-mobile').toggleClass('d-sm-block');
     });
     $('.navbar-mobile__list li.has-dropdown > a').on('click', function () {
       var dropdown = $(this).siblings('ul.navbar-mobile__dropdown');
