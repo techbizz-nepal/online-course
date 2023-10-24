@@ -31,15 +31,15 @@ final readonly class AdminService
         ]);
         ['name' => $name, 'pdfFile' => $pdf] = $data;
         $pdfName = sprintf('%s-%s-%s.%s', $course->getAttribute('slug'), Str::slug($name), Str::random(), $pdf->extension());
-        $pdf->move(public_path(AssessmentData::FILE_PATH), $pdfName);
+        $pdf->move(storage_path(AssessmentData::SYSTEM_PATH), $pdfName);
         return ['fileName' => $pdfName];
     }
 
     public function deleteCourseAssessmentMaterial(Assessment $assessment): void
     {
-        $filePath = sprintf('%s/%s', AssessmentData::FILE_PATH, $assessment->getAttribute('material'));
-        if (File::exists(public_path($filePath))) {
-            File::delete(public_path($filePath));
+        $filePath = sprintf('%s/%s', AssessmentData::SYSTEM_PATH, $assessment->getAttribute('material'));
+        if (File::exists(storage_path($filePath))) {
+            File::delete(storage_path($filePath));
         }
     }
 }

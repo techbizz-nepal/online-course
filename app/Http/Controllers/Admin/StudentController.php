@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTO\Questionnaire\CourseData;
 use App\DTO\StudentData;
 use App\Http\Controllers\Controller;
-use App\Mail\StudentCreated;
 use App\Models\Student;
 use Exception;
 use Illuminate\Contracts\View\Factory;
@@ -15,7 +15,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -60,9 +59,9 @@ class StudentController extends Controller
 
             $pdf = $request->file('pdf');
             $pdfName = $key . '.' . $pdf->extension();
-            $pdf->move(public_path('storage/files/students'), $pdfName);
+            $pdf->move(storage_path(CourseData::SYSTEM_PATH), $pdfName);
             $data['key'] = $key;
-            $data['pdf'] = "storage/files/students/" . $pdfName;
+            $data['pdf'] = sprintf("%s/%s", CourseData::PUBLIC_PATH, $pdfName);
             $data['username'] = $key;
             $data['password'] = bcrypt('student123');
             $newStudent = tap(Student::query()->create($data))->target;
