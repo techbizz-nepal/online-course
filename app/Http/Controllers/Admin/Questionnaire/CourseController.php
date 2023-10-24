@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Questionnaire;
 
 use App\DTO\Questionnaire\CourseData;
-use App\Enums\Questionnaire\AssessmentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseStoreRequest;
 use App\Http\Requests\CourseUpdateRequest;
@@ -17,6 +16,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CourseController extends Controller
@@ -47,52 +47,38 @@ class CourseController extends Controller
 
     public function store(CourseStoreRequest $request): RedirectResponse
     {
-        $data = CourseData::from($request)->toArray();
+        $data = CourseData::from($request->all())->toArray();
         DB::beginTransaction();
         try {
             $originalSlug = Str::slug($data['title'], '-');
             $slug = $originalSlug;
             $count = 1;
-            $slugExists = (bool)Course::where('slug', $slug)->first();
+            $slugExists = Course::query()->where('slug', $slug)->exists();
 
             $order = Course::max('display_order') + 1;
             while ($slugExists) {
                 $slug = $originalSlug . '-' . $count;
-                $slugExists = (bool)Course::where('slug', $slug)->first();
+                $slugExists = Course::query()->where('slug', $slug)->exists();
                 $count = $count + 1;
             }
-
-            $image = $request->file('image');
-            $detail_image = $request->file('course_details_image');
-
-            $imageName = $slug . '-' . uniqid() . '.' . $image->extension();
-            $detailImageName = 'details-' . uniqid() . '.' . $detail_image->extension();
-            // dd($imageName);
-            // dd(public_path('storage/images/courses'));
-
-            // if($image->move(public_path('storage/images/courses'), $imageName)){
-            //     dd('yes', $imageName);
-            // }else{
-            //     dd('no');
-            // }
-
-            $image->move(public_path('storage/images/courses'), $imageName);
-            $detail_image->move(public_path('storage/images/courses'), $detailImageName);
-
-            // $image->storeAs('public/images/courses', $imageName);
-            // $detail_image->storeAs('public/images/courses', $detailImageName);
-            // dd($imageName);
-
-            $data['image'] = $imageName;
-            $data['detail_image'] = $detailImageName;
+            if ($request->has('image')) {
+                $image = $request->file('image');
+                $imageName = $slug . '-' . uniqid() . '.' . $image->extension();
+                $image->move(storage_path(CourseData::SYSTEM_PATH), $imageName);
+                $data['image'] = $imageName;
+            }
+            if ($request->has('detail_image')) {
+                $detail_image = $request->file('detail_image');
+                $detailImageName = 'details-' . uniqid() . '.' . $detail_image?->extension();
+                $detail_image->move(storage_path(CourseData::SYSTEM_PATH), $detailImageName);
+                $data['detail_image'] = $detailImageName;
+            }
             $data['slug'] = $slug;
             $data['display_order'] = $order;
-            $data['category_id'] = $data['category'];
 
             $bookingDates = $data['booking_dates'];
             unset($data['booking_dates']);
             unset($data['course_details_image']);
-            unset($data['category']);
             $dates = explode(",", $bookingDates);
 
             $course = Course::create($data);
@@ -115,7 +101,8 @@ class CourseController extends Controller
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
-            return back()->withErrors('Failed to create new course');
+            Log::info('while creating course', [$exception->getMessage()]);
+            return back()->withErrors('Failed to create new course')->withInput($request->all());
         }
         return redirect()->route('admin.courses.index')->with('success', 'Course Added Successfully.');
     }
@@ -138,7 +125,7 @@ class CourseController extends Controller
 
     public function update(CourseUpdateRequest $request, Course $course)
     {
-        $data = CourseData::from($request);
+        $data = CourseData::from($request->all());
         DB::beginTransaction();
         try {
             $count = 1;
@@ -155,13 +142,13 @@ class CourseController extends Controller
             if ($request->has('image')) {
                 $image = $request->file('image');
                 $imageName = $data->slug . '-' . uniqid() . '.' . $image->extension();
-                $image->move(public_path('storage/images/courses'), $imageName);
+                $image->move(storage_path(CourseData::SYSTEM_PATH), $imageName);
                 $data->image = $imageName;
             }
             if ($request->has('course_details_image')) {
                 $detail_image = $request->file('course_details_image');
                 $detailImageName = 'details-' . uniqid() . '.' . $detail_image->extension();
-                $detail_image->move(public_path('storage/images/courses'), $detailImageName);
+                $detail_image->move(storage_path(CourseData::SYSTEM_PATH), $detailImageName);
                 $data->detail_image = $detailImageName;
             }
             $dateArray = explode(",", $data->booking_dates);
