@@ -12,14 +12,14 @@
                 <div class="form-group row">
                     <div class="col-6">
                         <label for="title">Course Title</label>
-                        <input required class="form-control @error('title') is-invalid @enderror" type="text" name="title" id="title" placeholder="Course Title">
+                        <input value="{{old('title')}}" required class="form-control @error('title') is-invalid @enderror" type="text" name="title" id="title" placeholder="Course Title">
                         @error('title')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="col-6">
                         <label for="price">Price</label>
-                        <input min="0" required class="form-control @error('price') is-invalid @enderror" type="number" name="price" id="price" placeholder="Price">
+                        <input value="{{old('price')}}" min="0" required class="form-control @error('price') is-invalid @enderror" type="number" name="price" id="price" placeholder="Price">
                         @error('price')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -28,7 +28,7 @@
                 <div class="form-group row">
                     <div class="col-12">
                         <label for="bookingDatePick">Select Booking Date</label>
-                        <input required type="text" id="bookingDatePick" name="booking_dates" class="form-control @error('booking_dates') is-invalid @enderror" placeholder="Select Booking Date">
+                        <input value="{{old('booking_dates')}}" required type="text" id="bookingDatePick" name="booking_dates" class="form-control @error('booking_dates') is-invalid @enderror" placeholder="Select Booking Date">
                         @error('booking_dates')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-6">
                         <label for="courseCode">Course Code</label>
-                        <input required class="form-control @error('course_code') is-invalid @enderror" type="text" name="course_code" id="courseCode" placeholder="Course Code">
+                        <input value="{{old('course_code')}}" required class="form-control @error('course_code') is-invalid @enderror" type="text" name="course_code" id="courseCode" placeholder="Course Code">
                         @error('course_code')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -74,14 +74,14 @@
                 <div class="form-group row">
                     <div class="col-6">
                         <label for="campus">Campus</label>
-                        <input required class="form-control @error('campus') is-invalid @enderror" type="text" name="campus" id="campus" placeholder="Campus">
+                        <input value="{{old('campus')}}" required class="form-control @error('campus') is-invalid @enderror" type="text" name="campus" id="campus" placeholder="Campus">
                         @error('campus')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="col-6">
                         <label for="studyArea">Study Area</label>
-                        <input required class="form-control @error('study_area') is-invalid @enderror" type="text" name="study_area" id="studyArea" placeholder="Study Area">
+                        <input value="{{old('study_area')}}" required class="form-control @error('study_area') is-invalid @enderror" type="text" name="study_area" id="studyArea" placeholder="Study Area">
                         @error('study_area')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -90,7 +90,7 @@
                 <div class="form-group row">
                     <div class="col-6">
                         <label for="courseLength">Course Length</label>
-                        <input required class="form-control @error('course_length') is-invalid @enderror" type="text" name="course_length" id="courseLength" placeholder="Course Length">
+                        <input value="{{old('course_length')}}" required class="form-control @error('course_length') is-invalid @enderror" type="text" name="course_length" id="courseLength" placeholder="Course Length">
                         @error('course_length')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror

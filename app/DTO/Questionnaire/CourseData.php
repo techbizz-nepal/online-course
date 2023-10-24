@@ -2,6 +2,7 @@
 
 namespace App\DTO\Questionnaire;
 
+use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
@@ -12,8 +13,8 @@ use Spatie\LaravelData\Optional;
 
 class CourseData extends Data
 {
-    const SYSTEM_PATH = 'app/public/files/students';
-    const PUBLIC_PATH = 'storage/files/students';
+    const SYSTEM_PATH = 'app/public/images/courses';
+    const PUBLIC_PATH = 'storage/images/courses';
     public function __construct(
         public Optional|string         $id,
         public string          $title,
@@ -21,7 +22,7 @@ class CourseData extends Data
         public string          $price,
         public Optional|string $booking_dates,
         #[DataCollectionOf(AssessmentData::class)]
-        public ?Collection $assessments,
+        public Optional|Collection $assessments,
         public Optional|string $image,
         public ?string         $department,
         public string          $description,
