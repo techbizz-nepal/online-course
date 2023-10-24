@@ -49,7 +49,7 @@
                                 <a href="{{ route('admin.student.edit', $student) }}" class="btn btn-info mb-1">Edit</a>
                                 <a href="javascript:void(0)"
                                    onclick="document.getElementById('deleteStudent{{ $loop->iteration }}').submit();"
-                                   class="btn btn-danger">Delete</a>
+                                   class="btn btn-danger mb-1">Delete</a>
                                 <form action="{{ route('admin.student.destroy', $student) }}" class="d-none"
                                       method="POST" id="deleteStudent{{ $loop->iteration }}">
                                     @csrf
