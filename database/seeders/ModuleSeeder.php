@@ -2,19 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Questionnaire\Assessment;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Questionnaire\Module;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
-class AssessmentSeeder extends Seeder
+class ModuleSeeder extends Seeder
 {
-    const TABLE_NAME = "assessments";
-    public function __construct(private Assessment $model)
+    const TABLE_NAME = "modules";
+    public function __construct(private Module $model)
     {
-        $this->model = new Assessment();
+        $this->model = new Module();
     }
 
     /**

@@ -1,18 +1,16 @@
 <?php
 
-use App\Http\Controllers\Questionnaire\Admin\AssessmentController;
-use App\Http\Controllers\Questionnaire\Admin\CourseController;
+use App\Http\Controllers\Questionnaire\Admin\{AssessmentController, CourseController, ModuleController};
 use Illuminate\Support\Facades\Route;
 
-Route::resources(
-    [
-        'courses' => CourseController::class,
-        'courses.assessments' => AssessmentController::class
-    ]
-);
+Route::resource('courses', CourseController::class);
+Route::resource('courses.assessments', AssessmentController::class);
+Route::resource('courses.assessments.modules', ModuleController::class);
+
+
 Route::post(
     'courses/{course}/assessments/{assessment}/update-material/', [AssessmentController::class, 'uploadMaterial']
 )->name('courses.assessments.updateMaterial');
 Route::post(
     'courses/{course}/assessments/create-material/', [AssessmentController::class, 'uploadMaterial']
-)->name('courses.assessments.createMaterial');
+)->name('courses.assessments.storeMaterial');
