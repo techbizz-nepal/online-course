@@ -12,6 +12,8 @@ use App\Models\Course;
 use App\Models\Page;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
@@ -109,8 +111,10 @@ class CourseController extends Controller
 
     public function show(Course $course)
     {
-        $courseData = CourseData::from($course->load(['bookingDates', 'assessments']));
-        return view('questionnaire.admin.courses.show', $courseData);
+        $data = [
+            "courseData" => CourseData::from($course->load(['bookingDates', 'assessments'])),
+        ];
+        return view('questionnaire.admin.courses.show', $data);
     }
 
     public function edit(Course $course)

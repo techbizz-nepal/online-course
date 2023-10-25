@@ -21,7 +21,6 @@ class CourseData extends Data
         public ?string         $slug,
         public string          $price,
         public Optional|string $booking_dates,
-        #[DataCollectionOf(AssessmentData::class)]
         public Optional|Collection $assessments,
         public Optional|string $image,
         public ?string         $department,

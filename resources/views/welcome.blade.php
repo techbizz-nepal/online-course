@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('homepage', 'nav-active')
-@section('title', $page?->title)
+@section('title', $page?->title ?? "")
 @section('metaTags')
     @if($metaTags && count($metaTags) > 0)
         @foreach($metaTags as $metaTag)
@@ -22,7 +22,7 @@
 
                         </h2> --}}
                         <h2>{!! $banner->banner_text !!}</h2>
-                        <p><strong>
+{{--                        <p><strong>--}}
                                 <!--Limited Spaces,<br>
                                 Reserve your spot today!</strong></p>-->
                                 <!--<a href="contact.php" class="btn btn-white">Book Now</a>-->

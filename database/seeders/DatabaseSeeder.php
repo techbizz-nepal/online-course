@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             MetaTagSeeder::class,
             MetaTagPageSeeder::class,
             BookingDateSeeder::class,
-            AssessmentSeeder::class
+            AssessmentSeeder::class,
+            ModuleSeeder::class
         ]);
     }
 }

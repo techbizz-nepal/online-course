@@ -32,14 +32,15 @@ class AssessmentController extends Controller
         return view('questionnaire.admin.assessments.create', ['course' => $course]);
     }
 
-    public function store(Course $course, AssessmentData $assessmentData, Request $request): RedirectResponse
+    public function store(Course $course, AssessmentData $assessmentData): RedirectResponse
     {
+        $newAssessment = null;
         DB::beginTransaction();
         try {
             $assessmentData->slug = Assessment::query()->where('slug', $assessmentData->slug)->exists()
                 ? sprintf('%s-%s', $assessmentData->slug, Str::random(10))
                 : $assessmentData->slug;
-            QuestionnaireAdmin::createCourseAssessment($assessmentData, $course);
+            $newAssessment = QuestionnaireAdmin::createCourseAssessment($assessmentData, $course);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -50,15 +51,22 @@ class AssessmentController extends Controller
         }
         return $this
             ->successRedirectWithParamsResponse(
-                routeName: 'admin.courses.show',
-                routeParams: ['course' => $course->getAttribute('slug')],
+                routeName: 'admin.courses.assessments.modules.create',
+                routeParams: [
+                    'course' => $course->getAttribute('slug'),
+                    'assessment' => $newAssessment->getAttribute('slug')
+                ],
                 translationKey: 'assessment.success.create',
             );
     }
 
     public function show(Course $course, Assessment $assessment)
     {
-        return [$course, $assessment];
+        $data = [
+            'course' => $course,
+            'assessment' => $assessment->load(['modules'])
+        ];
+        return view('questionnaire.admin.assessments.show', $data);
     }
 
     public function edit(Course $course, Assessment $assessment)

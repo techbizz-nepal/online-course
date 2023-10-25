@@ -75,7 +75,7 @@
 @push('js')
     <script type="text/javascript" src="{{ URL::asset ('assets/js/admin-utilities.js') }}"></script>
     <script>
-        const requestPath = `{{route('admin.courses.assessments.createMaterial', [$course])}}`
+        const requestPath = `{{route('admin.courses.assessments.storeMaterial', [$course])}}`
         const token = `{{csrf_token()}}`
         const fileInputEl = document.getElementById('upload_material')
         const textInputEl = document.getElementById('material')

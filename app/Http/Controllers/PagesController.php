@@ -23,7 +23,7 @@ class PagesController extends Controller
 
     public function about(){
         $page = Page::where('slug' , 'about')->with('metaTags')->first();
-        $metaTags = $page->metaTags;
+        $metaTags = $page?->metaTags;
         return view('about', compact('page' , 'metaTags'));
     }
 

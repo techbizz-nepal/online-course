@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use App\Models\Questionnaire\Assessment;
+use App\Models\Questionnaire\Module;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Course extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasRelationships;
 
     protected $guarded = [];
 
@@ -37,5 +40,10 @@ class Course extends Model
     public function assessments(): HasMany
     {
         return $this->hasMany(Assessment::class);
+    }
+
+    public function modules(): HasManyDeep
+    {
+        return $this->hasManyDeep(Module::class, [Assessment::class]);
     }
 }
