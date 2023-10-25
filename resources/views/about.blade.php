@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('aboutpage', 'nav-active')
-@section('title', $page->title)
+@section('title', $page->title ?? "")
 @section('metaTags')
-    @if(count($metaTags) > 0)
+    @if(is_array($metaTags) && count($metaTags) > 0)
         @foreach($metaTags as $metaTag)
             <meta @if($metaTag->name !== null && trim($metaTag->name) !== '') name="{{ $metaTag->name }}" @endif @if($metaTag->property !== null && trim($metaTag->property) !== '') property="{{ $metaTag->property }}" @endif content="{{ $metaTag->content }}">
         @endforeach
