@@ -3,24 +3,24 @@
 
     <div class="main-content pt-lg-4">
         <h2 class="m-2 mb-0 d-flex justify-content-between">
-            <span>Add New Assessment</span>
+            <span>Add New Module</span>
         </h2>
         <div class="w-100 h-100 bg-white mx-2 p-2">
-            <form action="{{ route('admin.courses.assessments.store', ['course'=>$course->slug]) }}" method="POST"
+            <form action="{{ route('admin.courses.assessments.modules.store', ['course'=>$course->slug, 'assessment' => $assessment->slug]) }}" method="POST"
                   id="courseForm" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group row">
                     <div class="col-6">
-                        <label for="title">Assessment Name</label>
+                        <label for="title">Module Name</label>
                         <input required class="form-control @error('name') is-invalid @enderror" type="text" name="name"
                                value="{{@old('name')}}"
-                               id="name" placeholder="Assessment Name">
+                               id="name" placeholder="Module Name">
                         @error('name')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="col-6">
-                        <label for="image">Assessment Material</label>
+                        <label for="image">Module Material</label>
                         <div class="input-group">
                             <input @readonly(true)
                                    class="form-control @error('material') is-invalid @enderror"
@@ -63,7 +63,7 @@
                 <div class="row">
                     <div class="col-md-12 text-left">
                         <button class="btn btn-primary" type="submit">Save</button>
-                        <a href="{{ route('admin.courses.show', ['course' => $course->slug]) }}" class="btn btn-primary"
+                        <a href="{{ route('admin.courses.assessments.show', ['course' => $course->slug, 'assessment'=>$assessment->slug]) }}" class="btn btn-primary"
                            type="submit">Back</a>
                     </div>
 
@@ -75,7 +75,7 @@
 @push('js')
     <script type="text/javascript" src="{{ URL::asset ('assets/js/admin-utilities.js') }}"></script>
     <script>
-        const requestPath = `{{route('admin.courses.assessments.storeMaterial', ["course" => $course])}}`
+        const requestPath = `{{route('admin.courses.assessments.modules.storeMaterial', ["course" => $course, "assessment" => $assessment])}}`
         const token = `{{csrf_token()}}`
         const fileInputEl = document.getElementById('upload_material')
         const textInputEl = document.getElementById('material')
