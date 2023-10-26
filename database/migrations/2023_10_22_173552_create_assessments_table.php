@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('assessments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id')->constrained();
-            $table->string('name', 300);
-            $table->string('slug', 500)->index();
+            $table->string('name');
+            $table->string('slug')->index();
             $table->text('description')->nullable();
             $table->string('material')->nullable();
             $table->enum('status', AssessmentStatus::values());

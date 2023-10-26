@@ -3,30 +3,33 @@
 
     <div class="main-content pt-lg-4">
         <h2 class="m-2 mb-0 d-flex justify-content-between">
-            <span>Add New Assessment</span>
+            <span>Edit Module</span>
         </h2>
         <div class="w-100 h-100 bg-white mx-2 p-2">
-            <form action="{{ route('admin.courses.assessments.store', ['course'=>$course->slug]) }}" method="POST"
-                  id="courseForm" enctype="multipart/form-data">
+            <form
+                action="{{ route('admin.courses.assessments.modules.update', ['course'=>$course->slug, 'assessment'=>$assessment, 'module' => $module]) }}"
+                method="POST"
+                id="courseForm" enctype="multipart/form-data">
                 @csrf
+                @method('PATCH')
                 <div class="form-group row">
                     <div class="col-6">
-                        <label for="title">Assessment Name</label>
+                        <label for="title">Module Name</label>
                         <input required class="form-control @error('name') is-invalid @enderror" type="text" name="name"
-                               value="{{@old('name')}}"
-                               id="name" placeholder="Assessment Name">
+                               value="{{ $module->name ?? @old('name')}}"
+                               id="name" placeholder="Module Name">
                         @error('name')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="col-6">
-                        <label for="image">Assessment Material</label>
+                        <label for="image">Module Material</label>
                         <div class="input-group">
                             <input @readonly(true)
                                    class="form-control @error('material') is-invalid @enderror"
                                    name="material"
                                    id="material"
-                                   value="{{@old('material')}}">
+                                   value="{{$module->material ?? @old('material')}}">
                             <div class="input-group-append">
                                 <button id="upload-btn" class="btn btn-primary">Upload</button>
                             </div>
@@ -54,7 +57,8 @@
                     <div class="col-12">
                         <label for="description">Description</label>
                         <textarea class="form-control @error('description') is-invalid @enderror" name="description"
-                                  id="description" rows="2" placeholder="Description">{{@old('description')}}</textarea>
+                                  id="description" rows="2"
+                                  placeholder="Description">{{$module->description ?? @old('description')}}</textarea>
                         @error('description')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -75,7 +79,7 @@
 @push('js')
     <script type="text/javascript" src="{{ URL::asset ('assets/js/admin-utilities.js') }}"></script>
     <script>
-        const requestPath = `{{route('admin.courses.assessments.storeMaterial', ["course" => $course])}}`
+        const requestPath = `{{route('admin.courses.assessments.modules.updateMaterial', [$course, $assessment, $module])}}`
         const token = `{{csrf_token()}}`
         const fileInputEl = document.getElementById('upload_material')
         const textInputEl = document.getElementById('material')
