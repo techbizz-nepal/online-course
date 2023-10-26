@@ -52,7 +52,7 @@
                             <td class="text-center">{{ $module->name }}</td>
                             <td class="text-center">{{ \Illuminate\Support\Str::words($module->description, 10, '...') }}</td>
                             <td class="text-center">
-                                <a href="{{ asset(\App\DTO\Questionnaire\AssessmentData::PUBLIC_PATH.'/'.$module['material']) }}"
+                                <a href="{{ asset(\App\DTO\Questionnaire\ModuleData::PUBLIC_PATH.'/'.$module['material']) }}"
                                    class="btn btn-blueLight" target="_blank">View File</a>
                             </td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($module['created_at'])->format('d M Y') }}</td>

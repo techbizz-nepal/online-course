@@ -19,3 +19,10 @@ Route::post(
 Route::post(
     'courses/{course}/assessments/create-material/', [AssessmentController::class, 'uploadMaterial']
 )->name('courses.assessments.storeMaterial');
+
+Route::post(
+    'courses/{course}/assessments/{assessment}/modules/{module}/update-material/', [ModuleController::class, 'uploadMaterial']
+)->name('courses.assessments.modules.updateMaterial');
+Route::post(
+    'courses/{course}/assessments/{assessment}/modules/create-material/', [ModuleController::class, 'uploadMaterial']
+)->name('courses.assessments.modules.storeMaterial');

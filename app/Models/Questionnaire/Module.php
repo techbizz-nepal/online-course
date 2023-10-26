@@ -11,6 +11,8 @@ class Module extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function getRouteKeyName(): string
     {
         return 'slug';

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('assessment_id')->constrained();
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->index();
             $table->text('description')->nullable();
             $table->string('material')->nullable();
             $table->timestamps();
