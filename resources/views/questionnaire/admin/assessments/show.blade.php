@@ -59,9 +59,10 @@
                             <td class="text-center">
                                 @include('questionnaire.common.list-actions',[
                                 "iteration"=>$loop->iteration ,
-                                "editRouteName" => "admin.courses.assessments.modules.edit",
-                                "deleteRouteName"=> "admin.courses.assessments.modules.destroy",
-                                "showRouteName"=> "admin.courses.assessments.modules.show",
+                                "createRoute" => ["name"=>"admin.courses.assessments.modules.questions.create", "label"=>"Create Question"],
+                                "editRoute" => ["name"=>"admin.courses.assessments.modules.edit","label"=>"Edit"],
+                                "deleteRoute"=> ["name"=>"admin.courses.assessments.modules.destroy","label"=>"Delete"],
+                                "showRoute"=> ["name"=>"admin.courses.assessments.modules.show","label"=>"Show Detail"],
                                 "param" => ["assessment" => $assessment->slug, "course" => $course->slug, "module" => $module->slug]
                                 ])
                             </td>

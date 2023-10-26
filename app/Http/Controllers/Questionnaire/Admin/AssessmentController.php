@@ -37,7 +37,7 @@ class AssessmentController extends Controller
         $newAssessment = null;
         DB::beginTransaction();
         try {
-            $assessmentData->slug = Assessment::query()->where('slug', $assessmentData->slug)->exists()
+            $assessmentData->slug = QuestionnaireAdmin::checkIfAssessmentSlugExists($assessmentData)
                 ? sprintf('%s-%s', $assessmentData->slug, Str::random(10))
                 : $assessmentData->slug;
             $newAssessment = QuestionnaireAdmin::createCourseAssessment($assessmentData, $course);
