@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static int updateCourseAssessment(AssessmentData $assessmentData, Course $course) Add a new course assessment
  * @method static array uploadCourseAssessmentMaterial(Request $request, Course $course) Upload course assessment material
  * @method static void deleteCourseAssessmentMaterial(Assessment $assessment) delete course assessment material
+ * @method static bool checkIfAssessmentSlugExists(AssessmentData $assessmentData) check if assessment slug exists
  */
 class QuestionnaireAdmin extends Facade
 {

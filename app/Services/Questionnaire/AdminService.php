@@ -8,7 +8,6 @@ use App\Models\Questionnaire\Assessment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 final readonly class AdminService
@@ -41,5 +40,10 @@ final readonly class AdminService
         if (File::exists(storage_path($filePath))) {
             File::delete(storage_path($filePath));
         }
+    }
+
+    public function checkIfAssessmentSlugExists(AssessmentData $assessmentData): bool
+    {
+        return Assessment::query()->where('slug', $assessmentData->slug)->exists();
     }
 }
