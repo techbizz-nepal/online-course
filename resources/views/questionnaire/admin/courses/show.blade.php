@@ -72,10 +72,11 @@
                             <td class="text-center">{{ \Carbon\Carbon::parse($assessment->created_at)->format('d M Y') }}</td>
                             <td class="text-center">
                                 @include('questionnaire.common.list-actions',[
-                                "iteration"=>$loop->iteration ,
-                                "editRouteName" => "admin.courses.assessments.edit",
-                                "deleteRouteName"=> "admin.courses.assessments.destroy",
-                                "showRouteName"=> "admin.courses.assessments.show",
+                                "iteration"=>$loop->iteration,
+                                "createRoute" => ["name"=>"admin.courses.assessments.modules.create", "label"=>"Create Module"],
+                                "editRoute" => ["name"=>"admin.courses.assessments.edit","label"=>"Edit"],
+                                "deleteRoute"=> ["name"=>"admin.courses.assessments.destroy","label"=>"Delete"],
+                                "showRoute"=> ["name"=>"admin.courses.assessments.show","label"=>"Show Detail"],
                                 "param" => ["assessment" => $assessment->slug, "course" => $courseData->slug]
                                 ])
                             </td>
