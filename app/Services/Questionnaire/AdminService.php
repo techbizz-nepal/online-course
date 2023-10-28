@@ -4,84 +4,86 @@ namespace App\Services\Questionnaire;
 
 use App\DTO\Questionnaire\AssessmentData;
 use App\DTO\Questionnaire\ModuleData;
+use App\DTO\Questionnaire\QuestionData;
+use App\DTO\Questionnaire\QuestionOptionData;
 use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
+use App\Models\Questionnaire\Question;
+use App\Services\Questionnaire\Utilities\InterfaceAssessmentService;
+use App\Services\Questionnaire\Utilities\InterfaceModuleService;
+use App\Services\Questionnaire\Utilities\InterfaceQuestionService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 
 final readonly class AdminService
 {
+    public function __construct(
+        private InterfaceAssessmentService $assessmentService,
+        private InterfaceModuleService     $moduleService,
+        private InterfaceQuestionService   $questionService
+    )
+    {
+    }
+
     public function createCourseAssessment(AssessmentData $assessmentData, Course $course): Model
     {
-        return $course->assessments()->create($assessmentData->toArray());
+        return $this->assessmentService->create($assessmentData, $course);
     }
 
-    public function createCourseAssessmentModule(ModuleData $moduleData, Course $course, Assessment $assessment): Model
+    public function updateCourseAssessment(Course $course, AssessmentData $assessmentData): int
     {
-        return $assessment->modules()->create($moduleData->toArray());
+        return $this->assessmentService->update($course, $assessmentData);
     }
 
-    public function updateCourseAssessment(AssessmentData $assessmentData, Course $course): int
+    public function deleteCourseAssessmentMaterial(Assessment $assessment): bool
     {
-        return $course->assessments()->update($assessmentData->toArray());
+        return $this->assessmentService->deleteMaterial($assessment);
     }
 
     public function uploadCourseAssessmentMaterial(Request $request, Course $course): array
     {
-        return $this->storeProcess(
-            request: $request,
-            slug: $course->getAttribute('slug'),
-            systemPath: AssessmentData::SYSTEM_PATH);
+        return $this->assessmentService->uploadMaterial($request, $course);
+    }
+
+    public function getNewIfAssessmentSlugExists(AssessmentData $assessmentData, Assessment $assessment): string
+    {
+        return $this->assessmentService->getOrGenerateSlug($assessmentData, $assessment);
+    }
+
+    public function createCourseAssessmentModule(ModuleData $moduleData, Course $course, Assessment $assessment): Model
+    {
+        return $this->moduleService->create($moduleData, $assessment);
+    }
+
+    public function updateCourseAssessmentModule(Assessment $assessment, ModuleData $moduleData): int
+    {
+        return $this->moduleService->update($assessment, $moduleData);
+    }
+
+    public function deleteCourseAssessmentModuleMaterial(Module $module): bool
+    {
+        return $this->moduleService->deleteMaterial($module);
     }
 
     public function uploadCourseAssessmentModuleMaterial(Request $request, Assessment $assessment): array
     {
-        return $this->storeProcess(
-            request: $request,
-            slug: $assessment->getAttribute('slug'),
-            systemPath: ModuleData::SYSTEM_PATH);
+        return $this->moduleService->uploadMaterial($request, $assessment);
     }
 
-    public function deleteCourseAssessmentMaterial(Assessment $assessment): void
+    public function getNewIfModuleSlugExists(ModuleData $moduleData, Module $module): string
     {
-        $this->deleteProcess(model: $assessment, systemPath: AssessmentData::SYSTEM_PATH);
+        return $this->moduleService->getOrGenerateSlug($moduleData, $module);
     }
 
-    public function deleteCourseAssessmentModuleMaterial(Module $module): void
+    public function createQuestion(Module $module, QuestionData $questionData): Model
     {
-        $this->deleteProcess(model: $module, systemPath: ModuleData::SYSTEM_PATH);
+        return $this->questionService->create($module, $questionData);
     }
 
-    public function checkIfAssessmentSlugExists(AssessmentData $assessmentData): bool
+    public function createQuestionOptions(Question $question, QuestionOptionData $questionOptionData): HasMany
     {
-        return Assessment::query()->where('slug', $assessmentData->slug)->exists();
-    }
-
-    public function checkIfModuleSlugExists(ModuleData $moduleData): bool
-    {
-        return Module::query()->where('slug', $moduleData->slug)->exists();
-    }
-
-    private function storeProcess(Request $request, string $slug, string $systemPath): array
-    {
-        $data = $request->validate([
-            'pdfFile' => 'file|mimetypes:application/pdf|max:10000',
-            'name' => 'required|regex:/[A-Za-z0-9_-]+/'
-        ]);
-        ['name' => $name, 'pdfFile' => $pdf] = $data;
-        $pdfName = sprintf('%s-%s-%s.%s', $slug, Str::slug($name), Str::random(), $pdf->extension());
-        $pdf->move(storage_path($systemPath), $pdfName);
-        return ['fileName' => $pdfName];
-    }
-
-    private function deleteProcess(Model $model, string $systemPath): void
-    {
-        $filePath = sprintf('%s/%s', $systemPath, $model->getAttribute('material'));
-        if (File::exists(storage_path($filePath))) {
-            File::delete(storage_path($filePath));
-        }
+        return $this->questionService->createOptions($question, $questionOptionData);
     }
 }

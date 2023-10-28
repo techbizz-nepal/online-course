@@ -2,8 +2,13 @@
 @section('courses', 'active')
 @section('content')
     <div class="main-content pt-lg-4">
-        <h2 class="m-2 mb-0 d-flex justify-content-between">
-            <span>{{$assessment->name}}</span>
+        <h2 class="m-2 mb-0 d-flex justify-content-evenly">
+            <a
+                href="{{route("admin.courses.show", ['course'=> $course->slug])}}"
+                class="mr-2 py-2 px-4 bg-primary rounded text-white">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <span class="mr-2 p-2 ">{{$assessment->name}}</span>
         </h2>
         <div class="w-100 h-100 bg-white mx-2 p-2">
             <div class="container-fluid">
@@ -56,10 +61,10 @@
                                    class="btn btn-blueLight" target="_blank">View File</a>
                             </td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($module['created_at'])->format('d M Y') }}</td>
-                            <td class="text-center">
+                            <td class="text-left">
                                 @include('questionnaire.common.list-actions',[
-                                "iteration"=>$loop->iteration ,
-                                "createRoute" => ["name"=>"admin.courses.assessments.modules.questions.create", "label"=>"Create Question"],
+                                "iteration"=>$loop->iteration,
+                                "createRoute" => ["name"=>"admin.courses.assessments.modules.questions.create", "label"=>"Create Question", "types" => $questionTypes],
                                 "editRoute" => ["name"=>"admin.courses.assessments.modules.edit","label"=>"Edit"],
                                 "deleteRoute"=> ["name"=>"admin.courses.assessments.modules.destroy","label"=>"Delete"],
                                 "showRoute"=> ["name"=>"admin.courses.assessments.modules.show","label"=>"Show Detail"],

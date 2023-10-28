@@ -1,4 +1,6 @@
 /************************ Utilities functions  **********************/
+
+/***************** assessment and module part **********************/
 const setInputFieldValue = (value, inputEl) => {
     inputEl.setAttribute('value', value)
 }
@@ -34,3 +36,19 @@ const postRequestToServer = (path, csrfToken, body, progressEl, textInputEl) => 
 
     xhr.send(body);
 }
+
+/************************** question part *************************************/
+const choose = document.querySelectorAll("input[name=choose]")
+const isCorrect = document.querySelector("input[name=is_correct]")
+
+choose.forEach((value) => {
+    // initialize isCorrect value
+    if(value.checked) {
+        isCorrect.value = value.id
+    }
+    // change isCorrect value after triggering event
+    value.addEventListener('change', (event) => {
+        event.preventDefault()
+        isCorrect.value = event.currentTarget.id
+    })
+})

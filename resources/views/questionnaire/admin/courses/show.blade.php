@@ -70,7 +70,7 @@
                                    class="btn btn-blueLight" target="_blank">View File</a>
                             </td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($assessment->created_at)->format('d M Y') }}</td>
-                            <td class="text-center">
+                            <td class="text-left">
                                 @include('questionnaire.common.list-actions',[
                                 "iteration"=>$loop->iteration,
                                 "createRoute" => ["name"=>"admin.courses.assessments.modules.create", "label"=>"Create Module"],
