@@ -30,9 +30,7 @@ class AssessmentData extends Data
         public Optional|Carbon|null $created_at,
         public Optional|Carbon|null $updated_at,
         public Optional|Carbon|null $deleted_at,
-        public Optional|string|null $course_id,
-        #[WithCast(EnumCast::class)]
-        public AssessmentStatus     $status = AssessmentStatus::IN_PROGRESS,
+        public Optional|string|null $course_id
     )
     {
         $this->slug ??= Str::slug($this->name);

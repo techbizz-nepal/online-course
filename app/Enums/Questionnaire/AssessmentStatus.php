@@ -10,12 +10,12 @@ enum AssessmentStatus: string
     public function value(): string
     {
         return match ($this) {
-            AssessmentStatus::IN_PROGRESS => 'In Progress',
-            AssessmentStatus::COMPLETED => 'Completed'
+            self::IN_PROGRESS => 'In Progress',
+            self::COMPLETED => 'Completed'
         };
     }
 
-    public static function values(): array
+    public static function toArray(): array
     {
         return array_column(self::cases(), 'name', 'value');
     }

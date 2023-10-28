@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\Questionnaire\Admin;
 
 use App\DTO\Questionnaire\AssessmentData;
+use App\Enums\Questionnaire\QuestionType;
 use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
 use App\Traits\HasRedirectResponse;
+use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -37,9 +40,7 @@ class AssessmentController extends Controller
         $newAssessment = null;
         DB::beginTransaction();
         try {
-            $assessmentData->slug = QuestionnaireAdmin::checkIfAssessmentSlugExists($assessmentData)
-                ? sprintf('%s-%s', $assessmentData->slug, Str::random(10))
-                : $assessmentData->slug;
+            $assessmentData->slug = QuestionnaireAdmin::getNewIfAssessmentSlugExists($assessmentData, new Assessment());
             $newAssessment = QuestionnaireAdmin::createCourseAssessment($assessmentData, $course);
             DB::commit();
         } catch (\Exception $exception) {
@@ -60,23 +61,36 @@ class AssessmentController extends Controller
             );
     }
 
-    public function show(Course $course, Assessment $assessment)
+    public function show(Course $course, Assessment $assessment): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         $data = [
             'course' => $course,
-            'assessment' => $assessment->load(['modules'])
+            'assessment' => $assessment->load(['modules']),
+            'questionTypes'=> Arr::map(QuestionType::cases(), function($case){
+                return ['type' => $case->value, "label" => QuestionType::from($case->value)->value()];
+            })
         ];
         return view('questionnaire.admin.assessments.show', $data);
     }
 
-    public function edit(Course $course, Assessment $assessment)
+    public function edit(Course $course, Assessment $assessment): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         return view('questionnaire.admin.assessments.edit', ['course' => $course, 'assessment' => $assessment]);
     }
 
     public function update(Course $course, Assessment $assessment, AssessmentData $assessmentData): RedirectResponse
     {
-        $assessment->update($assessmentData->toArray());
+        DB::beginTransaction();
+        try {
+            QuestionnaireAdmin::updateCourseAssessment($course, $assessmentData);
+            DB::commit();
+        }catch (Exception $exception){
+            DB::rollBack();
+            return $this->failureRedirectWithInputResponse(
+                translationKey: 'assessment.errors.update',
+                inputArray: $assessmentData->toArray()
+            );
+        }
         return $this
             ->successRedirectWithParamsResponse(
                 routeName: 'admin.courses.show',
@@ -98,8 +112,8 @@ class AssessmentController extends Controller
             if ($assessment->exists) {
                 QuestionnaireAdmin::deleteCourseAssessmentMaterial($assessment);
             }
-            $array = QuestionnaireAdmin::uploadCourseAssessmentMaterial($request, $course);
-            return response()->json($array);
+            return response()
+                ->json(QuestionnaireAdmin::uploadCourseAssessmentMaterial($request, $course));
         } catch (\Exception $exception) {
             Log::error('while uploading assessment material', [$exception->getMessage()]);
             return response()->json(['error' => 'Can\'t upload file']);

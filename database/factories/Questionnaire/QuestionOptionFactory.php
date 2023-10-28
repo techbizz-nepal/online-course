@@ -4,7 +4,10 @@ namespace Database\Factories\Questionnaire;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class QuestionFactory extends Factory
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Questionnaire\QuestionOption>
+ */
+class QuestionOptionFactory extends Factory
 {
     /**
      * Define the model's default state.

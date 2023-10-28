@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('slug')->index();
             $table->text('description')->nullable();
             $table->string('material')->nullable();
-            $table->enum('status', AssessmentStatus::values());
             $table->timestamps();
             $table->softDeletes();
         });

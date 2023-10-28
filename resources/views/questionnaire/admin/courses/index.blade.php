@@ -31,7 +31,7 @@
                     <td class="text-center">${{ $course->price }}</td>
                     <td class="text-center">{{ $course->course_length }}</td>
                     <td class="text-center">{{ $course->campus }}</td>
-                    <td class="text-center">
+                    <td class="text-left">
                         <button href="#" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#bookingDateModalLong{{ $loop->iteration }}">Booking Dates</button>
                         <a href="{{ route('admin.courses.edit', $course) }}" class="btn btn-info mb-1">Edit</a>
                         <a href="javascript:void(0)" onclick="document.getElementById('deleteCourse{{ $loop->iteration }}').submit();"
