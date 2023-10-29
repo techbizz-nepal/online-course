@@ -13,6 +13,7 @@ use App\Models\Questionnaire\Question;
 use App\Services\Questionnaire\Utilities\InterfaceAssessmentService;
 use App\Services\Questionnaire\Utilities\InterfaceModuleService;
 use App\Services\Questionnaire\Utilities\InterfaceQuestionService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
@@ -82,7 +83,7 @@ final readonly class AdminService
         return $this->questionService->create($module, $questionData);
     }
 
-    public function createQuestionOptions(Question $question, QuestionOptionData $questionOptionData): HasMany
+    public function createQuestionOptions(Question $question, QuestionOptionData $questionOptionData): Collection
     {
         return $this->questionService->createOptions($question, $questionOptionData);
     }

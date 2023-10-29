@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
+use App\Traits\HasAttributeRepository;
 use App\Traits\HasRedirectResponse;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,7 +24,7 @@ use Illuminate\Support\Str;
 
 class ModuleController extends Controller
 {
-    use HasRedirectResponse;
+    use HasRedirectResponse, HasAttributeRepository;
 
     public function create(Course $course, Assessment $assessment): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
@@ -60,14 +61,7 @@ class ModuleController extends Controller
     public function show(Course $course, Assessment $assessment, Module $module)
     {
         $module->setAttribute('description', Str::words($module->getAttribute('description'), 50));
-        $data = [
-            'course' => $course,
-            'assessment' => $assessment,
-            'module' => $module->load(['questions']),
-            'questionTypes'=> Arr::map(QuestionType::cases(), function($case){
-                return ['type' => $case->value, "label" => QuestionType::from($case->value)->value()];
-            })
-        ];
+        $data = $this->getModuleShowAttributes($course, $assessment, $module);
         return view('questionnaire.admin.modules.show', $data);
     }
 
