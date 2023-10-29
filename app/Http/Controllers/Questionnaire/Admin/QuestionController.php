@@ -11,6 +11,7 @@ use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
+use App\Traits\HasAttributeRepository;
 use App\Traits\HasRedirectResponse;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -22,27 +23,11 @@ use Illuminate\Support\Facades\Log;
 
 class QuestionController extends Controller
 {
-    use HasRedirectResponse;
+    use HasRedirectResponse, HasAttributeRepository;
 
     public function create(Course $course, Assessment $assessment, Module $module, Request $request): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        $data = [
-            "question" =>
-                [
-                    "requestType" => in_array($request->get('questionType'), QuestionType::toArray())
-                        ? $request->get('questionType')
-                        : QuestionType::CLOSE_ENDED_OPTIONS->value,
-                    "types" =>
-                        [
-                            "closeOption" => QuestionType::CLOSE_ENDED_OPTIONS->value,
-                            "readAndAnswer" => QuestionType::READ_AND_ANSWER->value,
-                            "describeImage" => QuestionType::DESCRIBE_IMAGE->value
-                        ]
-                ],
-            "course" => $course,
-            "assessment" => $assessment,
-            "module" => $module
-        ];
+        $data = $this->getQuestionCreateAttributes($request, $course, $assessment, $module);
         return view('questionnaire.admin.questions.create', $data);
     }
 
@@ -77,18 +62,7 @@ class QuestionController extends Controller
 
     public function edit(Course $course, Assessment $assessment, Module $module, Question $question)
     {
-        $data = [
-            "course" => $course,
-            "assessment" => $assessment,
-            "module" => $module,
-            "question" => $question->load('options'),
-            "types" =>
-                [
-                    "closeOption" => QuestionType::CLOSE_ENDED_OPTIONS->value,
-                    "readAndAnswer" => QuestionType::READ_AND_ANSWER->value,
-                    "describeImage" => QuestionType::DESCRIBE_IMAGE->value
-                ]
-        ];
+        $data = $this->getQuestionEditAttributes($course, $assessment, $module, $question);
         $view = match ($question->getAttribute('type')) {
             QuestionType::CLOSE_ENDED_OPTIONS->value => 'questionnaire.admin.questions.edit'
         };
@@ -106,5 +80,4 @@ class QuestionController extends Controller
         $question->delete();
         return $this->successRedirectResponse(translationKey: 'question.success.delete');
     }
-
 }

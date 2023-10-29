@@ -8,6 +8,7 @@ use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
+use App\Traits\HasAttributeRepository;
 use App\Traits\HasRedirectResponse;
 use Exception;
 use Illuminate\Contracts\View\Factory;
@@ -23,7 +24,7 @@ use Illuminate\Support\Str;
 
 class AssessmentController extends Controller
 {
-    use HasRedirectResponse;
+    use HasRedirectResponse, HasAttributeRepository;
 
     public function index(): array
     {
@@ -63,13 +64,7 @@ class AssessmentController extends Controller
 
     public function show(Course $course, Assessment $assessment): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        $data = [
-            'course' => $course,
-            'assessment' => $assessment->load(['modules']),
-            'questionTypes'=> Arr::map(QuestionType::cases(), function($case){
-                return ['type' => $case->value, "label" => QuestionType::from($case->value)->value()];
-            })
-        ];
+        $data = $this->getAssessmentShowAttributes($course, $assessment);
         return view('questionnaire.admin.assessments.show', $data);
     }
 
