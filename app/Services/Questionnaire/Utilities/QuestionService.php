@@ -9,7 +9,6 @@ use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -21,6 +20,11 @@ class QuestionService implements InterfaceQuestionService
         return $module->questions()->create($questionData->toArray());
     }
 
+    public function createOption(Question $question, array $row): Model
+    {
+        return $question->options()->create($row);
+    }
+
     public function createOptions(Question $question, QuestionOptionData $questionOptionData): Collection
     {
         Arr::map($questionOptionData->toArray(), function ($value, $key) use ($questionOptionData, $question) {
@@ -29,7 +33,7 @@ class QuestionService implements InterfaceQuestionService
             } else {
                 $row = ["body" => $value];
             }
-            if (Str::contains($key, "option")) $question->options()->create($row);
+            if (Str::contains($key, "option")) $this->createOption($question, $row);
             return $value;
         });
         return $question->options()->get();
