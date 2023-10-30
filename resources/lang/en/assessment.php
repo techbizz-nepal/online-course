@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'errors' => [
+    'error' => [
         'create' => 'Assessment creation error',
         'update' => 'Assessment update error',
         'delete' => 'Assessment deletion error',

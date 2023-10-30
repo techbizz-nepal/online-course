@@ -33,40 +33,4 @@ trait HasAttributeRepository
             })
         ];
     }
-    private function getQuestionEditAttributes(Course $course, Assessment $assessment, Module $module, Question $question): array
-    {
-        return [
-            "course" => $course,
-            "assessment" => $assessment,
-            "module" => $module,
-            "question" => $question->load('options'),
-            "types" =>
-                [
-                    "closeOption" => QuestionType::CLOSE_ENDED_OPTIONS->value,
-                    "readAndAnswer" => QuestionType::READ_AND_ANSWER->value,
-                    "describeImage" => QuestionType::DESCRIBE_IMAGE->value
-                ]
-        ];
-    }
-
-    private function getQuestionCreateAttributes(Request $request, Course $course, Assessment $assessment, Module $module): array
-    {
-        return [
-            "question" =>
-                [
-                    "requestType" => in_array($request->get('questionType'), QuestionType::toArray())
-                        ? $request->get('questionType')
-                        : QuestionType::CLOSE_ENDED_OPTIONS->value,
-                    "types" =>
-                        [
-                            "closeOption" => QuestionType::CLOSE_ENDED_OPTIONS->value,
-                            "readAndAnswer" => QuestionType::READ_AND_ANSWER->value,
-                            "describeImage" => QuestionType::DESCRIBE_IMAGE->value
-                        ]
-                ],
-            "course" => $course,
-            "assessment" => $assessment,
-            "module" => $module
-        ];
-    }
 }

@@ -22,8 +22,8 @@ class QuestionData extends Data
         public Optional|string|null    $module_id,
         #[DataCollectionOf(QuestionOptionData::class)]
         public Optional|DataCollection $questionOptions,
+        public QuestionType            $type,
         public int                     $order = 0,
-        public QuestionType            $type = QuestionType::CLOSE_ENDED_OPTIONS,
     )
     {
     }

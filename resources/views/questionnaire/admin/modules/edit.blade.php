@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-md-12 text-left">
                         <button class="btn btn-primary" type="submit">Save</button>
-                        <a href="{{ route('admin.courses.show', ['course' => $course->slug]) }}" class="btn btn-primary"
+                        <a href="{{ route('admin.courses.assessments.show', ['course' => $course->slug, 'assessment' => $assessment->slug]) }}" class="btn btn-primary"
                            type="submit">Back</a>
                     </div>
 

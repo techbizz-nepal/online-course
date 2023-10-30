@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'errors' => [
+    'error' => [
         'create' => 'Module creation error',
         'uploadMaterial' => 'Can\'t upload file',
         'update' => 'Module update error'

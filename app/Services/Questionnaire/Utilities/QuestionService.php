@@ -7,10 +7,7 @@ use App\DTO\Questionnaire\QuestionData;
 use App\DTO\Questionnaire\QuestionOptionData;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class QuestionService implements InterfaceQuestionService
 {
@@ -20,22 +17,28 @@ class QuestionService implements InterfaceQuestionService
         return $module->questions()->create($questionData->toArray());
     }
 
-    public function createOption(Question $question, array $row): Model
+    public function update(Question $question, QuestionData $questionData): Model
     {
-        return $question->options()->create($row);
+        $question->update($questionData->toArray());
+        return $question;
     }
 
-    public function createOptions(Question $question, QuestionOptionData $questionOptionData): Collection
+    public function createOption(Question $question, QuestionOptionData $questionOptionData): Model
     {
-        Arr::map($questionOptionData->toArray(), function ($value, $key) use ($questionOptionData, $question) {
-            if ($questionOptionData->isCorrect === $key) {
-                $row = ["body" => $value, "is_correct" => true];
-            } else {
-                $row = ["body" => $value];
-            }
-            if (Str::contains($key, "option")) $this->createOption($question, $row);
-            return $value;
-        });
-        return $question->options()->get();
+        return $question->option()->create($questionOptionData->toArray());
+    }
+
+    public function updateOption(Question $question, QuestionOptionData $questionOptionData): Model
+    {
+        $question->option()->update($questionOptionData->toArray());
+        return $question;
+    }
+
+    public function prepareOptions(array $options, string|null $correctAnswer): QuestionOptionData
+    {
+        return QuestionOptionData::from([
+            "body" => $options,
+            "is_correct" => $correctAnswer
+        ]);
     }
 }

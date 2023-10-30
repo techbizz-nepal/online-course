@@ -4,8 +4,8 @@
     <div class="main-content pt-lg-4">
         <h2 class="m-2 mb-0 d-flex justify-content-evenly">
             <a
-                href="{{route("admin.courses.assessments.show", ['course'=> $course->slug, 'assessment' => $assessment->slug])}}"
-                class="mr-2 py-2 px-4 bg-primary rounded text-white">
+                    href="{{route("admin.courses.assessments.show", ['course'=> $course->slug, 'assessment' => $assessment->slug])}}"
+                    class="mr-2 py-2 px-4 bg-primary rounded text-white">
                 <i class="fas fa-arrow-left"></i>
             </a>
             <span class="mr-2 p-2 ">{{$module->name}}</span>
@@ -35,20 +35,20 @@
             </h2>
             <div class="dropdown">
                 <button
-                    class="btn btn-primary dropdown-toggle mb-1"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
+                        class="btn btn-primary dropdown-toggle mb-1"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
                     Create Question
                 </button>
                 <div
-                    class="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton">
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton">
                     @foreach($questionTypes as $questionType)
                         <a class="dropdown-item"
-                           href="{{route("admin.courses.assessments.modules.questions.create", ["assessment" => $assessment->slug, "course" => $course->slug, "module" => $module->slug, 'questionType'=> $questionType['type']])}}">
+                           href="{{route("admin.courses.assessments.modules.questions.create", ["assessment" => $assessment->slug, "course" => $course->slug, "module" => $module->slug, 'type'=> $questionType['type']])}}">
                             {{$questionType['label']}}
                         </a>
                     @endforeach
@@ -73,14 +73,15 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td class="text-center">{{ $question->body }}</td>
-                            <td class="text-center">{{ $question->type }}</td>
+                            <td class="text-center">{{ \App\Enums\Questionnaire\QuestionType::from($question->type)->value() }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($question['created_at'])->format('d M Y') }}</td>
                             <td class="text-left">
                                 @include('questionnaire.common.list-actions',[
-                                "iteration"=>$loop->iteration,"editRoute" => ["name"=>"admin.courses.assessments.modules.questions.edit","label"=>"Edit"],
+                                "iteration"=>$loop->iteration,
+                                "editRoute" => ["name"=>"admin.courses.assessments.modules.questions.edit","label"=>"Edit"],
                                 "deleteRoute"=> ["name"=>"admin.courses.assessments.modules.questions.destroy","label"=>"Delete"],
                                 "showRoute"=> ["name"=>"admin.courses.assessments.modules.questions.show","label"=>"Show Detail"],
-                                "param" => ["assessment" => $assessment->slug, "course" => $course->slug, "module" => $module->slug, "question"=>$question->id]
+                                "param" => ["assessment" => $assessment->slug, "course" => $course->slug, "module" => $module->slug, "question"=>$question->id, "type" => $question->type]
                                 ])
                             </td>
                         </tr>
