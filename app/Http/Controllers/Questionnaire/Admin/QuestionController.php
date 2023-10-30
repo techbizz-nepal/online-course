@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Questionnaire\Admin;
 
 use App\DTO\Questionnaire\QuestionData;
-use App\DTO\Questionnaire\QuestionOptionData;
-use App\Enums\Questionnaire\QuestionType;
-use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
-use App\Traits\HasAttributeRepository;
+use App\Services\Questionnaire\Types\InterfaceEntity;
+use App\Services\Questionnaire\Types\InterfaceType;
 use App\Traits\HasRedirectResponse;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,34 +22,42 @@ use Illuminate\Support\Facades\Log;
 
 class QuestionController extends Controller
 {
-    use HasRedirectResponse, HasAttributeRepository;
+    use HasRedirectResponse;
 
-    public function create(Course $course, Assessment $assessment, Module $module, Request $request): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
+    public function __construct(protected InterfaceType $type)
     {
-        $data = $this->getQuestionCreateAttributes($request, $course, $assessment, $module);
+    }
+
+    public function create(
+        Course     $course,
+        Assessment $assessment,
+        Module     $module,
+        Request    $request): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
+    {
+        $data = $this->type->getQuestionCreateAttributes($request, $course, $assessment, $module);
         return view('questionnaire.admin.questions.create', $data);
     }
 
-    public function show()
+    public function show(Course $course, Assessment $assessment, Module $module, Question $question): Collection
     {
-        return [];
+        return $question->option()->get();
     }
 
     public function store(
-        Course             $course,
-        Assessment         $assessment,
-        Module             $module,
-        QuestionData       $questionData,
-        QuestionOptionData $questionOptionData)
+        Course       $course,
+        Assessment   $assessment,
+        Module       $module,
+        QuestionData $questionData,
+        Request      $request)
     {
+        $validated = $this->type->validated($request);
         DB::beginTransaction();
         try {
-            $question = tap(QuestionnaireAdmin::createQuestion($module, $questionData))->target;
-            QuestionnaireAdmin::createQuestionOptions($question, $questionOptionData);
+            $this->type->storeProcess($validated, $module, $questionData);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
-            Log::error($exception->getMessage());
+            Log::error("while creating question: ", [$exception->getMessage()]);
             return $this->failureRedirectResponse(translationKey: "");
         }
         return $this->successRedirectWithParamsResponse(
@@ -60,24 +67,44 @@ class QuestionController extends Controller
         );
     }
 
-    public function edit(Course $course, Assessment $assessment, Module $module, Question $question)
+    public function edit(
+        Course     $course,
+        Assessment $assessment,
+        Module     $module,
+        Question   $question): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        $data = $this->getQuestionEditAttributes($course, $assessment, $module, $question);
-        $view = match ($question->getAttribute('type')) {
-            QuestionType::CLOSE_ENDED_OPTIONS->value => 'questionnaire.admin.questions.edit'
-        };
-        return view($view, $data);
+        $data = $this->type->getQuestionEditAttributes($course, $assessment, $module, $question);
+        return view('questionnaire.admin.questions.edit', $data);
     }
 
-    public function update()
+    public function update(
+        Course       $course,
+        Assessment   $assessment,
+        Module       $module,
+        Question     $question,
+        QuestionData $questionData,
+        Request      $request
+    ): RedirectResponse
     {
-        return [];
+        $validated = $this->type->validated($request);
+        try {
+            $this->type->updateProcess($validated, $question, $questionData);
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error($exception->getMessage());
+            return $this->failureRedirectResponse(translationKey: "question.error.update");
+        }
+        return $this->successRedirectWithParamsResponse(
+            routeName: 'admin.courses.assessments.modules.show',
+            routeParams: ["course" => $course, "assessment" => $assessment, "module" => $module],
+            translationKey: 'question.success.edit'
+        );
     }
 
     public function destroy(Course $course, Assessment $assessment, Module $module, Question $question): RedirectResponse
     {
-        $question->options()->delete();
-        $question->delete();
+        $this->type->deleteProcess($question);
         return $this->successRedirectResponse(translationKey: 'question.success.delete');
     }
 }

@@ -42,7 +42,7 @@ class ModuleController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             $this->failureRedirectWithInputResponse(
-                translationKey: 'module.errors.create',
+                translationKey: 'module.error.create',
                 inputArray: $moduleData->toArray()
             );
         }
@@ -79,7 +79,7 @@ class ModuleController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             return $this->failureRedirectWithInputResponse(
-                translationKey: 'module.errors.update',
+                translationKey: 'module.error.update',
                 inputArray: $moduleData->toArray()
             );
         }
