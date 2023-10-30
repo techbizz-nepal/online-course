@@ -47,7 +47,7 @@ class AssessmentController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             $this->failureRedirectWithInputResponse(
-                translationKey: 'assessment.errors.create',
+                translationKey: 'assessment.error.create',
                 inputArray: $assessmentData->toArray()
             );
         }
@@ -82,7 +82,7 @@ class AssessmentController extends Controller
         }catch (Exception $exception){
             DB::rollBack();
             return $this->failureRedirectWithInputResponse(
-                translationKey: 'assessment.errors.update',
+                translationKey: 'assessment.error.update',
                 inputArray: $assessmentData->toArray()
             );
         }

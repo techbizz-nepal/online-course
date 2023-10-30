@@ -45,7 +45,7 @@
             aria-labelledby="dropdownMenuButton">
             @foreach($questionTypes as $questionType)
                 <a class="dropdown-item"
-                   href="{{route($createRoute["name"], $param+['questionType' => QuestionType::from($questionType["type"])])}}">
+                   href="{{route($createRoute["name"], $param+['type' => QuestionType::from($questionType["type"])])}}">
                     {{QuestionType::from($questionType["type"])->value()}}
                 </a>
             @endforeach

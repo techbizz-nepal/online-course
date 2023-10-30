@@ -1,13 +1,25 @@
-@isset($options)
-    @foreach($options as $option)
+<div class="form-group row">
+    <div class="col-12">
+        <label for="body">Question Text</label>
+        <textarea class="form-control @error('body') is-invalid @enderror"
+                  name="body"
+                  id="body"
+                  rows="2">{{$question->body ?? @old('body')}}</textarea>
+        @error('body')
+        <span class="invalid-feedback">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
+@isset($question->option)
+    @foreach($question->option->body as $key => $value)
         <div class="form-group row">
             <div class="col-6">
-                <input name="option1"
-                       type="text" class="form-control mb-2 @error('option1') is-invalid @enderror"
-                       placeholder="option 1"
-                       value="{{$option->getAttribute('body')}}"
+                <input name="{{$key}}"
+                       type="text" class="form-control mb-2 @error($key) is-invalid @enderror"
+                       placeholder="{{$key}}"
+                       value="{{$value}}"
                 >
-                @error('option1')
+                @error($key)
                 <span class="invalid-feedback">{{ $message }}</span>
                 @enderror
             </div>
@@ -15,11 +27,12 @@
                 <input type="radio"
                        name="choose"
                        class="form-check-input"
-                       id="option1" @checked($option->getAttribute('is_correct'))>
+                       id="{{$key}}" @checked($key === $question->option->is_correct)>
             </div>
         </div>
     @endforeach
+    <input type="hidden" name="is_correct">
 @endif
 @push('js')
-    <script type="text/javascript" src="{{asset('assets/js/admin-utilities.js')}}" >
+    <script defer src="{{asset('assets/js/admin-utilities.js')}}" ></script>
 @endpush
