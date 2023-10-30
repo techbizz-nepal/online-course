@@ -18,6 +18,9 @@ class StudentSeeder extends Seeder
         $rows = Arr::get(Arr::keyBy(File::json(database_path('data/keyeduau_muhamad.json')), 'name'), 'students')['data'];
         if (!Student::query()->count() && $rows) {
             Arr::map($rows, function ($row) {
+                if ($row['email'] === "student@student.com") {
+                    $row["password"] = bcrypt("student123");
+                }
                 DB::table("students")->insert($row);
             });
         }
