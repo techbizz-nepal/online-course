@@ -12,13 +12,15 @@
             <hr>
             <div>
                 This unit is comprised of {{$assessment->modules->count()}} modules as follows:
-                @foreach($assessment->modules as $module)
-                    <p>Module {{$loop->iteration}} - {{ str()->title($module->name) }}</p>
-                @endforeach
+                @isset($assessment->modules)
+                    @foreach($assessment->modules as $module)
+                        <p>Module {{$loop->iteration}} - {{ str()->title($module->name) }}</p>
+                    @endforeach
+                @endif
             </div>
             <div class="mt-5">
                 <h3>Please peruse the following learning material for this activity.</h3>
-                <img src="{{asset('assets/images/pdf.png')}}" width="20px" alt="{{$module->name}}"/>
+                <img src="{{asset('assets/images/pdf.png')}}" width="20px" alt="{{$assessment->name}}"/>
                 <a target="_blank" href="{{asset(sprintf('%s/%s',\App\DTO\Questionnaire\AssessmentData::PUBLIC_PATH,$assessment->material))}}">
                     {{str()->title($assessment->name)}}
                 </a>
@@ -36,18 +38,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                @isset($course)
-                    @foreach($course->assessments as $assessment)
+                @isset($assessment->modules)
+                    @foreach($assessment->modules as $module)
                         <tr>
                             <th style="width: 10%" class="text-center" scope="row">{{$loop->iteration}}</th>
-                            <td style="width: 30%" class="text-center">{{$assessment['name']}}</td>
+                            <td style="width: 30%" class="text-center">{{$module['name']}}</td>
                             <td style="width: 30%" class="text-center">
                                 <p>In Progress</p>
                                 <p>9% completed</p>
                             </td>
                             <td style="width: 10%" class="text-center">0%</td>
                             <td style="width: 20%" class="text-center">
-                                <a href="{{route('student.startExam', [$course, $assessment])}}">
+                                <a href="{{route('student.startExam', [$course, $assessment, $module])}}">
                                     <button class="btn btn-primary">Start</button>
                                 </a>
                             </td>

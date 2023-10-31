@@ -237,23 +237,24 @@
 }
 ,{"type":"table","name":"migrations","database":"keyeduau_muhamad","data":
 [
-{"id":"35","migration":"2014_10_12_000000_create_users_table","batch":"1"},
-{"id":"36","migration":"2014_10_12_100000_create_password_resets_table","batch":"1"},
-{"id":"37","migration":"2019_08_19_000000_create_failed_jobs_table","batch":"1"},
-{"id":"38","migration":"2019_12_14_000001_create_personal_access_tokens_table","batch":"1"},
-{"id":"39","migration":"2021_06_28_172032_create_categories_table","batch":"1"},
-{"id":"40","migration":"2021_08_19_145349_create_courses_table","batch":"1"},
-{"id":"41","migration":"2021_08_19_145411_create_booking_dates_table","batch":"1"},
-{"id":"42","migration":"2021_08_25_145420_create_pages_table","batch":"1"},
-{"id":"43","migration":"2021_08_25_160409_create_meta_tags_table","batch":"1"},
-{"id":"44","migration":"2021_08_26_033411_create_meta_tag_page_table","batch":"1"},
-{"id":"45","migration":"2021_08_30_073247_add_title_to_pages_table","batch":"1"},
-{"id":"46","migration":"2022_07_01_195526_create_students_table","batch":"1"},
-{"id":"47","migration":"2023_10_04_201439_create_banners_table","batch":"1"},
-{"id":"48","migration":"2023_10_22_173552_create_assessments_table","batch":"1"},
-{"id":"49","migration":"2023_10_24_225722_create_modules_table","batch":"1"},
-{"id":"50","migration":"2023_10_25_112046_create_questions_table","batch":"1"},
-{"id":"51","migration":"2023_10_27_181526_create_question_options_table","batch":"1"}
+{"id":"1","migration":"2014_10_12_000000_create_users_table","batch":"1"},
+{"id":"2","migration":"2014_10_12_100000_create_password_resets_table","batch":"1"},
+{"id":"3","migration":"2019_08_19_000000_create_failed_jobs_table","batch":"1"},
+{"id":"4","migration":"2019_12_14_000001_create_personal_access_tokens_table","batch":"1"},
+{"id":"5","migration":"2021_06_28_172032_create_categories_table","batch":"1"},
+{"id":"6","migration":"2021_08_19_145349_create_courses_table","batch":"1"},
+{"id":"7","migration":"2021_08_19_145411_create_booking_dates_table","batch":"1"},
+{"id":"8","migration":"2021_08_25_145420_create_pages_table","batch":"1"},
+{"id":"9","migration":"2021_08_25_160409_create_meta_tags_table","batch":"1"},
+{"id":"10","migration":"2021_08_26_033411_create_meta_tag_page_table","batch":"1"},
+{"id":"11","migration":"2021_08_30_073247_add_title_to_pages_table","batch":"1"},
+{"id":"12","migration":"2022_07_01_195526_create_students_table","batch":"1"},
+{"id":"13","migration":"2023_10_04_201439_create_banners_table","batch":"1"},
+{"id":"14","migration":"2023_10_22_173552_create_assessments_table","batch":"1"},
+{"id":"15","migration":"2023_10_24_225722_create_modules_table","batch":"1"},
+{"id":"16","migration":"2023_10_25_112046_create_questions_table","batch":"1"},
+{"id":"17","migration":"2023_10_27_181526_create_question_options_table","batch":"1"},
+{"id":"18","migration":"2023_10_29_225643_create_read_and_answers_table","batch":"1"}
 ]
 }
 ,{"type":"table","name":"modules","database":"keyeduau_muhamad","data":
@@ -358,7 +359,7 @@
 {"id":"98","assessment_id":"46","name":"Kasandra Ruecker","slug":"kasandra-ruecker","description":"Necessitatibus sunt omnis iste sapiente id. Dolore ab eos dolorem vel recusandae occaecati. Velit in iusto modi consequatur maxime non repudiandae. At voluptatibus id quas.","material":"riiwhs205e-control-traffic-with-a-stop-slow-bat-thamelmartcom-ZMh6GVoY92a3yKx1.pdf","created_at":"2023-10-27 07:14:07","updated_at":"2023-10-27 07:14:07","deleted_at":null},
 {"id":"99","assessment_id":"77","name":"Alfonzo Zemlak","slug":"alfonzo-zemlak","description":"Accusantium quo assumenda culpa sapiente. Enim et autem corrupti est consectetur nulla fugit similique. Sequi aliquam consequatur dolorem vel omnis. Odit sed provident quas et aut dicta qui.","material":"riiwhs205e-control-traffic-with-a-stop-slow-bat-thamelmartcom-ZMh6GVoY92a3yKx1.pdf","created_at":"2023-10-27 07:14:07","updated_at":"2023-10-27 07:14:07","deleted_at":null},
 {"id":"100","assessment_id":"79","name":"Rudolph Miller","slug":"rudolph-miller","description":"Ut fuga sint odit hic quidem voluptates ipsa. Quis qui dolor enim quod non laborum. Aut dolor ad aliquid. Distinctio dicta dolorum id at ut.","material":"riiwhs205e-control-traffic-with-a-stop-slow-bat-thamelmartcom-ZMh6GVoY92a3yKx1.pdf","created_at":"2023-10-27 07:14:07","updated_at":"2023-10-27 07:14:07","deleted_at":null},
-{"id":"101","assessment_id":"62","name":"test module","slug":"test-module","description":"test","material":"miss-hertha-hegmann-phd-test-module-CpGxDdLOr95Bi6WH.pdf","created_at":"2023-10-28 00:46:25","updated_at":"2023-10-28 00:46:25","deleted_at":null}
+{"id":"101","assessment_id":"62","name":"test module","slug":"test-module","description":"test","material":"miss-hertha-hegmann-phd-test-module-wKpm3Zloj1QfXouR.pdf","created_at":"2023-10-30 01:23:51","updated_at":"2023-10-30 01:23:51","deleted_at":null}
 ]
 }
 ,{"type":"table","name":"pages","database":"keyeduau_muhamad","data":
@@ -402,17 +403,22 @@
 }
 ,{"type":"table","name":"questions","database":"keyeduau_muhamad","data":
 [
-
+{"id":"9a7d4a41-4b00-4188-9a2d-fd5cc476776b","module_id":"101","body":"test","order":"0","type":"1","created_at":"2023-10-30 01:24:33","updated_at":"2023-10-30 01:24:33","deleted_at":null}
 ]
 }
 ,{"type":"table","name":"question_options","database":"keyeduau_muhamad","data":
+[
+{"id":"9a7d4a41-54cc-4544-aefb-e26dcc9a16f8","question_id":"9a7d4a41-4b00-4188-9a2d-fd5cc476776b","body":"{\"option1\":\"test\",\"option2\":\"test\",\"option3\":\"test\",\"option4\":\"test\"}","is_correct":"option1","created_at":"2023-10-30 01:24:33","updated_at":"2023-10-30 01:25:16"}
+]
+}
+,{"type":"table","name":"read_and_answers","database":"keyeduau_muhamad","data":
 [
 
 ]
 }
 ,{"type":"table","name":"students","database":"keyeduau_muhamad","data":
 [
-{"id":"6","name":"Max Rogers","key":"traffic-management-289693","username":"traffic-management","email":"student@student.com","email_verified_at":null,"password":"$2y$10$r5PzlbBMe5JwyTjF7V381eevC2vBAT9fPquHLyCx6iXOPCmZ\/9.ve","remember_token":null,"pdf":"storage\/files\/students\/traffic-management-289693.pdf","display_order":"0","status":"1","extra":null,"created_at":"2022-07-03 04:28:35","updated_at":"2023-10-21 21:06:04"},
+{"id":"6","name":"Max Rogers","key":"traffic-management-289693","username":"traffic-management","email":"student@student.com","email_verified_at":null,"password":"$2a$12$TRFNT29FDgx.TVjm0\/.jB.jlYqBkx0XsgUjcRxMOtHRMnTlUTrcw2","remember_token":null,"pdf":"storage\/files\/students\/traffic-management-289693.pdf","display_order":"0","status":"1","extra":null,"created_at":"2022-07-03 04:28:35","updated_at":"2023-10-21 21:06:04"},
 {"id":"9","name":"Marcel Khalife","key":"marcel-khalife-029775","username":"marcel-khalife","email":"smitham.anjali@halvorson.org","email_verified_at":null,"password":"$2y$10$bCuxs3HWTebieMiRlR.aL.QnavKqqqYFSmGF9LlZPdnjkeDAJucQm","remember_token":null,"pdf":"storage\/files\/students\/marcel-khalife-029775.pdf","display_order":"0","status":"1","extra":null,"created_at":"2022-08-02 07:32:27","updated_at":"2022-08-02 07:32:27"},
 {"id":"10","name":"Sidrak Dinkneh","key":"sidrak-dinkneh-104540","username":"sidrak-dinkneh","email":"schaefer.tressie@yahoo.com","email_verified_at":null,"password":"$2y$10$\/C4lkDZbKVfwdi0ZAprBGOFmO0cfWYggoiWFVu5NsqhPeHio48Aam","remember_token":null,"pdf":"storage\/files\/students\/sidrak-dinkneh-104540.pdf","display_order":"0","status":"1","extra":null,"created_at":"2022-08-02 08:22:32","updated_at":"2022-08-02 08:22:32"},
 {"id":"11","name":"Abdihakin Mohamed","key":"abdihakin-mohamed-833498","username":"abdihakin-mohamed","email":"lizzie77@hotmail.com","email_verified_at":null,"password":"$2y$10$1oQLAz2nEuKG7\/DIWexP1.N0Y9aoTS1cQlb\/NoBW5WVEFiKHSHBaG","remember_token":null,"pdf":"storage\/files\/students\/abdihakin-mohamed-833498.pdf","display_order":"0","status":"1","extra":null,"created_at":"2022-08-02 08:30:55","updated_at":"2022-08-02 08:30:55"},
@@ -525,8 +531,7 @@
 {"id":"146","name":"Ali Abubaker Roller","key":"ali-abubaker-roller-181693","username":"ali-abubaker-roller","email":"melyna54@gmail.com","email_verified_at":null,"password":"$2y$10$yp8vC.tg\/5QXeCsZuGRCau0o7GsWoKVC5atPLTFZ3zxZrBFg0txWW","remember_token":null,"pdf":"storage\/files\/students\/ali-abubaker-roller-181693.pdf","display_order":"0","status":"1","extra":null,"created_at":"2023-09-01 00:37:25","updated_at":"2023-09-01 00:37:25"},
 {"id":"148","name":"Ross D'Aspromonte","key":"ross-daspromonte-710242","username":"ross-daspromonte","email":"lmueller@hotmail.com","email_verified_at":null,"password":"$2y$10$SlwzafFXKiU8olHPSR0wleHs8dpxPUpBSyTzdG8VLzsSWKIAkJ6vK","remember_token":null,"pdf":"storage\/files\/students\/ross-daspromonte-710242.pdf","display_order":"0","status":"1","extra":null,"created_at":"2023-09-01 00:51:14","updated_at":"2023-09-01 00:51:14"},
 {"id":"149","name":"Corey Matthews","key":"corey-matthews-435296","username":"corey-matthews","email":"roberts.oswaldo@lubowitz.biz","email_verified_at":null,"password":"$2y$10$C7k6tiZycD78qEvbKHQKVOrqRBkxyJVLvGiX0qG7cA3JPtbTEmkTG","remember_token":null,"pdf":"storage\/files\/students\/corey-matthews-435296.pdf","display_order":"0","status":"1","extra":null,"created_at":"2023-09-17 23:46:13","updated_at":"2023-09-17 23:46:13"},
-{"id":"150","name":"Susant Paudel","key":"susant-paudel-829274","username":"susant-paudel-829274","email":"susant-paudel-829274@student.com","email_verified_at":null,"password":"$2y$10$HbedcQacmSJNs6RKdPzhW.\/I.wp2seENLKaIgIlwFCW6ljRq7cto.","remember_token":null,"pdf":"storage\/files\/students\/susant-paudel-829274.pdf","display_order":"0","status":"1","extra":null,"created_at":"2023-10-18 18:22:11","updated_at":"2023-10-18 18:22:11"},
-{"id":"151","name":"Shane Jackson","key":"shane-jackson","username":"shane-jackson","email":"shanejackson15@yahoo.com.au","email_verified_at":null,"password":"$2y$10$CS5T4ZyuT9hNC2m5AQnnlORNX.KeZRI2ODZks0Gw7AVCUCX0NBq16","remember_token":null,"pdf":null,"display_order":"0","status":"1","extra":null,"created_at":"2023-10-28 22:55:16","updated_at":"2023-10-28 22:55:16"}
+{"id":"150","name":"Susant Paudel","key":"susant-paudel-829274","username":"susant-paudel-829274","email":"susant-paudel-829274@student.com","email_verified_at":null,"password":"$2y$10$HbedcQacmSJNs6RKdPzhW.\/I.wp2seENLKaIgIlwFCW6ljRq7cto.","remember_token":null,"pdf":"storage\/files\/students\/susant-paudel-829274.pdf","display_order":"0","status":"1","extra":null,"created_at":"2023-10-18 18:22:11","updated_at":"2023-10-18 18:22:11"}
 ]
 }
 ,{"type":"table","name":"users","database":"keyeduau_muhamad","data":
