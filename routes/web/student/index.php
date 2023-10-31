@@ -15,4 +15,6 @@ Route::controller(DashboardController::class)
     ->middleware('auth:student')
     ->group(function () {
         Route::get('/', 'index')->name('dashboard');
+        Route::get('/course/{course}', 'courseCover')->name('courseCover');
+        Route::get('/course/{course}/assessment/{assessment}', 'startExam')->name('startExam');
     });

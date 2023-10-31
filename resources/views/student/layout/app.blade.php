@@ -82,6 +82,7 @@
         </div>
         <div class="menu-sidebar__content js-scrollbar1">
             <nav class="navbar-sidebar pt-3">
+                <p>Welcome {{auth()->user()->name}}</p>
                 <ul class="list-unstyled navbar__list">
                     <li class="@yield('dashboard')">
                         <a href="{{ route('student.dashboard') }}">
