@@ -206,6 +206,7 @@ class PaymentController extends Controller
 
         $courses = [];
         $total = 0;
+
         foreach ($cart as $cartItem){
             $slug = $cartItem['slug'];
             $course = Course::query()->where('slug', $slug)->first();
@@ -220,12 +221,12 @@ class PaymentController extends Controller
             $courses[] = $item;
             $course->students()->sync($userDetails['student_id']);
         }
-        Mail::to($userDetails['email'])->send(
-            new PaymentSuccess($courses, $userDetails, $paymentMethod, $total)
-        );
-        Mail::to(config('app.email'))->send(
-            new PaymentNotification($courses, $userDetails, $paymentMethod, $total)
-        );
+//        Mail::to($userDetails['email'])->send(
+//            new PaymentSuccess($courses, $userDetails, $paymentMethod, $total)
+//        );
+//        Mail::to(config('app.email'))->send(
+//            new PaymentNotification($courses, $userDetails, $paymentMethod, $total)
+//        );
         Session::forget('user-checkout-details');
         Session::forget('cart');
         Session::forget('payment_method');
