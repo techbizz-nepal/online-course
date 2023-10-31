@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\DTO\StudentData;
 use App\Models\Student;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
@@ -19,7 +20,7 @@ class StudentSeeder extends Seeder
         if (!Student::query()->count() && $rows) {
             Arr::map($rows, function ($row) {
                 if ($row['email'] === "student@student.com") {
-                    $row["password"] = bcrypt("student123");
+                    $row["password"] = bcrypt(StudentData::DEFAULT_PASSWORD);
                 }
                 DB::table("students")->insert($row);
             });
