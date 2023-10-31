@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Mail\PaymentNotification;
 use App\Mail\PaymentSuccess;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Models\Course;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Omnipay\Omnipay;
@@ -42,7 +45,7 @@ class PaymentController extends Controller
                 'description' => 'Course Code: '.$course->course_code,
                 'quantity' => 1
             ];
-            array_push($items, $item);
+            $items[] = $item;
         }
         try {
             $gateway = Omnipay::create('PayPal_Rest');
@@ -93,7 +96,7 @@ class PaymentController extends Controller
 
         $checkOutEndPoint = $baseURL."/checkouts";
         $chargeEndPoint = $baseURL."/charges";
-        
+
         // dd($api_key, $baseURL, $checkOutEndPoint);
         $userDetails = Session::get('user-checkout-details');
 
@@ -121,7 +124,7 @@ class PaymentController extends Controller
                 'item_uri' => route('course', $course),
                 'image_uri' => asset('storage/images/courses/'.$course->image),
             ];
-            array_push($items, $item);
+            $items[] = $item;
         }
         $uniqueID = uniqid();
         $order = [
@@ -205,7 +208,7 @@ class PaymentController extends Controller
         $total = 0;
         foreach ($cart as $cartItem){
             $slug = $cartItem['slug'];
-            $course = Course::where('slug', $slug)->first();
+            $course = Course::query()->where('slug', $slug)->first();
             $booking_date = $cartItem['booking_date'];
             $item = [
                 'name' => $course->title,
@@ -214,7 +217,8 @@ class PaymentController extends Controller
                 'booking_date' => $booking_date
             ];
             $total = floatval($course->price) + $total;
-            array_push($courses, $item);
+            $courses[] = $item;
+            $course->students()->sync($userDetails['student_id']);
         }
         Mail::to($userDetails['email'])->send(
             new PaymentSuccess($courses, $userDetails, $paymentMethod, $total)

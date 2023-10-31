@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class PurchaseController extends Controller
@@ -47,13 +48,15 @@ class PurchaseController extends Controller
         $userDetails = $this->validateRequest($request);
         $studentData = $this->getDtoFromUserDetails($userDetails);
         try {
-            Student::query()->create($studentData->getStudentRow());
-            // TODO make authenticated this user
+            $studentData = Student::query()->create($studentData->getStudentRow());
             $userDetails['model_created'] = true;
+            $userDetails['student_id'] = $studentData->getAttribute('id');
+            Log::info('while purchase: ',$studentData->toArray());
             Session::put('user-checkout-details', $userDetails);
             return redirect()->route('payment');
         } catch (\Exception $exception) {
-            return back()->withErrors(['error' => $exception->getMessage()])->withInput();
+            Log::error('while creating student: ', [$exception->getMessage()]);
+            return back()->withErrors(['error' => "Request Failed. Contact Developer"])->withInput();
         }
     }
 
