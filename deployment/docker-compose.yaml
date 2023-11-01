@@ -12,7 +12,7 @@ services:
     ports:
       - '80:80'
     volumes:
-      - ./src:/var/www
+      - ./../:/var/www
       - ./nginx/log:/var/log/nginx
     networks:
       - backend
