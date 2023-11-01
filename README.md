@@ -1,4 +1,4 @@
-# Validate .env content inside : deployment/
+## Validate .env content inside : deployment/
 ```
 PROJECT_NAME=keyeduau
 USER=apache
@@ -13,39 +13,32 @@ NGINX_SITES_PATH=./nginx/sites/
 NGINX_PHP_UPSTREAM_CONTAINER=php-fpm
 NGINX_PHP_UPSTREAM_PORT=9000
 NGINX_SSL_PATH=./nginx/ssl/
-
-
 TIMEZONE=UTC
-
 REDIS_PORT=6379
-
 PUID=1000 // linux user id
 PGID=1000 // linux usergroup id
 ```
-# Build Images
-
+## Build Images
 ``` 
 docker-compose -f ./deployment/docker-compose.yaml build
 ```
-# Run App
+## Run App
 ```
 docker-compose -f ./deployment/docker-compose.yaml up -d
 ```
-
-# Initialize Pest
-
+## Initialize Composer packages
+```
+docker-compose -f ./deployment/docker-compose.yaml exec composer install
+```
+## Initialize Pest
 ```
 ./vendor/bin/pest --init
 ```
-
-# Run Test
-
+## Run Test
 ```
 ./vendor/bin/pest
 ```
-
-# Create new Test
-
+## Create new Test
 ```
 php artisan pest:test TodoTest --unit
 ```
