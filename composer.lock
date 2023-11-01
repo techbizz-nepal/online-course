@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cebbdb2b4d56e419aee3ec46c1abde83",
+    "content-hash": "8f07e31604d89a4f668d9d1bf74d6376",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -7089,109 +7089,6 @@
             "time": "2023-10-12T18:45:56+00:00"
         },
         {
-            "name": "techbizz/questionnaire-module",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "/var/packages/questionnaire-module",
-                "reference": "1d00ba44659be0374dec74d1fcf32026e9eb0053"
-            },
-            "require": {
-                "illuminate/contracts": "^10.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.14.0"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.0",
-                "nunomaduro/collision": "^7.8",
-                "nunomaduro/larastan": "^2.0.1",
-                "orchestra/testbench": "^8.8",
-                "pestphp/pest": "^2.20",
-                "pestphp/pest-plugin-arch": "^2.0",
-                "pestphp/pest-plugin-laravel": "^2.0",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan-deprecation-rules": "^1.0",
-                "phpstan/phpstan-phpunit": "^1.0",
-                "spatie/laravel-ray": "^1.26"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Techbizz\\QuestionnaireModule\\QuestionnaireModuleServiceProvider"
-                    ],
-                    "aliases": {
-                        "QuestionnaireModule": "Techbizz\\QuestionnaireModule\\Facades\\QuestionnaireModule"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Techbizz\\QuestionnaireModule\\": "src/",
-                    "Techbizz\\QuestionnaireModule\\Database\\Factories\\": "database/factories/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Techbizz\\QuestionnaireModule\\Tests\\": "tests/",
-                    "Workbench\\App\\": "workbench/app/"
-                }
-            },
-            "scripts": {
-                "post-autoload-dump": [
-                    "@composer run prepare"
-                ],
-                "clear": [
-                    "@php vendor/bin/testbench package:purge-questionnaire-module --ansi"
-                ],
-                "prepare": [
-                    "@php vendor/bin/testbench package:discover --ansi"
-                ],
-                "build": [
-                    "@composer run prepare",
-                    "@php vendor/bin/testbench workbench:build --ansi"
-                ],
-                "start": [
-                    "Composer\\Config::disableProcessTimeout",
-                    "@composer run build",
-                    "@php vendor/bin/testbench serve"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "test": [
-                    "vendor/bin/pest"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Susant <techbizznepal@gmail.com>",
-                    "email": "techbizznepal@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "This is my package questionnaire-module",
-            "homepage": "https://github.com/techbizz/questionnaire-module",
-            "keywords": [
-                "laravel",
-                "questionnaire-module",
-                "techbizz"
-            ],
-            "transport-options": {
-                "symlink": false,
-                "relative": false
-            }
-        },
-        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.6",
             "source": {
@@ -10666,9 +10563,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "techbizz/questionnaire-module": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
