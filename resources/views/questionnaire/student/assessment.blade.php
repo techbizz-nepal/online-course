@@ -30,27 +30,29 @@
             <table class="table table-striped table-bordered" style="font-size: small;">
                 <thead>
                 <tr>
-                    <th class="text-center" style="width: 2%;">#</th>
-                    <th class="text-center" style="width: 2%;">Module</th>
-                    <th class="text-center" style="width: 2%;">Status</th>
-                    <th class="text-center" style="width: 2%;">Result</th>
-                    <th class="text-center" style="width: 2%;">Action</th>
+                    <th class="text-center" style="width: 2%;">Questions</th>
+                    <th class="text-center" style="width: 2%;">Answered</th>
+                    <th class="text-center" style="width: 2%;">Incorrect</th>
+                    <th class="text-center" style="width: 2%;">To Review</th>
+                    <th class="text-center" style="width: 2%;">Navigate</th>
                 </tr>
                 </thead>
                 <tbody>
                 @isset($assessment->modules)
                     @foreach($assessment->modules as $module)
                         <tr>
-                            <th style="width: 10%" class="text-center" scope="row">{{$loop->iteration}}</th>
-                            <td style="width: 30%" class="text-center">{{$module['name']}}</td>
                             <td style="width: 30%" class="text-center">
-                                <p>In Progress</p>
-                                <p>9% completed</p>
+                                <p>{{str()->title($module['name'])}}</p>
+                                <p>{{$module->questions->count()}}</p>
                             </td>
-                            <td style="width: 10%" class="text-center">0%</td>
+                            <td style="width: 30%" class="text-center">
+                                <p>9</p>
+                            </td>
+                            <td style="width: 10%" class="text-center">3</td>
+                            <td style="width: 10%" class="text-center">0</td>
                             <td style="width: 20%" class="text-center">
-                                <a href="{{route('student.startExam', [$course, $assessment, $module])}}">
-                                    <button class="btn btn-primary">Start</button>
+                                <a href="{{route('student.moduleStart', [$course, $assessment, $module, $module->qustion])}}">
+                                    <button class="btn btn-primary">go to</button>
                                 </a>
                             </td>
                         </tr>

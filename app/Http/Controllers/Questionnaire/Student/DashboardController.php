@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Questionnaire\Student;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
+use App\Models\Questionnaire\Module;
 use App\Models\Student;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -34,8 +35,13 @@ class DashboardController extends Controller
     {
         $data = [
             'course' => $course,
-            'assessment' => $assessment->load('modules')
+            'assessment' => $assessment,
+            'modules' => $assessment->modules()->with('questions')->get()
         ];
         return view('questionnaire.student.assessment', $data);
+    }
+
+    public function moduleStart(Course $course, Assessment $assessment, Module $module){
+        return [$course->title, $assessment->name, $module->name];
     }
 }
