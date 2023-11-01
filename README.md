@@ -1,4 +1,4 @@
-# Validate .env content: deployment/.env
+# Validate .env content inside : deployment/
 ```
 PROJECT_NAME=keyeduau
 USER=apache
