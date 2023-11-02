@@ -15,9 +15,9 @@ class MetaTagPageSeeder extends Seeder
     public function run(): void
     {
         $rows = Arr::get(Arr::keyBy(File::json(database_path('data/keyeduau_muhamad.json')), 'name'), 'meta_tag_page')['data'];
-        if (!DB::table('meta_tag_page')->count() && $rows) {
+        if (! DB::table('meta_tag_page')->count() && $rows) {
             Arr::map($rows, function ($row) {
-                DB::table("meta_tag_page")->insert($row);
+                DB::table('meta_tag_page')->insert($row);
             });
         }
     }

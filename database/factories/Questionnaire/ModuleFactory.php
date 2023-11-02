@@ -25,7 +25,7 @@ class ModuleFactory extends Factory
             'name' => $this->faker->name,
             'assessment_id' => $randomAssessmentId,
             'description' => $this->faker->paragraph,
-            'material' => 'riiwhs205e-control-traffic-with-a-stop-slow-bat-thamelmartcom-ZMh6GVoY92a3yKx1.pdf'
+            'material' => 'riiwhs205e-control-traffic-with-a-stop-slow-bat-thamelmartcom-ZMh6GVoY92a3yKx1.pdf',
         ]);
 
         return $data->toArray();

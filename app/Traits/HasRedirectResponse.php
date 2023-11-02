@@ -6,7 +6,6 @@ use Illuminate\Http\RedirectResponse;
 
 trait HasRedirectResponse
 {
-
     public function successRedirectWithParamsResponse(string $routeName, array $routeParams, string $translationKey): RedirectResponse
     {
         return redirect()
@@ -19,11 +18,11 @@ trait HasRedirectResponse
         return redirect()->back()->with('success', __($translationKey));
     }
 
-    public function failureRedirectWithInputResponse(string $translationKey, array $inputArray): RedirectResponse
+    public function failureRedirectWithInputResponse(string $translationKey): RedirectResponse
     {
         return back()
             ->withErrors(['errors' => __(key: $translationKey)])
-            ->withInput($inputArray);
+            ->withInput();
     }
 
     public function failureRedirectResponse(string $translationKey): RedirectResponse

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Questionnaire\Admin;
 
 use App\DTO\Questionnaire\AssessmentData;
-use App\Enums\Questionnaire\QuestionType;
 use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
@@ -17,14 +16,12 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class AssessmentController extends Controller
 {
-    use HasRedirectResponse, HasAttributeRepository;
+    use HasAttributeRepository, HasRedirectResponse;
 
     public function index(): array
     {
@@ -48,15 +45,15 @@ class AssessmentController extends Controller
             DB::rollBack();
             $this->failureRedirectWithInputResponse(
                 translationKey: 'assessment.error.create',
-                inputArray: $assessmentData->toArray()
             );
         }
+
         return $this
             ->successRedirectWithParamsResponse(
                 routeName: 'admin.courses.assessments.modules.create',
                 routeParams: [
                     'course' => $course->getAttribute('slug'),
-                    'assessment' => $newAssessment->getAttribute('slug')
+                    'assessment' => $newAssessment->getAttribute('slug'),
                 ],
                 translationKey: 'assessment.success.create',
             );
@@ -65,6 +62,7 @@ class AssessmentController extends Controller
     public function show(Course $course, Assessment $assessment): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         $data = $this->getAssessmentShowAttributes($course, $assessment);
+
         return view('questionnaire.admin.assessments.show', $data);
     }
 
@@ -79,13 +77,14 @@ class AssessmentController extends Controller
         try {
             QuestionnaireAdmin::updateCourseAssessment($course, $assessmentData);
             DB::commit();
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             DB::rollBack();
+
             return $this->failureRedirectWithInputResponse(
                 translationKey: 'assessment.error.update',
-                inputArray: $assessmentData->toArray()
             );
         }
+
         return $this
             ->successRedirectWithParamsResponse(
                 routeName: 'admin.courses.show',
@@ -96,8 +95,9 @@ class AssessmentController extends Controller
 
     public function destroy(Course $course, Assessment $assessment): RedirectResponse
     {
-        QuestionnaireAdmin::deleteCourseAssessmentMaterial($assessment);
+        QuestionnaireAdmin::deleteAssessmentMaterial($assessment);
         $assessment->delete();
+
         return $this->successRedirectResponse(translationKey: 'assessment.success.delete');
     }
 
@@ -105,12 +105,14 @@ class AssessmentController extends Controller
     {
         try {
             if ($assessment->exists) {
-                QuestionnaireAdmin::deleteCourseAssessmentMaterial($assessment);
+                QuestionnaireAdmin::deleteAssessmentMaterial($assessment);
             }
+
             return response()
-                ->json(QuestionnaireAdmin::uploadCourseAssessmentMaterial($request, $course));
+                ->json(QuestionnaireAdmin::uploadAssessmentMaterial($request, $course));
         } catch (\Exception $exception) {
             Log::error('while uploading assessment material', [$exception->getMessage()]);
+
             return response()->json(['error' => 'Can\'t upload file']);
         }
     }

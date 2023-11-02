@@ -39,7 +39,7 @@ class CourseUpdateRequest extends FormRequest
             'additional_details' => 'max: 1500',
             'detail_image' => 'image | max: 2048',
             'display_order' => 'required | numeric | min: 0',
-            'category_id' => 'required | exists:categories,id'
+            'category_id' => 'required | exists:categories,id',
         ];
     }
 }

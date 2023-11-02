@@ -4,11 +4,11 @@ return [
     'error' => [
         'create' => 'Module creation error',
         'uploadMaterial' => 'Can\'t upload file',
-        'update' => 'Module update error'
+        'update' => 'Module update error',
     ],
     'success' => [
         'create' => 'Module created successfully',
         'delete' => 'Module deleted successfully',
-        'update' => 'Module updated successfully'
-    ]
+        'update' => 'Module updated successfully',
+    ],
 ];

@@ -23,8 +23,13 @@ class AssessmentService extends BaseService implements InterfaceAssessmentServic
 
     public function uploadMaterial(Request $request, Course $course): array
     {
+        $data = $request->validate([
+            'pdfFile' => 'file|mimetypes:application/pdf|max:10000',
+            'name' => 'required|regex:/[A-Za-z0-9_-]+/',
+        ]);
+
         return $this->storeProcess(
-            request: $request,
+            data: $data,
             slug: $course->getAttribute('slug'),
             systemPath: AssessmentData::SYSTEM_PATH);
     }

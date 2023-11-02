@@ -16,9 +16,9 @@ class BookingDateSeeder extends Seeder
     public function run(): void
     {
         $rows = Arr::get(Arr::keyBy(File::json(database_path('data/keyeduau_muhamad.json')), 'name'), 'booking_dates')['data'];
-        if (!BookingDate::query()->count() && $rows) {
+        if (! BookingDate::query()->count() && $rows) {
             Arr::map($rows, function ($row) {
-                DB::table("booking_dates")->insert($row);
+                DB::table('booking_dates')->insert($row);
             });
         }
     }

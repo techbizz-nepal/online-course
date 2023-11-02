@@ -9,6 +9,6 @@ return [
     'success' => [
         'create' => 'Assessment created successfully',
         'update' => 'Assessment updated successfully',
-        'delete' => 'Assessment deleted successfully'
-    ]
+        'delete' => 'Assessment deleted successfully',
+    ],
 ];

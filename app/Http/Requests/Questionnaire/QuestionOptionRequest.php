@@ -23,11 +23,11 @@ class QuestionOptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "option1" => ["required", "string"],
-            "option2" => ["required", "string"],
-            "option3" => ["required", "string"],
-            "option4" => ["required", "string"],
-            "is_correct" => ["required", "string"]
+            'option1' => ['required', 'string'],
+            'option2' => ['required', 'string'],
+            'option3' => ['required', 'string'],
+            'option4' => ['required', 'string'],
+            'is_correct' => ['required', 'string'],
         ];
     }
 }

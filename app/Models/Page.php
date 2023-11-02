@@ -11,11 +11,13 @@ class Page extends Model
 
     protected $guarded = [];
 
-    public function metaTags(){
+    public function metaTags()
+    {
         return $this->belongsToMany(MetaTag::class);
     }
 
-    public function course(){
+    public function course()
+    {
         return $this->belongsTo(Course::class);
     }
 }

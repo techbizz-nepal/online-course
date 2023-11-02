@@ -7,13 +7,12 @@ use App\Models\Banner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
 class BannerController extends Controller
 {
-
     public function index()
     {
         $banner = Banner::first();
+
         return view('admin.banners.index', compact('banner'));
     }
 
@@ -46,7 +45,7 @@ class BannerController extends Controller
         ]);
         DB::beginTransaction();
         try {
-            if ($request->has('banner_image')){
+            if ($request->has('banner_image')) {
                 $image = $request->file('banner_image');
                 $imageName = 'banner-'.uniqid().'.'.$image->extension();
                 $image->move(storage_path('app/public/images/banners'), $imageName);
@@ -56,10 +55,12 @@ class BannerController extends Controller
             $banner->update($data);
 
             DB::commit();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
+
             return back()->withErrors('Failed to edit banner');
         }
+
         return redirect()->route('admin.banner.index')->with('success', 'Banner Updated Successfully.');
     }
 

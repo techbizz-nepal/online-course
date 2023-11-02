@@ -15,7 +15,9 @@
                 @elseif($question["type"] == $question["types"]["readAndAnswer"])
                     @include('questionnaire.admin.questions.types.read-and-answer.create')
                 @elseif($question["type"] == $question["types"]["describeImage"])
-                    describe image
+                    @include('questionnaire.admin.questions.types.describe-image.create')
+                @elseif($question["type"] == $question["types"]["trueFalse"])
+                    @include('questionnaire.admin.questions.types.true-false.create')
                 @else
                     no question type
                 @endif

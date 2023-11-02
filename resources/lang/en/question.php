@@ -1,13 +1,14 @@
 <?php
+
 return [
-    "error" => [
+    'error' => [
         'create' => 'Question creation error',
         'edit' => 'Question update error',
-        'delete' => 'Question deletion error'
+        'delete' => 'Question deletion error',
     ],
-    "success" => [
+    'success' => [
         'create' => 'Question created successfully',
         'edit' => 'Question updated successfully',
-        'delete' => 'Question deleted successfully'
-    ]
+        'delete' => 'Question deleted successfully',
+    ],
 ];

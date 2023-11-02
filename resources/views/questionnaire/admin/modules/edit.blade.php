@@ -9,7 +9,7 @@
             <form
                 action="{{ route('admin.courses.assessments.modules.update', ['course'=>$course->slug, 'assessment'=>$assessment, 'module' => $module]) }}"
                 method="POST"
-                id="courseForm" enctype="multipart/form-data">
+                id="moduleForm" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
                 <div class="form-group row">

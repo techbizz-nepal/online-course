@@ -54,14 +54,6 @@ choose.forEach((value) => {
 })
 
 /************************** read and answer part ********************************************/
-const addBtnEl = document.getElementById("add-question")
-let questionCount = 0
-addBtnEl.addEventListener('click', (event) => {
-    event.preventDefault()
-    questionCount++
-    addBtnEl.parentNode.appendChild(wrapperDivEl(questionCount))
-})
-
 const wrapperDivEl = (numberCount) => {
     const el = document.createElement("div")
     el.setAttribute("class", `form-group row`)
