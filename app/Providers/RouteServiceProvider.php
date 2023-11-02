@@ -66,7 +66,7 @@ class RouteServiceProvider extends ServiceProvider
 
     private function questionnaireRoutes(): void
     {
-        Route::middleware('web')
+        Route::middleware(['web', 'auth'])
             ->prefix('admin')
             ->name('admin.')
             ->namespace($this->namespace)
