@@ -12,10 +12,12 @@ use Illuminate\Http\Request;
 
 class ReadAndAnswer extends BaseType implements InterfaceType
 {
+    public const TYPE = QuestionType::READ_AND_ANSWER;
+
     public function validated(Request $request): array
     {
         return $request->validate([
-            "questions.*" => ["required", "string"]
+            'questions.*' => ['required', 'string'],
         ]);
     }
 
@@ -31,11 +33,12 @@ class ReadAndAnswer extends BaseType implements InterfaceType
 
     public function deleteProcess(Question $question): void
     {
-        // TODO: Implement deleteProcess() method.
+        $question->readAndAnswer()->delete();
+        $question->delete();
     }
 
     public function getTypeValue(): string
     {
-        return QuestionType::READ_AND_ANSWER->value;
+        return self::TYPE->value;
     }
 }

@@ -12,8 +12,9 @@ class QuestionOption extends Model
     use HasFactory, HasUuids;
 
     protected $guarded = [];
+
     protected $casts = [
-        "body" => 'array'
+        'body' => 'array',
     ];
 
     public function question(): BelongsTo

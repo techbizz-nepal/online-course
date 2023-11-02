@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DTO\Questionnaire\CourseData;
 use App\DTO\StudentData;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
@@ -36,8 +35,9 @@ class StudentController extends Controller
         $viewData = [
             'students' => $students,
             'next_page_url' => $students->nextPageUrl(),
-            'prev_page_url' => $students->previousPageUrl()
+            'prev_page_url' => $students->previousPageUrl(),
         ];
+
         return view('admin.students.index', $viewData);
     }
 
@@ -50,30 +50,32 @@ class StudentController extends Controller
     {
         $data = $request->validate([
             'name' => 'required | min: 1 | max: 250',
-            "pdf" => "required|mimes:pdf|max:10000",
-            'email' => 'required|regex:/^.+@.+$/i'
+            'pdf' => 'required|mimes:pdf|max:10000',
+            'email' => 'required|regex:/^.+@.+$/i',
         ]);
         DB::beginTransaction();
         try {
             $uniqueKey = generate_random_key();
-            $key = Str::slug($data['name'] . " " . $uniqueKey);
+            $key = Str::slug($data['name'].' '.$uniqueKey);
 
             $pdf = $request->file('pdf');
-            $pdfName = $key . '.' . $pdf->extension();
+            $pdfName = $key.'.'.$pdf->extension();
             $pdf->move(storage_path(StudentData::SYSTEM_PATH), $pdfName);
             $data['key'] = $key;
-            $data['pdf'] = sprintf("%s/%s", StudentData::PUBLIC_PATH, $pdfName);
+            $data['pdf'] = sprintf('%s/%s', StudentData::PUBLIC_PATH, $pdfName);
             $data['username'] = $key;
             $data['password'] = bcrypt('student123');
             $newStudent = tap(Student::query()->create($data))->target;
             $newStudent->setAttribute('password', bcrypt(StudentData::DEFAULT_PASSWORD));
-//            Mail::to($newStudent->email)->queue(new StudentCreated($newStudent));
+            //            Mail::to($newStudent->email)->queue(new StudentCreated($newStudent));
             DB::commit();
-            return redirect()->route('admin.student.index')->with('success', "Student Created Successfully");
+
+            return redirect()->route('admin.student.index')->with('success', 'Student Created Successfully');
         } catch (Exception $exception) {
             DB::rollBack();
             Log::info('while adding student', [$exception->getMessage()]);
-            return back()->withErrors("Failed to add student.");
+
+            return back()->withErrors('Failed to add student.');
         }
     }
 
@@ -87,7 +89,7 @@ class StudentController extends Controller
         $data = $request->validate([
             'name' => 'required | min: 1 | max: 250',
             'pdf' => 'file|nullable|mimetypes:application/pdf|max:10000',
-            'email' => 'required|regex:/^.+@.+$/i'
+            'email' => 'required|regex:/^.+@.+$/i',
         ]);
         DB::beginTransaction();
         try {
@@ -98,35 +100,37 @@ class StudentController extends Controller
                     File::delete(storage_path($getSystemPath));
                 }
                 $pdf = $request->file('pdf');
-                $pdfName = $key . '.' . $pdf->extension();
+                $pdfName = $key.'.'.$pdf->extension();
                 $pdf->move(storage_path(StudentData::SYSTEM_PATH), $pdfName);
-                $data['pdf'] = sprintf("%s/%s", StudentData::PUBLIC_PATH, $pdfName);
+                $data['pdf'] = sprintf('%s/%s', StudentData::PUBLIC_PATH, $pdfName);
             }
             $student->update($data);
             DB::commit();
-            return redirect()->route('admin.student.index')->with('success', "Student Updated Successfully");
+
+            return redirect()->route('admin.student.index')->with('success', 'Student Updated Successfully');
         } catch (Exception $exception) {
             DB::rollBack();
-            return back()->withErrors("Failed to update student.");
+
+            return back()->withErrors('Failed to update student.');
         }
     }
 
     public function downloadQR(Student $student)
     {
         $url = asset($student->pdf);
-        $headers = array('Content-Type' => ['svg']);
-        $imageName = 'qr-code-' . uniqid() . generate_random_key();
+        $headers = ['Content-Type' => ['svg']];
+        $imageName = 'qr-code-'.uniqid().generate_random_key();
         $image = QrCode::format('svg')->size(200)->generate($url);
 
-        Storage::disk("public")->put($imageName, $image);
+        Storage::disk('public')->put($imageName, $image);
 
-        return response()->download('storage/' . $imageName, $imageName . '.svg', $headers)->deleteFileAfterSend();
+        return response()->download('storage/'.$imageName, $imageName.'.svg', $headers)->deleteFileAfterSend();
     }
 
     public function destroy(Student $student)
     {
         $student->delete();
+
         return back()->with('success', 'Item Deleted Successfully');
     }
-
 }

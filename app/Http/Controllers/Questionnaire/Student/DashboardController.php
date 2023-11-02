@@ -18,16 +18,18 @@ class DashboardController extends Controller
     public function index()
     {
         $data = [
-            'student' => Student::query()->with('courses')->find(Auth::id())
+            'student' => Student::query()->with('courses')->find(Auth::id()),
         ];
+
         return view('questionnaire.student.index', $data);
     }
 
     public function courseCover(Request $request, Course $course): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         $data = [
-            'course' => $course->load('assessments')
+            'course' => $course->load('assessments'),
         ];
+
         return view('questionnaire.student.course', $data);
     }
 
@@ -36,12 +38,14 @@ class DashboardController extends Controller
         $data = [
             'course' => $course,
             'assessment' => $assessment,
-            'modules' => $assessment->modules()->with('questions')->get()
+            'modules' => $assessment->modules()->with('questions')->get(),
         ];
+
         return view('questionnaire.student.assessment', $data);
     }
 
-    public function moduleStart(Course $course, Assessment $assessment, Module $module){
+    public function moduleStart(Course $course, Assessment $assessment, Module $module)
+    {
         return [$course->title, $assessment->name, $module->name];
     }
 }

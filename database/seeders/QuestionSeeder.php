@@ -2,16 +2,20 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Questionnaire\Question;
 use Illuminate\Database\Seeder;
 
 class QuestionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    const TABLE_NAME = 'questions';
+
+    public function __construct(private Question $model)
+    {
+        $this->model = new Question();
+    }
+
     public function run(): void
     {
-        //
+        $this->model->factory()->count(200)->create();
     }
 }

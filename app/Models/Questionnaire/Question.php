@@ -12,7 +12,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Question extends Model
 {
-    use HasFactory, HasRelationships, SoftDeletes, HasUuids;
+    use HasFactory, HasRelationships, HasUuids, SoftDeletes;
 
     protected $guarded = [];
 
@@ -28,6 +28,16 @@ class Question extends Model
 
     public function readAndAnswer(): HasOne
     {
-        return $this->hasOne(ReadAndAnswer::class);
+        return $this->hasOne(QuestionReadAndAnswer::class);
+    }
+
+    public function trueFalse(): HasOne
+    {
+        return $this->hasOne(QuestionTrueFalse::class);
+    }
+
+    public function describeImage(): HasOne
+    {
+        return $this->hasOne(QuestionDescribeImage::class);
     }
 }

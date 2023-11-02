@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('read_and_answers', function (Blueprint $table) {
+        Schema::create('question_describe_images', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('question_id')->constrained();
-            $table->json('body');
+            $table->string('image_path');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('read_and_answers');
+        Schema::dropIfExists('question_describe_images');
     }
 };

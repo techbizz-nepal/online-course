@@ -25,6 +25,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
+        "laravel/pint": "^1.13",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^7.0",
@@ -50,8 +51,11 @@
         }
     },
     "scripts": {
+        "format": [
+           "./vendor/bin/pint"
+        ],
         "test": [
-            "./vendor/bin/pest"
+            "./vendor/bin/pest --parallel"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

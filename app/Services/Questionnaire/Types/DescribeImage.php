@@ -3,7 +3,9 @@
 namespace App\Services\Questionnaire\Types;
 
 use App\DTO\Questionnaire\QuestionData;
+use App\DTO\Questionnaire\QuestionDescribeImageData;
 use App\Enums\Questionnaire\QuestionType;
+use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Model;
@@ -11,28 +13,39 @@ use Illuminate\Http\Request;
 
 class DescribeImage extends BaseType implements InterfaceType
 {
+    public const TYPE = QuestionType::DESCRIBE_IMAGE;
+
     public function validated(Request $request): array
     {
-        return ['describe image'];
+        return $request->validate([
+            'image_path' => ['string', 'required'],
+        ]);
     }
 
     public function storeProcess(array $validated, Module $module, QuestionData $questionData): Model
     {
-        // TODO: Implement storeProcess() method.
+        $question = tap(QuestionnaireAdmin::createQuestion($module, $questionData))->target;
+        $questionDescribeImageData = QuestionDescribeImageData::from($validated);
+
+        return QuestionnaireAdmin::createQuestionDescribeImage($question, $questionDescribeImageData);
     }
 
     public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model
     {
-        // TODO: Implement updateProcess() method.
+        QuestionnaireAdmin::updateQuestion($question, $questionData);
+        $questionDescribeImageData = QuestionDescribeImageData::from($validated);
+
+        return QuestionnaireAdmin::updateQuestionDescribeImage($question, $questionDescribeImageData);
     }
 
     public function deleteProcess(Question $question): void
     {
-        // TODO: Implement deleteProcess() method.
+        $question->describeImage()->delete();
+        $question->delete();
     }
 
     public function getTypeValue(): string
     {
-        return QuestionType::DESCRIBE_IMAGE->value;
+        return self::TYPE->value;
     }
 }

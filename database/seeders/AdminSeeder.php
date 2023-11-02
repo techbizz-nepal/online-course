@@ -13,9 +13,9 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         $rows = Arr::get(Arr::keyBy(File::json(database_path('data/keyeduau_muhamad.json')), 'name'), 'users')['data'];
-        if (!User::query()->count() && $rows) {
+        if (! User::query()->count() && $rows) {
             Arr::map($rows, function ($row) {
-                DB::table("users")->insert($row);
+                DB::table('users')->insert($row);
             });
         }
     }

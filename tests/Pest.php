@@ -11,12 +11,13 @@
 |
 */
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(
     Tests\TestCase::class,
- RefreshDatabase::class,
-//    \Illuminate\Foundation\Testing\DatabaseMigrations::class
+    RefreshDatabase::class,
+    DatabaseMigrations::class,
 )->in('Feature');
 
 /*

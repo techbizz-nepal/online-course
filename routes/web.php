@@ -38,6 +38,3 @@ Route::get('/test', function () {
     dd(session()->get('user-checkout-details'));
     dd(session()->get('tacs'));
 });
-
-
-

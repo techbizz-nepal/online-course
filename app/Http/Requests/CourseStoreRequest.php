@@ -38,7 +38,7 @@ class CourseStoreRequest extends FormRequest
             'course_duration' => 'max: 1500',
             'additional_details' => 'max: 1500',
             'detail_image' => 'required | image | max: 2048',
-            'category_id' => 'required | exists:categories,id'
+            'category_id' => 'required | exists:categories,id',
         ];
     }
 }

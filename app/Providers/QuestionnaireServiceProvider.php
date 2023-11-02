@@ -47,6 +47,6 @@ class QuestionnaireServiceProvider extends ServiceProvider
                 $app->make(InterfaceQuestionService::class)
             );
         });
-        $this->app->singleton('student-service', fn() => new StudentService());
+        $this->app->singleton('student-service', fn () => new StudentService());
     }
 }

@@ -8,7 +8,9 @@ use Illuminate\Support\Str;
 class StudentData
 {
     const SYSTEM_PATH = 'app/public/files/students';
+
     const PUBLIC_PATH = 'storage/files/students';
+
     public function __construct(
         public string $first_name,
         public string $surname,
@@ -20,15 +22,14 @@ class StudentData
         public string $street_name,
         public string $suburb,
         public string $post,
-    )
-    {
+    ) {
     }
 
     public const DEFAULT_PASSWORD = 'student123';
 
     public function getName(): string
     {
-        return sprintf("%s %s", $this->first_name, $this->surname);
+        return sprintf('%s %s', $this->first_name, $this->surname);
     }
 
     public function getSlug(): string
@@ -43,8 +44,6 @@ class StudentData
 
     /**
      * it return an array suitable for inserting to Student Model
-     *
-     * @return array
      */
     public function getStudentRow(): array
     {

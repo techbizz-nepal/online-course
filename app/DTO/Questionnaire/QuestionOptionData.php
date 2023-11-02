@@ -11,14 +11,13 @@ class QuestionOptionData extends Data
 {
     public function __construct(
         #[Uuid]
-        public Optional|string       $id,
-        public string|array          $body,
-        public Optional|Carbon|null  $created_at,
-        public Optional|Carbon|null  $updated_at,
-        public Optional|Carbon|null  $deleted_at,
-        public Optional|QuestionData $question_id,
-        public string                $is_correct,
-    )
-    {
+        public Optional|string $id,
+        public array $body,
+        public Optional|Carbon|null $created_at,
+        public Optional|Carbon|null $updated_at,
+        public Optional|Carbon|null $deleted_at,
+        public Optional|string $question_id,
+        public string $is_correct,
+    ) {
     }
 }

@@ -8,20 +8,23 @@ use Illuminate\Support\Facades\Hash;
 
 class PasswordController extends Controller
 {
-    public function showPasswordChangeForm(){
+    public function showPasswordChangeForm()
+    {
         return view('admin.change-password');
     }
 
-    public function change(Request $request){
+    public function change(Request $request)
+    {
         $user = auth()->user();
         $request->validate([
-           'password' => 'required | min: 8 | confirmed'
+            'password' => 'required | min: 8 | confirmed',
         ]);
         $password = Hash::make($request->get('password'));
         $user->update([
-           'password' => $password
+            'password' => $password,
         ]);
         auth()->logout();
+
         return redirect()->route('admin.dashboard');
     }
 }

@@ -11,7 +11,8 @@ class MetaTag extends Model
 
     protected $guarded = [];
 
-    public function pages(){
+    public function pages()
+    {
         return $this->belongsToMany(Page::class);
     }
 }

@@ -40,7 +40,7 @@ class StudentCreated extends Mailable
         return new Content(
             markdown: 'mail.students.created',
             with: [
-                'password' => StudentData::DEFAULT_PASSWORD
+                'password' => StudentData::DEFAULT_PASSWORD,
             ]
         );
     }

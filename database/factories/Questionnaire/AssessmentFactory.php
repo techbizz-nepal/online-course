@@ -25,7 +25,7 @@ class AssessmentFactory extends Factory
             'name' => $this->faker->name,
             'course_id' => $randomCourseId,
             'description' => $this->faker->paragraph,
-            'material' => 'riiwhs205e-control-traffic-with-a-stop-slow-bat-thamelmartcom-ZMh6GVoY92a3yKx1.pdf'
+            'material' => 'riiwhs205e-control-traffic-with-a-stop-slow-bat-thamelmartcom-ZMh6GVoY92a3yKx1.pdf',
         ]);
 
         return $data->toArray();

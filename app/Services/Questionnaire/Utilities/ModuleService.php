@@ -2,7 +2,6 @@
 
 namespace App\Services\Questionnaire\Utilities;
 
-
 use App\DTO\Questionnaire\ModuleData;
 use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
@@ -12,7 +11,6 @@ use Illuminate\Support\Str;
 
 class ModuleService extends BaseService implements InterfaceModuleService
 {
-
     public function create(ModuleData $moduleData, Assessment $assessment): Model
     {
         return $assessment->modules()->create($moduleData->toArray());
@@ -25,10 +23,15 @@ class ModuleService extends BaseService implements InterfaceModuleService
 
     public function uploadMaterial(Request $request, Assessment $assessment): array
     {
+        $data = $request->validate([
+            'pdfFile' => 'file|mimetypes:application/pdf|max:10000',
+            'name' => 'required|regex:/[A-Za-z0-9_-]+/',
+        ]);
+
         return $this->storeProcess(
-            request: $request,
             slug: $assessment->getAttribute('slug'),
-            systemPath: ModuleData::SYSTEM_PATH);
+            systemPath: ModuleData::SYSTEM_PATH,
+            data: $data);
     }
 
     public function deleteMaterial(Module $module): bool
