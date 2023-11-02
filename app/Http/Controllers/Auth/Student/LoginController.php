@@ -15,7 +15,7 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    protected string $redirectTo = '/student';
+    protected string $redirectTo = 'student/login';
 
     public function __construct()
     {

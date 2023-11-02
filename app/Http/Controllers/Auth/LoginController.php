@@ -27,7 +27,7 @@ class LoginController extends Controller
     /**
      * Where to redirect users after login.
      */
-    protected string $redirectTo = '/admin/dashboard';
+    protected string $redirectTo = 'admin/dashboard';
 
     /**
      * Create a new controller instance.
@@ -37,6 +37,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->middleware('guest:web')->except('logout');
     }
 
     protected function guard(): Guard|StatefulGuard
