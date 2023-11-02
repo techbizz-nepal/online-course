@@ -7,10 +7,6 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -30,8 +26,6 @@ class LoginController extends Controller
 
     /**
      * Where to redirect users after login.
-     *
-     * @var string
      */
     protected string $redirectTo = '/admin/dashboard';
 
@@ -44,6 +38,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
     protected function guard(): Guard|StatefulGuard
     {
         return Auth::guard('web');

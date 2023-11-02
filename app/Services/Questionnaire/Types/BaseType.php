@@ -14,50 +14,49 @@ abstract class BaseType
     public function getQuestionCreateAttributes(Request $request, Course $course, Assessment $assessment, Module $module): array
     {
         return [
-            "question" =>
-                [
-                    "type" => in_array($request->get('type'), QuestionType::toArray())
-                        ? $request->get('type')
-                        : QuestionType::CLOSE_ENDED_OPTIONS->value,
-                    "types" =>
-                        [
-                            "closeOption" => QuestionType::CLOSE_ENDED_OPTIONS->value,
-                            "readAndAnswer" => QuestionType::READ_AND_ANSWER->value,
-                            "describeImage" => QuestionType::DESCRIBE_IMAGE->value
-                        ]
+            'question' => [
+                'type' => in_array($request->get('type'), QuestionType::toArray())
+                    ? $request->get('type')
+                    : QuestionType::CLOSE_ENDED_OPTIONS->value,
+                'types' => [
+                    'closeOption' => QuestionType::CLOSE_ENDED_OPTIONS->value,
+                    'readAndAnswer' => QuestionType::READ_AND_ANSWER->value,
+                    'describeImage' => QuestionType::DESCRIBE_IMAGE->value,
+                    'trueFalse' => QuestionType::TRUE_FALSE->value,
                 ],
-            "course" => $course,
-            "assessment" => $assessment,
-            "module" => $module,
-            "routeParams" => [
-                "course" => $course->getAttribute('slug'),
-                "assessment" => $assessment->getAttribute('slug'),
-                "module" => $module->getAttribute('slug'),
-                "type" => $request->get('type')
-            ]
+            ],
+            'course' => $course,
+            'assessment' => $assessment,
+            'module' => $module,
+            'routeParams' => [
+                'course' => $course->getAttribute('slug'),
+                'assessment' => $assessment->getAttribute('slug'),
+                'module' => $module->getAttribute('slug'),
+                'type' => $request->get('type'),
+            ],
         ];
     }
 
-    public function getQuestionEditAttributes(Course $course, Assessment $assessment, Module $module, Question $question): array
+    public function getQuestionEditAttributes(Course $course, Assessment $assessment, Module $module, Question $question, QuestionType $type): array
     {
         return [
-            "course" => $course,
-            "assessment" => $assessment,
-            "module" => $module,
-            "question" => $question->load('option'),
-            "types" =>
-                [
-                    "closeOption" => QuestionType::CLOSE_ENDED_OPTIONS->value,
-                    "readAndAnswer" => QuestionType::READ_AND_ANSWER->value,
-                    "describeImage" => QuestionType::DESCRIBE_IMAGE->value
-                ],
-            "routeParams" => [
-                "course" => $course->getAttribute('slug'),
-                "assessment" => $assessment->getAttribute('slug'),
-                "module" => $module->getAttribute('slug'),
-                "question" => $question->getAttribute("id"),
-                "type" => $question->getAttribute('type')
-            ]
+            'course' => $course,
+            'assessment' => $assessment,
+            'module' => $module,
+            'question' => $question->load(QuestionType::from($type->value)->relation()),
+            'types' => [
+                'closeOption' => QuestionType::CLOSE_ENDED_OPTIONS->value,
+                'readAndAnswer' => QuestionType::READ_AND_ANSWER->value,
+                'describeImage' => QuestionType::DESCRIBE_IMAGE->value,
+                'trueFalse' => QuestionType::TRUE_FALSE->value,
+            ],
+            'routeParams' => [
+                'course' => $course->getAttribute('slug'),
+                'assessment' => $assessment->getAttribute('slug'),
+                'module' => $module->getAttribute('slug'),
+                'question' => $question->getAttribute('id'),
+                'type' => $question->getAttribute('type'),
+            ],
         ];
     }
 }

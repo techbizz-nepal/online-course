@@ -11,8 +11,8 @@ class BookingDate extends Model
 
     protected $guarded = [];
 
-    public function course(){
+    public function course()
+    {
         return $this->belongsTo(Course::class);
     }
-
 }

@@ -8,8 +8,6 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -24,7 +22,12 @@ class DatabaseSeeder extends Seeder
             MetaTagPageSeeder::class,
             BookingDateSeeder::class,
             AssessmentSeeder::class,
-            ModuleSeeder::class
+            ModuleSeeder::class,
+            QuestionSeeder::class,
+            QuestionTrueFalseSeeder::class,
+            QuestionOptionSeeder::class,
+            QuestionReadAndAnswerSeeder::class,
+            QuestionDescribeImageSeeder::class,
         ]);
     }
 }

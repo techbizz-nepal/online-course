@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\{AdminController,
-    BannerController,
-    CategoryController,
-    MetaTagController,
-    PageController,
-    PasswordController,
-    StudentController};
-use Illuminate\Support\Facades\{Auth, Route};
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\MetaTagController;
+use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\PasswordController;
+use App\Http\Controllers\Admin\StudentController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
@@ -18,7 +19,7 @@ Route::resources([
     'category' => CategoryController::class,
     'meta-tag' => MetaTagController::class,
     'page' => PageController::class,
-    'banner' => BannerController::class
+    'banner' => BannerController::class,
 ]);
 Route::resource('student', StudentController::class)->except(['index']);
 Route::get('student/{query?}', [StudentController::class, 'index'])->name('student.index');

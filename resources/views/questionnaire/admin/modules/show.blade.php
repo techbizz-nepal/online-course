@@ -72,10 +72,10 @@
                     @foreach($module->questions as $question)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td class="text-center">{{ $question->body }}</td>
-                            <td class="text-center">{{ \App\Enums\Questionnaire\QuestionType::from($question->type)->value() }}</td>
-                            <td class="text-center">{{ \Carbon\Carbon::parse($question['created_at'])->format('d M Y') }}</td>
-                            <td class="text-left">
+                            <td class="text-center w-25">{{ str()->words($question->body, 20) }}</td>
+                            <td class="text-center w-25">{{ \App\Enums\Questionnaire\QuestionType::from($question->type)->value() }}</td>
+                            <td class="text-center w-25">{{ \Carbon\Carbon::parse($question['created_at'])->format('d M Y') }}</td>
+                            <td class="text-left w-25">
                                 @include('questionnaire.common.list-actions',[
                                 "iteration"=>$loop->iteration,
                                 "editRoute" => ["name"=>"admin.courses.assessments.modules.questions.edit","label"=>"Edit"],

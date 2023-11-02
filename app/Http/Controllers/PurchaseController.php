@@ -15,7 +15,7 @@ class PurchaseController extends Controller
     public function confirmPayment(Request $request)
     {
         $request->validate([
-            'payment_option' => 'required'
+            'payment_option' => 'required',
         ]);
         Session::put('tac', true);
         if (trim(strtolower($request->get('payment_option'))) === 'zip') {
@@ -24,12 +24,13 @@ class PurchaseController extends Controller
             return redirect()->route('paypal');
         }
         Session::remove('tac');
+
         return redirect()->route('payment')->withErrors('Invalid Payment Option');
     }
 
     public function checkout()
     {
-        if (!Session::has('cart') || get_cart_count() === 0) {
+        if (! Session::has('cart') || get_cart_count() === 0) {
             return redirect()->route('home')->withErrors('No items have been added to cart.');
         }
         $cart = Session::get('cart');
@@ -40,6 +41,7 @@ class PurchaseController extends Controller
             $total = floatval($course->price) + $total;
             $cartItems[] = ['course' => $course, 'booking_date' => $cartItem['booking_date']];
         }
+
         return view('purchase.checkout', compact('cartItems', 'total'));
     }
 
@@ -51,22 +53,25 @@ class PurchaseController extends Controller
             $studentData = Student::query()->create($studentData->getStudentRow());
             $userDetails['model_created'] = true;
             $userDetails['student_id'] = $studentData->getAttribute('id');
-            Log::info('while purchase: ',$studentData->toArray());
+            Log::info('while purchase: ', $studentData->toArray());
             Session::put('user-checkout-details', $userDetails);
+
             return redirect()->route('payment');
         } catch (\Exception $exception) {
             Log::error('while creating student: ', [$exception->getMessage()]);
-            return back()->withErrors(['error' => "Request Failed. Contact Developer"])->withInput();
+
+            return back()->withErrors(['error' => 'Request Failed. Contact Developer'])->withInput();
         }
     }
 
     public function payment()
     {
-        if (!Session::has('cart') || !Session::has('user-checkout-details') || get_cart_count() <= 0) {
+        if (! Session::has('cart') || ! Session::has('user-checkout-details') || get_cart_count() <= 0) {
             return redirect()->route('home')->withErrors('Cannot make payment. Make sure you have items in your cart or have filled in your user details form.');
         }
         $userEmail = Session::get('user-checkout-details')['email'];
         $defaultPassword = StudentData::DEFAULT_PASSWORD;
+
         return view('purchase.payment', ['email' => $userEmail, 'password' => $defaultPassword]);
     }
 
@@ -83,7 +88,7 @@ class PurchaseController extends Controller
             'flat_details' => 'required | min: 1 | max: 500',
             'street_name' => 'required | min: 1 | max: 500',
             'suburb' => 'required | min: 1 | max: 500',
-            'post' => 'required | min: 1 | max: 500'
+            'post' => 'required | min: 1 | max: 500',
         ]);
     }
 

@@ -16,7 +16,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Course extends Model
 {
-    use HasFactory, SoftDeletes, HasRelationships;
+    use HasFactory, HasRelationships, SoftDeletes;
 
     protected $guarded = [];
 

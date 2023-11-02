@@ -33,6 +33,7 @@ class RouteServiceProvider extends ServiceProvider
             $this->questionnaireRoutes();
         });
     }
+
     private function registerPlatformRoutes(): void
     {
         Route::prefix('api')
@@ -74,8 +75,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Configure the rate limiters for the application.
-     *
-     * @return void
      */
     protected function configureRateLimiting(): void
     {

@@ -12,11 +12,13 @@
                 @csrf
                 @method('PATCH')
                 @if($question->getAttribute('type') == $types["closeOption"])
-                    @include('questionnaire.admin.questions.types.closed-option.edit', ['question'=>$question])
+                    @include('questionnaire.admin.questions.types.closed-option.edit', ['question'=> $question])
                 @elseif($question["type"] == $types["readAndAnswer"])
-                    @include('questionnaire.admin.questions.types.read-and-answer.edit')
+                    @include('questionnaire.admin.questions.types.read-and-answer.edit', ['question'=> $question])
                 @elseif($question["type"] == $types["describeImage"])
-                    describe image
+                    @include('questionnaire.admin.questions.types.describe-image.edit', ['question'=> $question])
+                @elseif($question["type"] == $types["trueFalse"])
+                    @include('questionnaire.admin.questions.types.true-false.edit', ['question'=> $question])
                 @else
                     no question type
                 @endif

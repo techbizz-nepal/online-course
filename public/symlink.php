@@ -6,14 +6,14 @@ $target = '/home/keyeduau/public_html/key/storage/app/public';
 
 $shortcut2 = '/home/keyeduau/public_html/key/public/storage';
 
-if(symlink($target, $shortcut)){
+if (symlink($target, $shortcut)) {
     echo 'success1';
-}else{
+} else {
     echo 'fail1';
 }
 
-if(symlink($target, $shortcut2)){
+if (symlink($target, $shortcut2)) {
     echo 'success2';
-}else{
+} else {
     echo 'fail2';
 }

@@ -17,4 +17,13 @@
 </div>
 @push('js')
     <script defer src="{{asset('assets/js/admin-utilities.js')}}"></script>
+    <script>
+        const addBtnEl = document.getElementById("add-question")
+        let questionCount = 0
+        addBtnEl.addEventListener('click', (event) => {
+            event.preventDefault()
+            questionCount++
+            addBtnEl.parentNode.appendChild(wrapperDivEl(questionCount))
+        })
+    </script>
 @endpush

@@ -8,14 +8,13 @@ use App\Services\Questionnaire\Types\ClosedOption;
 use App\Services\Questionnaire\Types\DescribeImage;
 use App\Services\Questionnaire\Types\InterfaceType;
 use App\Services\Questionnaire\Types\ReadAndAnswer;
+use App\Services\Questionnaire\Types\TrueFalse;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register(): void
     {
@@ -26,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
                 return match (request()->get('type')) {
                     QuestionType::READ_AND_ANSWER->value => new ReadAndAnswer(),
                     QuestionType::DESCRIBE_IMAGE->value => new DescribeImage(),
+                    QuestionType::TRUE_FALSE->value => new TrueFalse(),
                     default => new ClosedOption()
                 };
             });
@@ -38,14 +38,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        DB::listen(function($query) {
-//            Log::info(
-//                $query->sql,
-//                [
-//                    'bindings' => $query->bindings,
-//                    'time' => $query->time
-//                ]
-//            );
-//        });
+        //        DB::listen(function($query) {
+        //            Log::info(
+        //                $query->sql,
+        //                [
+        //                    'bindings' => $query->bindings,
+        //                    'time' => $query->time
+        //                ]
+        //            );
+        //        });
     }
 }

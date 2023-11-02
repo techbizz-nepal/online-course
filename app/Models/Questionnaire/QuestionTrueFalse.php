@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ReadAndAnswer extends Model
+class QuestionTrueFalse extends Model
 {
     use HasFactory, HasUuids;
 
     protected $guarded = [];
+
     protected $casts = [
-        "body" => 'array'
+        'body' => 'array',
     ];
 
     public function question(): BelongsTo
