@@ -33,9 +33,6 @@ Route::get('/paymet/eway/success', [PaymentController::class, 'ewaySuccess'])->n
 Route::get('/payment/eway', [PaymentController::class, 'eWay'])->name('eWay');
 
 Route::get('/test', function () {
-    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
-    \Illuminate\Support\Facades\Artisan::call('migrate:fresh --force --seed');
-    dd(\Illuminate\Support\Facades\Artisan::output());
     dd(session()->get('user-checkout-details'));
     dd(session()->get('tacs'));
 });
