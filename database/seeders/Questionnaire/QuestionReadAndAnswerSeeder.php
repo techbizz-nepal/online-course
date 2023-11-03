@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Questionnaire;
 
 use App\Models\Questionnaire\QuestionReadAndAnswer;
 use Illuminate\Database\Seeder;
 
 class QuestionReadAndAnswerSeeder extends Seeder
 {
-    const TABLE_NAME = 'question_read_and_answers';
+    const TABLE_NAME = 'questionnaire_question_read_and_answers';
 
     public function __construct(private QuestionReadAndAnswer $model)
     {

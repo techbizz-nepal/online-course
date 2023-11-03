@@ -2,6 +2,13 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Questionnaire\AssessmentSeeder;
+use Database\Seeders\Questionnaire\ModuleSeeder;
+use Database\Seeders\Questionnaire\QuestionDescribeImageSeeder;
+use Database\Seeders\Questionnaire\QuestionOptionSeeder;
+use Database\Seeders\Questionnaire\QuestionReadAndAnswerSeeder;
+use Database\Seeders\Questionnaire\QuestionSeeder;
+use Database\Seeders\Questionnaire\QuestionTrueFalseSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

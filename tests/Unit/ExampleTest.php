@@ -1,2 +1,3 @@
 <?php
+
 expect(true)->toBeTrue();

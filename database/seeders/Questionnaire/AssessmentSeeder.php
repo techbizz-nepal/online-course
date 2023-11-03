@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Questionnaire;
 
 use App\Models\Questionnaire\Assessment;
 use Illuminate\Database\Seeder;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\File;
 
 class AssessmentSeeder extends Seeder
 {
-    const TABLE_NAME = 'assessments';
+    const TABLE_NAME = 'questionnaire_assessments';
 
     public function __construct(private Assessment $model)
     {

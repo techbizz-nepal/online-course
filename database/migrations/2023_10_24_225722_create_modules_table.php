@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('modules', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('assessment_id')->constrained();
+        Schema::create('questionnaire_modules', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('assessment_id')->constrained()->on('questionnaire_assessments');
             $table->string('name');
             $table->string('slug')->index();
             $table->text('description')->nullable();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('questionnaire_modules');
     }
 };

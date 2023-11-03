@@ -3,6 +3,7 @@
 namespace App\Models\Questionnaire;
 
 use App\Models\Course;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,9 +14,11 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Assessment extends Model
 {
-    use HasFactory, HasRelationships, SoftDeletes;
+    use HasFactory, HasRelationships, HasUuids, SoftDeletes;
 
     protected $guarded = [];
+
+    protected $table = 'questionnaire_assessments';
 
     public function getRouteKeyName(): string
     {

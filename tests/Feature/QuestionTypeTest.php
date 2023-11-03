@@ -8,10 +8,10 @@ use App\Enums\Questionnaire\QuestionType;
 use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
-use Database\Seeders\AssessmentSeeder;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\CourseSeeder;
-use Database\Seeders\ModuleSeeder;
+use Database\Seeders\Questionnaire\AssessmentSeeder;
+use Database\Seeders\Questionnaire\ModuleSeeder;
 
 uses()->group('questionnaire');
 beforeEach(function () {

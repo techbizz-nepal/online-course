@@ -13,11 +13,6 @@ use Illuminate\Support\Arr;
  */
 class AssessmentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $randomCourseId = Arr::random(Course::query()->select(['id'])->pluck('id')->toArray(), '1')[0];
