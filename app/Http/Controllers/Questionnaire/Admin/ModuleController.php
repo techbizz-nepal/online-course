@@ -46,11 +46,10 @@ class ModuleController extends Controller
 
         return $this
             ->successRedirectWithParamsResponse(
-                routeName: 'admin.courses.assessments.modules.questions.create',
+                routeName: 'admin.courses.assessments.modules.assessments.show',
                 routeParams: [
                     'course' => $course->getAttribute('slug'),
-                    'assessment' => $assessment->getAttribute('slug'),
-                    'module' => $newModule->getAttribute('slug'),
+                    'assessment' => $assessment->getAttribute('slug')
                 ],
                 translationKey: 'module.success.create',
             );

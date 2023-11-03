@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questionnaire_assessments', function (Blueprint $table) {
+        Schema::create('questionnaire_exams', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('course_id')->constrained();
-            $table->string('name');
-            $table->string('slug')->index();
-            $table->text('description')->nullable();
-            $table->string('material')->nullable();
+            $table->foreignId('student_id')->constrained();
+            $table->foreignUuid('module_id')->constrained()->on('questionnaire_modules');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questionnaire_assessments');
+        Schema::dropIfExists('questionnaire_exams');
     }
 };

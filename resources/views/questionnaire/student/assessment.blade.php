@@ -7,14 +7,14 @@
         <div class="w-100 h-100 mx-2 p-2" style="background-color: #f5f5f4">
             <div>
                 About this activity
-                You are required to answer 114 questions.
+                You are required to answer {{$assessment->questions_count}} questions.
             </div>
             <hr>
             <div>
-                This unit is comprised of {{$assessment->modules->count()}} modules as follows:
+                This unit is comprised of {{$assessment->modules_count}} modules as follows:
                 @isset($assessment->modules)
                     @foreach($assessment->modules as $module)
-                        <p>Module {{$loop->iteration}} - {{ str()->title($module->name) }}</p>
+                        <p>{{ str()->title($module->name) }}</p>
                     @endforeach
                 @endif
             </div>
@@ -30,7 +30,7 @@
             <table class="table table-striped table-bordered" style="font-size: small;">
                 <thead>
                 <tr>
-                    <th class="text-center" style="width: 2%;">Questions</th>
+                    <th class="text-center" style="width: 2%;">Modules</th>
                     <th class="text-center" style="width: 2%;">Answered</th>
                     <th class="text-center" style="width: 2%;">Incorrect</th>
                     <th class="text-center" style="width: 2%;">To Review</th>
@@ -51,7 +51,7 @@
                             <td style="width: 10%" class="text-center">3</td>
                             <td style="width: 10%" class="text-center">0</td>
                             <td style="width: 20%" class="text-center">
-                                <a href="{{route('student.moduleStart', [$course, $assessment, $module, $module->qustion])}}">
+                                <a href="{{route('student.moduleStart', [$course, $assessment, $module])}}">
                                     <button class="btn btn-primary">go to</button>
                                 </a>
                             </td>

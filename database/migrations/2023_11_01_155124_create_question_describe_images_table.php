@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('question_describe_images', function (Blueprint $table) {
+        Schema::create('questionnaire_question_describe_images', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('question_id')->constrained();
+            $table->foreignUuid('question_id')->constrained()->on('questionnaire_questions');
             $table->string('image_path');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('question_describe_images');
+        Schema::dropIfExists('questionnaire_question_describe_images');
     }
 };

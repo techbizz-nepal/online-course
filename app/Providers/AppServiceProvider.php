@@ -9,6 +9,7 @@ use App\Services\Questionnaire\Types\DescribeImage;
 use App\Services\Questionnaire\Types\InterfaceType;
 use App\Services\Questionnaire\Types\ReadAndAnswer;
 use App\Services\Questionnaire\Types\TrueFalse;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -38,14 +39,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //        DB::listen(function($query) {
-        //            Log::info(
-        //                $query->sql,
-        //                [
-        //                    'bindings' => $query->bindings,
-        //                    'time' => $query->time
-        //                ]
-        //            );
-        //        });
+        if (App::environment('development')) {
+            \Debugbar::disable();
+        }
     }
 }

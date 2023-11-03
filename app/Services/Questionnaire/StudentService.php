@@ -2,6 +2,6 @@
 
 namespace App\Services\Questionnaire;
 
-class StudentService
+final readonly class StudentService
 {
 }

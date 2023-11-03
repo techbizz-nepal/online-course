@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Questionnaire;
 
 use App\Models\Questionnaire\QuestionDescribeImage;
 use Illuminate\Database\Seeder;
 
 class QuestionDescribeImageSeeder extends Seeder
 {
-    const TABLE_NAME = 'question_describe_images';
+    const TABLE_NAME = 'questionnaire_question_describe_images';
 
     public function __construct(private QuestionDescribeImage $model)
     {
