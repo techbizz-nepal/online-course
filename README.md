@@ -18,30 +18,34 @@ REDIS_PORT=6379
 PUID=1000 // linux user id
 PGID=1000 // linux usergroup id
 ```
-## Build Images
+## Build Images 🏛️
 ``` 
 docker-compose -f ./deployment/docker-compose.yaml build
 ```
-## Run App
+## Run App 🏃
 ```
 docker-compose -f ./deployment/docker-compose.yaml up -d
 ```
-## Initialize Composer packages
+## Initialize Composer packages ⛓️
 ```
-docker-compose -f ./deployment/docker-compose.yaml exec composer install
+docker-compose -f ./deployment/docker-compose.yaml exec app composer install
 ```
-## Initialize Pest
+## Seeding DB 🌱
+```
+docker-compose -f ./deployment/docker-compose.yaml exec app php artisan db:seed
+```
+## Initialize Pest 🦟
 ```
 ./vendor/bin/pest --init
 ```
-## Run Test
+## Run Test 🧪
 ```
 ./vendor/bin/pest
 ```
-## Create new Test
+## Create new Test 🆕
 ```
 php artisan pest:test TodoTest --unit
 ```
-## Reference
+## Reference 🔖
 - How to Unit Test a Laravel API with the Pest Framework
 https://www.twilio.com/blog/unit-test-laravel-api-pest-framework
