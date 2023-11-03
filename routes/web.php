@@ -4,8 +4,6 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PurchaseController;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
@@ -35,6 +33,9 @@ Route::get('/paymet/eway/success', [PaymentController::class, 'ewaySuccess'])->n
 Route::get('/payment/eway', [PaymentController::class, 'eWay'])->name('eWay');
 
 Route::get('/test', function () {
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    \Illuminate\Support\Facades\Artisan::call('migrate:fresh --force --seed');
+    dd(\Illuminate\Support\Facades\Artisan::output());
     dd(session()->get('user-checkout-details'));
     dd(session()->get('tacs'));
 });

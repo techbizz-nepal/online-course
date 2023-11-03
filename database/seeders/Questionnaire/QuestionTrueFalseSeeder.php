@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Questionnaire;
 
 use App\Models\Questionnaire\QuestionTrueFalse;
 use Illuminate\Database\Seeder;
 
 class QuestionTrueFalseSeeder extends Seeder
 {
-    const TABLE_NAME = 'question_true_falses';
+    const TABLE_NAME = 'questionnaire_question_true_falses';
 
     public function __construct(private QuestionTrueFalse $model)
     {
