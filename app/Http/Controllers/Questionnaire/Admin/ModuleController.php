@@ -49,7 +49,7 @@ class ModuleController extends Controller
                 routeName: 'admin.courses.assessments.modules.assessments.show',
                 routeParams: [
                     'course' => $course->getAttribute('slug'),
-                    'assessment' => $assessment->getAttribute('slug')
+                    'assessment' => $assessment->getAttribute('slug'),
                 ],
                 translationKey: 'module.success.create',
             );
