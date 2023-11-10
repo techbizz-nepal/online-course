@@ -22,7 +22,8 @@ use Illuminate\Support\Str;
 
 class ModuleController extends Controller
 {
-    use HasAttributeRepository, HasRedirectResponse;
+    use HasAttributeRepository;
+    use HasRedirectResponse;
 
     public function create(Course $course, Assessment $assessment): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {

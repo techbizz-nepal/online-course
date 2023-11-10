@@ -10,14 +10,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class QuestionReadAndAnswer extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory;
+    use HasUuids;
+    use SoftDeletes;
 
     protected $guarded = [];
 
     protected $table = 'questionnaire_question_read_and_answers';
 
     protected $casts = [
-        'body' => 'array',
+        'questions' => 'array',
     ];
 
     public function question(): BelongsTo

@@ -9,9 +9,9 @@ use Spatie\LaravelData\Optional;
 
 class CourseData extends Data
 {
-    const SYSTEM_PATH = 'app/public/images/courses';
+    public const SYSTEM_PATH = 'app/public/images/courses';
 
-    const PUBLIC_PATH = 'storage/images/courses';
+    public const PUBLIC_PATH = 'storage/images/courses';
 
     public function __construct(
         public Optional|string $id,
@@ -36,7 +36,6 @@ class CourseData extends Data
         public ?string $category_id,
         public ?string $created_at,
         public ?string $updated_at
-
     ) {
         $this->slug ??= Str::slug($this->title, '-');
     }

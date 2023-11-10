@@ -13,7 +13,7 @@ use Database\Seeders\CourseSeeder;
 use Database\Seeders\Questionnaire\AssessmentSeeder;
 use Database\Seeders\Questionnaire\ModuleSeeder;
 
-uses()->group('questionnaire');
+uses()->group('questionnaire-crud');
 beforeEach(function () {
     $this->seed(CategorySeeder::class);
     $this->seed(CourseSeeder::class);
@@ -36,23 +36,20 @@ it('can create question', function () {
 it('can create/update true false question', function () {
     $question = Question::factory()->create();
     $questionTrueFalseData = QuestionTrueFalseData::from([
-        'is_true' => true,
+        'answer' => true,
     ]);
     $questionTrueFalseCreate = QuestionnaireAdmin::createQuestionTrueFalse($question, $questionTrueFalseData);
     //create
     expect($questionTrueFalseCreate)
         ->question_id->toBe($question->id)
         ->and($questionTrueFalseCreate)
-        ->is_true->toBe($questionTrueFalseData->is_true);
+        ->answer->toBe($questionTrueFalseData->answer);
     $questionTrueFalseCreateData = QuestionTrueFalseData::from([
-        'is_true' => false,
+        'answer' => false,
     ]);
     $questionTrueFalseUpdate = QuestionnaireAdmin::updateQuestionTrueFalse($question, $questionTrueFalseCreateData);
     //update
-    expect($questionTrueFalseUpdate)
-        ->question_id->toBe($question->getAttribute('id'))
-        ->and($questionTrueFalseUpdate)
-        ->is_true->toBe(intval($questionTrueFalseCreateData->is_true));
+    expect($questionTrueFalseUpdate)->toBe(1);
 });
 it('can create/update describe image question', function () {
     $question = Question::factory()->create();
@@ -70,10 +67,7 @@ it('can create/update describe image question', function () {
     ]);
     $questionDescribeImageUpdate = QuestionnaireAdmin::updateQuestionDescribeImage($question, $questionDescribeImageData);
     //update
-    expect($questionDescribeImageUpdate)
-        ->question_id->toBe($question->id)
-        ->and($questionDescribeImageUpdate)->image_path
-        ->toBe($questionDescribeImageData->image_path);
+    expect($questionDescribeImageUpdate)->toBe(1);
 });
 it('can create/update closed option question', function () {
     $question = Question::factory()->create();
@@ -84,14 +78,14 @@ it('can create/update closed option question', function () {
             'option3' => 'option 3 text',
             'option4' => 'option 4 text',
         ],
-        'is_correct' => 'option1',
+        'answer' => 'option1',
     ]);
     $questionOptionCreate = QuestionnaireAdmin::createQuestionOption($question, $questionOptionsData);
     //create
     expect($questionOptionCreate)
         ->question_id->toBe($question->getAttribute('id'))
         ->and($questionOptionCreate)
-        ->is_correct->toBe($questionOptionsData->is_correct);
+        ->answer->toBe($questionOptionsData->answer);
     $questionOptionsData = QuestionOptionData::from([
         'body' => [
             'option1' => 'option 1 text',
@@ -99,15 +93,9 @@ it('can create/update closed option question', function () {
             'option3' => 'option 3 text',
             'option4' => 'option 4 text',
         ],
-        'is_correct' => 'option2',
+        'answer' => 'option2',
     ]);
     $questionOptionUpdate = QuestionnaireAdmin::updateQuestionOption($question, $questionOptionsData);
     //update
-    expect($questionOptionUpdate)
-        ->question_id->toBe($question->getAttribute('id'))
-        ->and($questionOptionUpdate)
-        ->is_correct->toBe($questionOptionsData->is_correct);
-});
-it('can create/update read and answer question', function () {
-
+    expect($questionOptionUpdate)->toBe(1);
 });

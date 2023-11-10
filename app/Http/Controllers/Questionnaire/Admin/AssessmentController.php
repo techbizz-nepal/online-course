@@ -21,7 +21,8 @@ use Illuminate\Support\Facades\Log;
 
 class AssessmentController extends Controller
 {
-    use HasAttributeRepository, HasRedirectResponse;
+    use HasAttributeRepository;
+    use HasRedirectResponse;
 
     public function index(): array
     {

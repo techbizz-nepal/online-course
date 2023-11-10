@@ -1,0 +1,40 @@
+/* blue */
+.tb-bg-1 {
+    background-color: rgb(0, 0, 255);
+}
+.tb-bg-1-clicked {
+    background-color: rgba(0, 0, 255, 0.2);
+    border: 1px solid rgb(0, 0, 255);
+    color: rgb(255, 255, 255);
+}
+/* red */
+.tb-bg-2 {
+    background-color: rgb(255, 0, 0);
+}
+.tb-bg-2-clicked {
+    background-color: rgba(255, 0, 0, 0.2);
+    border: 1px solid rgb(255, 0, 0);
+    color: rgb(255, 255, 255);
+}
+/* brass */
+.tb-bg-3 {
+    background-color: rgb(225, 193, 110)
+}
+.tb-bg-3-clicked {
+    background-color: rgba(225, 193, 110, 0.2);
+    border: 1px solid rgb(225, 193, 110);
+    color: rgb(255, 255, 255);
+}
+/* green */
+.tb-bg-4 {
+    background-color: rgb(34, 139, 34);
+}
+.tb-bg-4-clicked {
+    background-color: rgba(34, 139, 34, 0.2);
+    border: 1px solid rgb(34, 139, 34);
+    color: rgb(255, 255, 255);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

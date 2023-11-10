@@ -16,7 +16,7 @@ class QuestionTrueFalseData extends Data
         public Optional|Carbon|null $updated_at,
         public Optional|Carbon|null $deleted_at,
         public Optional|string $question_id,
-        public bool $is_true,
+        public bool $answer,
     ) {
     }
 }

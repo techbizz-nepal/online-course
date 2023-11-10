@@ -9,14 +9,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Exam extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
+    use HasUuids;
 
     protected $guarded = [];
 
     protected $table = 'questionnaire_exams';
 
+    public function getRouteKeyName(): string
+    {
+        return 'id';
+    }
+
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);
+    }
+
+    public function modules(): HasMany
+    {
+        return $this->hasMany(Module::class);
     }
 }

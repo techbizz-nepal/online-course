@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Questionnaire\Utilities;
+namespace App\Questionnaire\Repositories;
 
 use App\DTO\Questionnaire\ModuleData;
 use App\Models\Questionnaire\Assessment;
@@ -8,7 +8,7 @@ use App\Models\Questionnaire\Module;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-interface InterfaceModuleService
+interface InterfaceModuleRepo
 {
     public function create(ModuleData $moduleData, Assessment $assessment): Model;
 

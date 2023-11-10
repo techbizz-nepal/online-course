@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Questionnaire\Utilities;
+namespace App\Questionnaire\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-class BaseService
+class BaseRepo
 {
     protected function storeProcess(string $slug, string $systemPath, array $data = ['pdfFile', 'name']): array
     {

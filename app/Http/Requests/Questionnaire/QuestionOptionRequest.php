@@ -27,7 +27,7 @@ class QuestionOptionRequest extends FormRequest
             'option2' => ['required', 'string'],
             'option3' => ['required', 'string'],
             'option4' => ['required', 'string'],
-            'is_correct' => ['required', 'string'],
+            'answer' => ['required', 'string'],
         ];
     }
 }

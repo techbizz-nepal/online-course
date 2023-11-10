@@ -17,7 +17,7 @@ class QuestionOptionData extends Data
         public Optional|Carbon|null $updated_at,
         public Optional|Carbon|null $deleted_at,
         public Optional|string $question_id,
-        public string $is_correct,
+        public string $answer,
     ) {
     }
 }

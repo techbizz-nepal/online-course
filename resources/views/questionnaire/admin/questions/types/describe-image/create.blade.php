@@ -4,7 +4,7 @@
         <textarea class="form-control @error('body') is-invalid @enderror"
                   name="body"
                   id="body"
-                  rows="2">{{@old('body')}}</textarea>
+                  rows="10">{{@old('body')}}</textarea>
         @error('body')
         <span class="invalid-feedback">{{ $message }}</span>
         @enderror
@@ -15,19 +15,19 @@
         <label for="image">Question Image</label>
         <div class="input-group">
             <input @readonly(true)
-                   class="form-control @error('material') is-invalid @enderror"
-                   name="material"
-                   id="material"
+                   class="form-control @error('image_path') is-invalid @enderror"
+                   name="image_path"
+                   id="image_path"
 
                    value="{{@old('material')}}">
             <div class="input-group-append">
                 <button id="upload-btn" class="btn btn-primary">Upload</button>
             </div>
         </div>
-        <input style="display: none" class="form-control @error('upload_material') is-invalid @enderror"
+        <input style="display: none" class="form-control @error('material') is-invalid @enderror"
                type="file"
-               name="image_path" id="image_path" accept="image/*">
-        @error('image_path')
+               name="material" id="material" accept="image/*">
+        @error('material')
         <span class="invalid-feedback">{{ $message }}</span>
         @enderror
         <div class="progress mt-2">
@@ -47,10 +47,10 @@
 @push('js')
     <script type="text/javascript" src="{{ asset('assets/js/admin-utilities.js') }}"></script>
     <script>
-        const requestPath = `{{route('admin.courses.assessments.modules.questions.storeMaterial', [$course, $assessment, $module])}}`
+        const requestPath = `{{route('admin.courses.assessments.modules.questions.storeMaterial', [$course, $assessment, $module, 'type' => request()->get('type')])}}`
         const token = `{{csrf_token()}}`
-        const fileInputEl = document.getElementById('image_path')
-        const textInputEl = document.getElementById('material')
+        const fileInputEl = document.getElementById('material')
+        const textInputEl = document.getElementById('image_path')
         const uploadBtnEl = document.getElementById('upload-btn')
         const uploadProgressEl = document.getElementById('upload-progress')
         const bodyInputEl = document.getElementById('body')

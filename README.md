@@ -28,7 +28,11 @@ docker-compose -f ./deployment/docker-compose.yaml up -d
 ```
 ## Initialize Composer packages
 ```
-docker-compose -f ./deployment/docker-compose.yaml exec composer install
+docker-compose -f ./deployment/docker-compose.yaml exec app composer install
+```
+## Seeding Database 
+```
+docker-compose -f ./deployment/docker-compose.yaml exec app php artisan db:seed 
 ```
 ## Initialize Pest
 ```

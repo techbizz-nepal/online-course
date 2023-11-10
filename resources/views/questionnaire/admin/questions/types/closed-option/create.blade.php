@@ -30,7 +30,7 @@
         </div>
     </div>
 @endforeach
-<input type="hidden" name="is_correct">
+<input type="hidden" name="answer">
 @push('js')
     <script defer src="{{asset('assets/js/admin-utilities.js')}}" ></script>
 @endpush

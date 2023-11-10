@@ -2,14 +2,19 @@
 
 namespace App\Providers;
 
-use App\Services\Questionnaire\AdminService;
-use App\Services\Questionnaire\StudentService;
-use App\Services\Questionnaire\Utilities\AssessmentService;
-use App\Services\Questionnaire\Utilities\InterfaceAssessmentService;
-use App\Services\Questionnaire\Utilities\InterfaceModuleService;
-use App\Services\Questionnaire\Utilities\InterfaceQuestionService;
-use App\Services\Questionnaire\Utilities\ModuleService;
-use App\Services\Questionnaire\Utilities\QuestionService;
+use App\Enums\Questionnaire\QuestionType;
+use App\Http\Controllers\Questionnaire\Admin\QuestionController;
+use App\Questionnaire\AdminFacade;
+use App\Questionnaire\Repositories\AssessmentRepo;
+use App\Questionnaire\Repositories\InterfaceAssessmentRepo;
+use App\Questionnaire\Repositories\InterfaceModuleRepo;
+use App\Questionnaire\Repositories\InterfaceQuestionRepo;
+use App\Questionnaire\Repositories\ModuleRepo;
+use App\Questionnaire\Repositories\QuestionRepo;
+use App\Questionnaire\Services\Admin\InterfaceAdmin;
+use App\Questionnaire\Services\Admin\TrueFalseAdmin;
+use App\Questionnaire\StudentFacade;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class QuestionnaireServiceProvider extends ServiceProvider
@@ -21,6 +26,7 @@ class QuestionnaireServiceProvider extends ServiceProvider
     {
         $this->registerFacades();
         $this->registerInterfaces();
+        $this->registerContextualInterface();
     }
 
     /**
@@ -33,20 +39,37 @@ class QuestionnaireServiceProvider extends ServiceProvider
 
     private function registerInterfaces(): void
     {
-        $this->app->singleton(InterfaceAssessmentService::class, AssessmentService::class);
-        $this->app->singleton(InterfaceModuleService::class, ModuleService::class);
-        $this->app->singleton(InterfaceQuestionService::class, QuestionService::class);
+        $this->app->singleton(InterfaceAssessmentRepo::class, AssessmentRepo::class);
+        $this->app->singleton(InterfaceModuleRepo::class, ModuleRepo::class);
+        $this->app->singleton(InterfaceQuestionRepo::class, QuestionRepo::class);
     }
 
     private function registerFacades(): void
     {
-        $this->app->singleton('admin-service', function ($app) {
-            return new AdminService(
-                $app->make(InterfaceAssessmentService::class),
-                $app->make(InterfaceModuleService::class),
-                $app->make(InterfaceQuestionService::class)
+        $this->app->singleton('admin-facade', function ($app) {
+            return new AdminFacade(
+                $app->make(InterfaceAssessmentRepo::class),
+                $app->make(InterfaceModuleRepo::class),
+                $app->make(InterfaceQuestionRepo::class)
             );
         });
-        $this->app->singleton('student-service', fn () => new StudentService());
+        $this->app->singleton('student-facade', fn ($app) => new StudentFacade(
+            $app->make(InterfaceAssessmentRepo::class),
+            $app->make(InterfaceModuleRepo::class),
+            $app->make(InterfaceQuestionRepo::class)
+        ));
+    }
+
+    private function registerContextualInterface(): void
+    {
+        $this->app->when([QuestionController::class])
+            ->needs(InterfaceAdmin::class)
+            ->give(function () {
+                if (!App::runningInConsole()) {
+                    return QuestionType::from(request()->get('type'))->getAdminServiceObject();
+                } else {
+                    return new TrueFalseAdmin();
+                }
+            });
     }
 }

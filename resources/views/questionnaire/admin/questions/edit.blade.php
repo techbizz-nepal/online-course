@@ -14,7 +14,7 @@
                 @if($question->getAttribute('type') == $types["closeOption"])
                     @include('questionnaire.admin.questions.types.closed-option.edit', ['question'=> $question])
                 @elseif($question["type"] == $types["readAndAnswer"])
-                    @include('questionnaire.admin.questions.types.read-and-answer.edit', ['question'=> $question])
+                    @include('questionnaire.admin.questions.types.read-and-answer.edit', ['question'=> $question, 'questionsCount' => count($question->readAndAnswer->questions ?? [])])
                 @elseif($question["type"] == $types["describeImage"])
                     @include('questionnaire.admin.questions.types.describe-image.edit', ['question'=> $question])
                 @elseif($question["type"] == $types["trueFalse"])
@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-12 text-left">
                         <button class="btn btn-primary" type="submit">Save</button>
-                        <a href="{{ route('admin.courses.assessments.modules.show', collect($routeParams)->except(['type'])->toArray()) }}"
+                        <a href="{{ route('admin.courses.assessments.modules.show', collect($routeParams)->except(['type', 'question'])->toArray()) }}"
                            class="btn btn-primary"
                            type="submit">Back</a>
                     </div>

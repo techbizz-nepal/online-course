@@ -27,12 +27,12 @@ class QuestionOptionFactory extends Factory
             'option3' => $this->faker->paragraph(1),
             'option4' => $this->faker->paragraph(1),
         ];
-        $is_correct = array_rand($body, 1);
+        $answer = array_rand($body, 1);
 
         return QuestionOptionData::from([
             'question_id' => $randomQuestionId,
             'body' => $body,
-            'is_correct' => $is_correct,
+            'answer' => $answer,
         ])->toArray();
     }
 }
