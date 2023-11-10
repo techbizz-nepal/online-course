@@ -47,7 +47,7 @@ class ModuleController extends Controller
 
         return $this
             ->successRedirectWithParamsResponse(
-                routeName: 'admin.courses.assessments.modules.assessments.show',
+                routeName: 'admin.courses.assessments.show',
                 routeParams: [
                     'course' => $course->getAttribute('slug'),
                     'assessment' => $assessment->getAttribute('slug'),
