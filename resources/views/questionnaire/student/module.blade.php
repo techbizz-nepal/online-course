@@ -1,8 +1,11 @@
+@php
+    use \App\Enums\Questionnaire\QuestionType;
+@endphp
 @extends('student.layout.app')
 @section('content')
     <div class="main-content pt-lg-4">
         <h2 class="m-2 mb-0 d-flex justify-content-between">
-            <span>{{$module->name}}</span>
+            <span>{{$module['name']}}</span>
         </h2>
         <div class="w-100 h-100 mx-2 p-2" style="background-color: #f5f5f4">
             <div>
@@ -13,7 +16,7 @@
                 <h3>Please peruse the following learning material for this activity.</h3>
                 <img src="{{asset('assets/images/pdf.png')}}" width="20px" alt="{{$assessment->name}}"/>
                 <a target="_blank"
-                   href="{{asset(sprintf('%s/%s',\App\DTO\Questionnaire\AssessmentData::PUBLIC_PATH,$assessment->material))}}">
+                   href="{{asset(sprintf('%s/%s',\App\DTO\Questionnaire\AssessmentData::PUBLIC_PATH,$assessment['material']))}}">
                     {{str()->title($assessment->name)}}
                 </a>
             </div>
@@ -22,28 +25,46 @@
             <table class="table table-striped table-bordered" style="font-size: small;">
                 <thead>
                 <tr>
-                    <th scope="row">#</th>
-                    <th class="text-center" style="width: 2%;">Questions in this module</th>
-                    <th class="text-center" style="width: 2%;">Status</th>
-                    <th class="text-center" style="width: 2%;">Action</th>
+                    <th style="width: 5%" scope="row">#</th>
+                    <th style="width: 85%">Questions in this module</th>
+                    <th style="width: 5%">Status</th>
+                    <th style="width: 5%">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                @isset($module->questions)
-                    @foreach($module->questions as $questions)
+                @isset($questions)
+                    @foreach($module['questions'] as $question)
                         <tr>
-                            <td style="width: 10%">{{$loop->iteration}}</td>
-                            <td style="width: 70%">
-                                <p class="mb-2">{{str()->title($module->name)}}</p>
-                                <p>{{str()->title($questions['body'])}}</p>
+                            <td>{{$loop->iteration}}</td>
+                            <td>
+                                <p class="mb-2">{{str()->title($module['name'])}}</p>
+                                <p>{{str()->title($question['body'])}}</p>
                             </td>
-                            <td style="width: 10%">
-                                <p>correctly answered</p>
+                            <td class="inline">
+                                @if(count($question['answers']) && in_array($question->type, QuestionType::getCorrectTypes()))
+                                    @if($question['answers'][0]['is_correct'])
+                                        <p>correctly answered</p>
+                                    @else
+                                        <p>incorrectly answered</p>
+                                    @endif
+                                @elseif(count($question['answers']))
+                                    <p>answered</p>
+                                @else
+                                    <p>new</p>
+                                @endif
                             </td>
-                            <td style="width: 10%" class="text-center">
-                                <a href="{{route('student.moduleStart', [$course, $assessment, $module, $module->qustion])}}">
-                                    <button class="btn btn-primary">retake</button>
-                                </a>
+                            <td>
+                                @if(count($question['answers']))
+                                    @if(in_array($question->type, QuestionType::getCorrectTypes()) && !$question['answers'][0]['is_correct'])
+                                        <a href="{{route('student.openQuestion', [$course, $assessment, $module['slug'], $question['id'], $exam])}}">
+                                            <button class="btn btn-primary">retake</button>
+                                        </a>
+                                    @endif
+                                @else
+                                    <a href="{{route('student.openQuestion', [$course, $assessment, $module['slug'], $question['id'], $exam])}}">
+                                        <button class="btn btn-primary">open</button>
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

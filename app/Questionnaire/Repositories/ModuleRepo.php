@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Questionnaire\Utilities;
+namespace App\Questionnaire\Repositories;
 
 use App\DTO\Questionnaire\ModuleData;
 use App\Models\Questionnaire\Assessment;
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class ModuleService extends BaseService implements InterfaceModuleService
+class ModuleRepo extends BaseRepo implements InterfaceModuleRepo
 {
     public function create(ModuleData $moduleData, Assessment $assessment): Model
     {
@@ -31,7 +31,8 @@ class ModuleService extends BaseService implements InterfaceModuleService
         return $this->storeProcess(
             slug: $assessment->getAttribute('slug'),
             systemPath: ModuleData::SYSTEM_PATH,
-            data: $data);
+            data: $data
+        );
     }
 
     public function deleteMaterial(Module $module): bool

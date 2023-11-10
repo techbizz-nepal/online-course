@@ -24,7 +24,7 @@ class QuestionReadAndAnswerFactory extends Factory
 
         return QuestionReadAndAnswerData::from([
             'question_id' => $randomQuestionId,
-            'body' => [
+            'questions' => [
                 $this->faker->paragraph(1),
                 $this->faker->paragraph(1),
                 $this->faker->paragraph(1),

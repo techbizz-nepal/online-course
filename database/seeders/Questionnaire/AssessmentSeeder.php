@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\File;
 
 class AssessmentSeeder extends Seeder
 {
-    const TABLE_NAME = 'questionnaire_assessments';
+    public const TABLE_NAME = 'questionnaire_assessments';
 
     public function __construct(private Assessment $model)
     {

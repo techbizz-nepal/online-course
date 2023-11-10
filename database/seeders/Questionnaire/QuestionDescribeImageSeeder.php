@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class QuestionDescribeImageSeeder extends Seeder
 {
-    const TABLE_NAME = 'questionnaire_question_describe_images';
+    public const TABLE_NAME = 'questionnaire_question_describe_images';
 
     public function __construct(private QuestionDescribeImage $model)
     {

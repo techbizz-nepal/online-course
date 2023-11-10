@@ -2,6 +2,13 @@
 
 namespace App\Enums\Questionnaire;
 
+use App\Questionnaire\Services\Admin\ClosedOptionAdmin;
+use App\Questionnaire\Services\Admin\DescribeImageAdmin;
+use App\Questionnaire\Services\Admin\InterfaceAdmin;
+use App\Questionnaire\Services\Admin\ReadAndAnswerAdmin;
+use App\Questionnaire\Services\Admin\TrueFalseAdmin;
+use App\Questionnaire\Services\Student\InterfaceStudent;
+
 enum QuestionType: string
 {
     case CLOSE_ENDED_OPTIONS = '1';
@@ -30,8 +37,38 @@ enum QuestionType: string
         };
     }
 
+    public function getAdminServiceObject(): InterfaceAdmin
+    {
+        return match ($this) {
+            self::CLOSE_ENDED_OPTIONS => new ClosedOptionAdmin(),
+            self::READ_AND_ANSWER => new ReadAndAnswerAdmin(),
+            self::DESCRIBE_IMAGE => new DescribeImageAdmin(),
+            self::TRUE_FALSE => new TrueFalseAdmin()
+        };
+    }
+
+    public function getStudentServiceObject(): InterfaceStudent
+    {
+        return match ($this) {
+            self::CLOSE_ENDED_OPTIONS => new \App\Questionnaire\Services\Student\ClosedOptionService(),
+            self::READ_AND_ANSWER => new \App\Questionnaire\Services\Student\ReadAndAnswerService(),
+            self::DESCRIBE_IMAGE => new \App\Questionnaire\Services\Student\DescribeImageService(),
+            default => new \App\Questionnaire\Services\Student\TrueFalseService(),
+        };
+    }
+
     public static function toArray(): array
     {
         return array_column(self::cases(), 'value');
+    }
+
+    public static function getCorrectTypes(): array
+    {
+        return [self::CLOSE_ENDED_OPTIONS->value, self::TRUE_FALSE->value];
+    }
+
+    public static function getReviewTypes(): array
+    {
+        return [self::READ_AND_ANSWER->value, self::DESCRIBE_IMAGE->value];
     }
 }

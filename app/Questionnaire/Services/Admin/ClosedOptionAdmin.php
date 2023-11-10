@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Questionnaire\Types;
+namespace App\Questionnaire\Services\Admin;
 
 use App\DTO\Questionnaire\QuestionData;
 use App\Enums\Questionnaire\QuestionType;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
-class ClosedOption extends BaseType implements InterfaceType
+class ClosedOptionAdmin extends BaseAdmin implements InterfaceAdmin
 {
     public const TYPE = QuestionType::CLOSE_ENDED_OPTIONS;
 
@@ -22,24 +22,24 @@ class ClosedOption extends BaseType implements InterfaceType
             'option2' => ['required', 'string'],
             'option3' => ['required', 'string'],
             'option4' => ['required', 'string'],
-            'is_correct' => ['required', 'string'],
+            'answer' => ['required', 'string'],
         ]);
     }
 
     public function storeProcess(array $validated, Module $module, QuestionData $questionData): Model
     {
-        $correctAnswer = Arr::pull($validated, 'is_correct');
+        $answer = Arr::pull($validated, 'answer');
         $question = tap(QuestionnaireAdmin::createQuestion($module, $questionData))->target;
-        $options = QuestionnaireAdmin::prepareQuestionOptions($validated, $correctAnswer);
+        $options = QuestionnaireAdmin::prepareQuestionOptions($validated, $answer);
 
         return QuestionnaireAdmin::createQuestionOption($question, $options);
     }
 
-    public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model
+    public function updateProcess(array $validated, Question $question, QuestionData $questionData): int
     {
-        $correctAnswer = Arr::pull($validated, 'is_correct');
+        $answer = Arr::pull($validated, 'answer');
         QuestionnaireAdmin::updateQuestion($question, $questionData);
-        $options = QuestionnaireAdmin::prepareQuestionOptions($validated, $correctAnswer);
+        $options = QuestionnaireAdmin::prepareQuestionOptions($validated, $answer);
 
         return QuestionnaireAdmin::updateQuestionOption($question, $options);
     }

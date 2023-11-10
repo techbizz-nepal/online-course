@@ -10,12 +10,9 @@ use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
-use App\Services\Questionnaire\Types\InterfaceType;
+use App\Questionnaire\Services\Admin\InterfaceAdmin;
 use App\Traits\HasRedirectResponse;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,7 +23,7 @@ class QuestionController extends Controller
 {
     use HasRedirectResponse;
 
-    public function __construct(protected InterfaceType $type)
+    public function __construct(protected InterfaceAdmin $type)
     {
     }
 
@@ -34,8 +31,8 @@ class QuestionController extends Controller
         Course $course,
         Assessment $assessment,
         Module $module,
-        Request $request): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
-    {
+        Request $request
+    ) {
         $data = $this->type->getQuestionCreateAttributes($request, $course, $assessment, $module);
 
         return view('questionnaire.admin.questions.create', $data);
@@ -51,9 +48,10 @@ class QuestionController extends Controller
         Assessment $assessment,
         Module $module,
         QuestionData $questionData,
-        Request $request)
-    {
+        Request $request
+    ) {
         $validated = $this->type->validated($request);
+
         DB::beginTransaction();
         try {
             $this->type->storeProcess($validated, $module, $questionData);
@@ -76,8 +74,8 @@ class QuestionController extends Controller
         Course $course,
         Assessment $assessment,
         Module $module,
-        Question $question)
-    {
+        Question $question
+    ) {
         $type = QuestionType::from($question->type);
         $data = $this->type
             ->getQuestionEditAttributes($course, $assessment, $module, $question, $type);
@@ -92,7 +90,7 @@ class QuestionController extends Controller
         Question $question,
         QuestionData $questionData,
         Request $request
-    ): RedirectResponse {
+    ) {
         $validated = $this->type->validated($request);
         try {
             $this->type->updateProcess($validated, $question, $questionData);

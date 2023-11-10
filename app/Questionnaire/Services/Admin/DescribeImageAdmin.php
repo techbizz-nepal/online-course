@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Questionnaire\Types;
+namespace App\Questionnaire\Services\Admin;
 
 use App\DTO\Questionnaire\QuestionData;
 use App\DTO\Questionnaire\QuestionDescribeImageData;
@@ -11,7 +11,7 @@ use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class DescribeImage extends BaseType implements InterfaceType
+class DescribeImageAdmin extends BaseAdmin implements InterfaceAdmin
 {
     public const TYPE = QuestionType::DESCRIBE_IMAGE;
 
@@ -30,7 +30,7 @@ class DescribeImage extends BaseType implements InterfaceType
         return QuestionnaireAdmin::createQuestionDescribeImage($question, $questionDescribeImageData);
     }
 
-    public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model
+    public function updateProcess(array $validated, Question $question, QuestionData $questionData): int
     {
         QuestionnaireAdmin::updateQuestion($question, $questionData);
         $questionDescribeImageData = QuestionDescribeImageData::from($validated);

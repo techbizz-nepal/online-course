@@ -12,18 +12,26 @@
 </div>
 <div class="form-group row">
     <div class="col-12">
-        <button class="btn btn-outline-warning mb-2" id="add-question">Add Question</button>
+        <button class="btn btn-outline-warning mb-2"
+                id="add-describe-image-question">
+            Add Question
+        </button>
     </div>
 </div>
 @push('js')
-    <script defer src="{{asset('assets/js/admin-utilities.js')}}"></script>
-    <script>
-        const addBtnEl = document.getElementById("add-question")
-        let questionCount = 0
+    <script src="{{asset('assets/js/admin-utilities.js')}}"></script>
+    <script defer>
+        const pageId = getPageId()
+        const addBtnEl = document.getElementById("add-describe-image-question")
+        let describeImageQuestionCount = getSessionItem(pageId)
+
+        populateAvailableInputBox(describeImageQuestionCount, addBtnEl)
+
         addBtnEl.addEventListener('click', (event) => {
             event.preventDefault()
-            questionCount++
-            addBtnEl.parentNode.appendChild(wrapperDivEl(questionCount))
+            describeImageQuestionCount++
+            incrementInputBox(pageId, describeImageQuestionCount, addBtnEl)
+            return false
         })
     </script>
 @endpush

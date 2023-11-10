@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class QuestionOptionSeeder extends Seeder
 {
-    const TABLE_NAME = 'questionnaire_question_options';
+    public const TABLE_NAME = 'questionnaire_question_options';
 
     public function __construct(private QuestionOption $model)
     {

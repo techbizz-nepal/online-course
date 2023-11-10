@@ -23,7 +23,7 @@
                             <td style="width: 30%" class="text-center">{{$assessment['name']}}</td>
                             <td style="width: 30%" class="text-center">
                                 <p>In Progress</p>
-                                <p>9% completed</p>
+                                <p>{{$assessment->getPercentageOfQuestionsAnswered()}}% completed</p>
                             </td>
                             <td style="width: 10%" class="text-center">0%</td>
                             <td style="width: 20%" class="text-center">

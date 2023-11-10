@@ -23,7 +23,7 @@ class QuestionTrueFalseFactory extends Factory
         $randomQuestionId = Arr::random(Question::query()->select(['id'])->pluck('id')->toArray(), '1')[0];
 
         return QuestionTrueFalseData::from([
-            'is_true' => $this->faker->boolean,
+            'answer' => $this->faker->boolean,
             'question_id' => $randomQuestionId,
         ])->toArray();
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Questionnaire\Types;
+namespace App\Questionnaire\Services\Admin;
 
 use App\DTO\Questionnaire\QuestionData;
 use App\Enums\Questionnaire\QuestionType;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
-class TrueFalse extends BaseType implements InterfaceType
+class TrueFalseAdmin extends BaseAdmin implements InterfaceAdmin
 {
     public const TYPE = QuestionType::TRUE_FALSE;
 
@@ -23,22 +23,22 @@ class TrueFalse extends BaseType implements InterfaceType
     public function validated(Request $request): array
     {
         return $request->validate([
-            'is_true' => ['boolean', 'required'],
+            'answer' => ['boolean', 'required'],
         ]);
     }
 
     public function storeProcess(array $validated, Module $module, QuestionData $questionData): Model
     {
-        $correctAnswer = Arr::pull($validated, 'is_true');
+        $correctAnswer = Arr::pull($validated, 'answer');
         $question = tap(QuestionnaireAdmin::createQuestion($module, $questionData))->target;
         $questionTrueFalseData = QuestionnaireAdmin::prepareQuestionTrueFalse($validated, $correctAnswer);
 
         return QuestionnaireAdmin::createQuestionTrueFalse($question, $questionTrueFalseData);
     }
 
-    public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model
+    public function updateProcess(array $validated, Question $question, QuestionData $questionData): int
     {
-        $correctAnswer = Arr::pull($validated, 'is_true');
+        $correctAnswer = Arr::pull($validated, 'answer');
         QuestionnaireAdmin::updateQuestion($question, $questionData);
         $options = QuestionnaireAdmin::prepareQuestionTrueFalse($validated, $correctAnswer);
 

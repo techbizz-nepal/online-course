@@ -13,7 +13,10 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Question extends Model
 {
-    use HasFactory, HasRelationships, HasUuids, SoftDeletes;
+    use HasFactory;
+    use HasRelationships;
+    use HasUuids;
+    use SoftDeletes;
 
     protected $guarded = [];
 

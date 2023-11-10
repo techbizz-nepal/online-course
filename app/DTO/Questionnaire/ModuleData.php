@@ -11,9 +11,9 @@ use Spatie\LaravelData\Optional;
 
 class ModuleData extends Data
 {
-    const SYSTEM_PATH = 'app/public/files/modules';
+    public const SYSTEM_PATH = 'app/public/files/modules';
 
-    const PUBLIC_PATH = 'storage/files/modules';
+    public const PUBLIC_PATH = 'storage/files/modules';
 
     public function __construct(
         #[Max(300)]

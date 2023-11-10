@@ -36,24 +36,67 @@ const postRequestToServer = (path, csrfToken, body, progressEl, textInputEl) => 
 
     xhr.send(body);
 }
-
 /************************** closed question part *************************************/
 const choose = document.querySelectorAll("input[name=choose]")
-const isCorrect = document.querySelector("input[name=is_correct]")
+const answer = document.querySelector("input[name=answer]")
 
 choose.forEach((value) => {
     // initialize isCorrect value
-    if(value.checked) {
-        isCorrect.value = value.id
+    if (value.checked) {
+        answer.value = value.id
     }
-    // change isCorrect value after triggering event
+    // change answer value after triggering event
     value.addEventListener('change', (event) => {
         event.preventDefault()
-        isCorrect.value = event.currentTarget.id
+        answer.value = event.currentTarget.id
     })
 })
 
+
 /************************** read and answer part ********************************************/
+
+
+const getPageId = (id) => {
+    return id ?? "readAndAnswerQuestionCreate"
+}
+const removeSessionKey = (id) => {
+    if (id === 'readAndAnswerQuestionCreate') {
+        let number = sessionStorage.getItem(id)
+        number = parseInt(number) - 1
+        setSessionItem(id, number)
+    }
+}
+
+const deleteRow = (el, id = 'readAndAnswerQuestionCreate', numberCount) => {
+    removeSessionKey(id)
+    const deletionRow = document.getElementById(`row-${numberCount}`)
+    deletionRow.remove()
+}
+
+const setSessionItem = (key, value) => {
+    sessionStorage.setItem(key, value)
+}
+const getSessionItem = (key) => {
+    return sessionStorage.getItem(key)
+}
+const appendInputBox = (questionCount, addBtnEl) => {
+    addBtnEl.parentNode.appendChild(wrapperDivEl(questionCount))
+}
+const incrementInputBox = (pageId, questionCount, addBtnEl) => {
+    setSessionItem(pageId, questionCount)
+    appendInputBox(questionCount, addBtnEl)
+}
+const populateAvailableInputBox = (questionCount, node) => {
+    if (questionCount) {
+        for (let i = 1; i <= questionCount; i++) {
+            if (questionCount > 5) {
+                return false
+            }
+            appendInputBox(i, node)
+        }
+    }
+}
+
 const wrapperDivEl = (numberCount) => {
     const el = document.createElement("div")
     el.setAttribute("class", `form-group row`)
@@ -92,7 +135,9 @@ const removeBtnEl = (numberCount) => {
     el.addEventListener("click", (event) => {
         event.preventDefault()
         const deletionRow = document.getElementById(`row-${numberCount}`)
+        removeSessionKey('readAndAnswerQuestionCreate')
         deletionRow.remove()
     })
     return el
 }
+

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Questionnaire\Utilities;
+namespace App\Questionnaire\Repositories;
 
 use App\DTO\Questionnaire\QuestionData;
 use App\DTO\Questionnaire\QuestionDescribeImageData;
@@ -11,8 +11,9 @@ use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
-class QuestionService extends BaseService implements InterfaceQuestionService
+class QuestionRepo extends BaseRepo implements InterfaceQuestionRepo
 {
     public function create(Module $module, QuestionData $questionData): Model
     {
@@ -46,51 +47,49 @@ class QuestionService extends BaseService implements InterfaceQuestionService
         return $question->readAndAnswer()->create($questionReadAndAnswerData->toArray());
     }
 
-    public function updateOption(Question $question, QuestionOptionData $questionOptionData): Model
+    public function updateOption(Question $question, QuestionOptionData $questionOptionData): int
     {
-        $builder = $question->option();
-        $builder->update($questionOptionData->toArray());
-
-        return $builder->first();
+        return $question->option()->update($questionOptionData->toArray());
     }
 
-    public function updateReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): Model
+    public function updateReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): int
     {
-        $builder = $question->readAndAnswer();
-        $builder->update($questionReadAndAnswerData->toArray());
-
-        return $builder->first();
+        return $question->readAndAnswer()->update($questionReadAndAnswerData->toArray());
     }
 
-    public function updateDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData): Model
+    public function updateDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData): int
     {
-        $builder = $question->describeImage();
-        $builder->update($questionDescribeImageData->toArray());
-
-        return $builder->first();
+        return $question->describeImage()->update($questionDescribeImageData->toArray());
     }
 
-    public function updateTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): Model
+    public function updateTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): int
     {
-        $builder = $question->trueFalse();
-        $builder->update($questionTrueFalseData->toArray());
-
-        return $builder->first();
+        return $question->trueFalse()->update($questionTrueFalseData->toArray());
     }
 
-    public function prepareOptions(array $options, string $correctAnswer): QuestionOptionData
+    public function prepareOptions(array $options, string $answer): QuestionOptionData
     {
         return QuestionOptionData::from([
             'body' => $options,
-            'is_correct' => $correctAnswer,
+            'answer' => $answer,
         ]);
     }
 
     public function prepareTrueFalse(array $options, bool $correctAnswer): QuestionTrueFalseData
     {
         return QuestionTrueFalseData::from([
-            'is_true' => $correctAnswer,
+            'answer' => $correctAnswer,
         ]);
+    }
+
+    public function prepareReadAndAnswer(array $questionsArray): QuestionReadAndAnswerData
+    {
+        $questionsWithKeys = [];
+        foreach ($questionsArray['questions'] as $question) {
+            $questionsWithKeys[] = ['id' => Str::uuid(), 'value' => $question];
+        }
+
+        return QuestionReadAndAnswerData::from(['questions' => $questionsWithKeys]);
     }
 
     public function uploadDescribeImageMaterial(Request $request, Module $module): array

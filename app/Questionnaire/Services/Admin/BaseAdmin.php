@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Questionnaire\Types;
+namespace App\Questionnaire\Services\Admin;
 
 use App\Enums\Questionnaire\QuestionType;
 use App\Models\Course;
@@ -9,7 +9,7 @@ use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use Illuminate\Http\Request;
 
-abstract class BaseType
+abstract class BaseAdmin
 {
     public function getQuestionCreateAttributes(Request $request, Course $course, Assessment $assessment, Module $module): array
     {
