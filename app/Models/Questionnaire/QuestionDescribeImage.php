@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class QuestionDescribeImage extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory;
+    use HasUuids;
+    use SoftDeletes;
 
     protected $table = 'questionnaire_question_describe_images';
 

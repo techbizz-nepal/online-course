@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,7 +14,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('question_id')->constrained()->on('questionnaire_questions');
             $table->json('body');
-            $table->string('is_correct');
+            $table->string('answer');
             $table->timestamps();
             $table->softDeletes();
         });

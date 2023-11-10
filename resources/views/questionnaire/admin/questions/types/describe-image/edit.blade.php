@@ -4,7 +4,7 @@
         <textarea class="form-control @error('body') is-invalid @enderror"
                   name="body"
                   id="body"
-                  rows="2">{{$question->body ?? @old('body')}}</textarea>
+                  rows="10">{{$question->body ?? @old('body')}}</textarea>
         @error('body')
         <span class="invalid-feedback">{{ $message }}</span>
         @enderror
@@ -46,7 +46,7 @@
 @push('js')
     <script type="text/javascript" src="{{ asset('assets/js/admin-utilities.js') }}"></script>
     <script>
-        const requestPath = `{{route('admin.courses.assessments.modules.questions.storeMaterial', [$course, $assessment, $module])}}`
+        const requestPath = `{{route('admin.courses.assessments.modules.questions.storeMaterial', [$course, $assessment, $module, 'type' => request()->get('type')])}}`
         const token = `{{csrf_token()}}`
         const fileInputEl = document.getElementById('material')
         const textInputEl = document.getElementById('image_path')

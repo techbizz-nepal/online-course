@@ -9,9 +9,9 @@ use Spatie\LaravelData\Optional;
 
 class QuestionDescribeImageData extends Data
 {
-    const SYSTEM_PATH = 'app/public/images/question_describe_images';
+    public const SYSTEM_PATH = 'app/public/images/question_describe_images';
 
-    const PUBLIC_PATH = 'storage/images/question_describe_images';
+    public const PUBLIC_PATH = 'storage/images/question_describe_images';
 
     public function __construct(
         #[Uuid]

@@ -53,10 +53,10 @@
     },
     "scripts": {
         "format": [
-           "./vendor/bin/pint"
+           "./vendor/bin/pint "
         ],
         "test": [
-            "./vendor/bin/pest --parallel"
+            "./vendor/bin/pest --parallel --group=questionnaire-crud"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

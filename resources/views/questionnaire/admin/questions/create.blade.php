@@ -28,7 +28,6 @@
                            class="btn btn-primary"
                            type="submit">Back</a>
                     </div>
-
                 </div>
             </form>
         </div>

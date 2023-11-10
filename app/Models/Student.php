@@ -10,9 +10,13 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Student extends \Illuminate\Foundation\Auth\User
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     protected $guarded = [];
+
+    protected $hidden = ['password'];
 
     public function courses(): BelongsToMany
     {

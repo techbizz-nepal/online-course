@@ -12,7 +12,7 @@ class QuestionReadAndAnswerData extends Data
     public function __construct(
         #[Uuid]
         public Optional|string $id,
-        public array $body,
+        public array $questions,
         public Optional|Carbon|null $created_at,
         public Optional|Carbon|null $updated_at,
         public Optional|Carbon|null $deleted_at,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Questionnaire\Utilities;
+namespace App\Questionnaire\Repositories;
 
 use App\DTO\Questionnaire\QuestionData;
 use App\DTO\Questionnaire\QuestionDescribeImageData;
@@ -12,7 +12,7 @@ use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-interface InterfaceQuestionService
+interface InterfaceQuestionRepo
 {
     public function create(Module $module, QuestionData $questionData): Model;
 
@@ -26,17 +26,19 @@ interface InterfaceQuestionService
 
     public function createReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): Model;
 
-    public function updateOption(Question $question, QuestionOptionData $questionOptionData): Model;
+    public function updateOption(Question $question, QuestionOptionData $questionOptionData): int;
 
-    public function updateReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): Model;
+    public function updateReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): int;
 
-    public function updateDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData): Model;
+    public function updateDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData): int;
 
-    public function updateTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): Model;
+    public function updateTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): int;
 
-    public function prepareOptions(array $options, string $correctAnswer): QuestionOptionData;
+    public function prepareOptions(array $options, string $answer): QuestionOptionData;
 
     public function prepareTrueFalse(array $options, bool $correctAnswer): QuestionTrueFalseData;
+
+    public function prepareReadAndAnswer(array $questionsArray): QuestionReadAndAnswerData;
 
     public function uploadDescribeImageMaterial(Request $request, Module $module): array;
 

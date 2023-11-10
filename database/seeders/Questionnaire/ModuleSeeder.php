@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\File;
 
 class ModuleSeeder extends Seeder
 {
-    const TABLE_NAME = 'questionnaire_modules';
+    public const TABLE_NAME = 'questionnaire_modules';
 
     public function __construct(private Module $model)
     {

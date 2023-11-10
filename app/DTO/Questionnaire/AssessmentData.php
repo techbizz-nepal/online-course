@@ -11,9 +11,9 @@ use Spatie\LaravelData\Optional;
 
 class AssessmentData extends Data
 {
-    const SYSTEM_PATH = 'app/public/files/assessments';
+    public const SYSTEM_PATH = 'app/public/files/assessments';
 
-    const PUBLIC_PATH = 'storage/files/assessments';
+    public const PUBLIC_PATH = 'storage/files/assessments';
 
     public function __construct(
         #[Max(300)]

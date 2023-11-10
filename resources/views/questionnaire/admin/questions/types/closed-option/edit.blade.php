@@ -27,11 +27,11 @@
                 <input type="radio"
                        name="choose"
                        class="form-check-input"
-                       id="{{$key}}" @checked($key === $question->option->is_correct)>
+                       id="{{$key}}" @checked($key === $question->option->answer)>
             </div>
         </div>
     @endforeach
-    <input type="hidden" name="is_correct">
+    <input type="hidden" name="answer">
 @endif
 @push('js')
     <script defer src="{{asset('assets/js/admin-utilities.js')}}" ></script>

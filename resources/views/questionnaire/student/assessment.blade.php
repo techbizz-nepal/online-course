@@ -7,14 +7,14 @@
         <div class="w-100 h-100 mx-2 p-2" style="background-color: #f5f5f4">
             <div>
                 About this activity
-                You are required to answer {{$assessment->questions_count}} questions.
+                You are required to answer {{$questionsCount}} questions.
             </div>
             <hr>
             <div>
-                This unit is comprised of {{$assessment->modules_count}} modules as follows:
-                @isset($assessment->modules)
-                    @foreach($assessment->modules as $module)
-                        <p>{{ str()->title($module->name) }}</p>
+                This unit is comprised of {{$modulesCount}} modules as follows:
+                @isset($modules)
+                    @foreach($modules as $module)
+                        <p>{{ str()->title($module['name']) }}</p>
                     @endforeach
                 @endif
             </div>
@@ -38,20 +38,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                @isset($assessment->modules)
-                    @foreach($assessment->modules as $module)
+                @isset($modules)
+                    @foreach($modules as $module)
                         <tr>
                             <td style="width: 30%" class="text-center">
                                 <p>{{str()->title($module['name'])}}</p>
-                                <p>{{$module->questions->count()}}</p>
+                                <p>{{$module['questionCount']}}</p>
                             </td>
                             <td style="width: 30%" class="text-center">
-                                <p>9</p>
+                                <p>{{$module['answered']}}</p>
                             </td>
-                            <td style="width: 10%" class="text-center">3</td>
-                            <td style="width: 10%" class="text-center">0</td>
+                            <td style="width: 10%" class="text-center">
+                                {{$module['incorrect']}}
+                            </td>
+                            <td style="width: 10%" class="text-center">
+                                {{$module['toReview']}}
+                            </td>
                             <td style="width: 20%" class="text-center">
-                                <a href="{{route('student.moduleStart', [$course, $assessment, $module])}}">
+                                <a href="{{route('student.moduleStart', [$course, $assessment, $module['slug']])}}">
                                     <button class="btn btn-primary">go to</button>
                                 </a>
                             </td>
