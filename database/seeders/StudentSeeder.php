@@ -23,13 +23,7 @@ class StudentSeeder extends Seeder
                 if ($row['email'] === 'student@student.com') {
                     $row['password'] = bcrypt(StudentData::DEFAULT_PASSWORD);
                 }
-                if ($row['name']) {
-                    $names = explode(' ', $row['name']);
-                    $row['first_name'] = $names[0];
-                    $row['surname'] = $names[1];
-                }
-                unset($row['name']);
-                $row['title'] = Arr::random(['mr', 'mrs', 'dr']);
+
                 DB::table('students')->insert($row);
             });
         }
