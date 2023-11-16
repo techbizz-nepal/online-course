@@ -16,7 +16,7 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $rows = Arr::get(Arr::keyBy(File::json(database_path('data/keyeduau_muhamad.json')), 'name'), 'categories')['data'];
-        if (! Category::query()->count() && $rows) {
+        if (!Category::query()->count() && $rows) {
             Arr::map($rows, function ($row) {
                 DB::table('categories')->insert($row);
             });

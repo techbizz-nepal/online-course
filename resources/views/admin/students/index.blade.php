@@ -8,7 +8,8 @@
         </h2>
         <div class="w-100 h-100 mx-1 p-2 row">
             <form action="{{ route('admin.student.index') }}" class="form-inline">
-                <input class="form-control mr-sm-2" type="search" name="query" placeholder="filter by name or email" value="{{request()->get('query')}}">
+                <input class="form-control mr-sm-2" type="search" name="query" placeholder="filter by name or email"
+                       value="{{request()->get('query')}}">
                 <button class="btn btn-primary mr-sm-2" type="submit">Filter</button>
                 <a class="btn btn-primary" href="{{route('admin.student.index')}}">Reset</a>
             </form>
@@ -29,13 +30,13 @@
                     @foreach($students->items() as $student)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $student->name }}</td>
+                            <td>{{ $student->first_name }} {{$student->surname}}</td>
                             <td>{{$student->email}}</td>
                             <td>
                                 <a
-                                    href="{{ asset($student->pdf) }}"
-                                    class="btn btn-blueLight"
-                                    target="_blank"
+                                        href="{{ asset($student->pdf) }}"
+                                        class="btn btn-blueLight"
+                                        target="_blank"
                                 >
                                     View File
                                 </a>

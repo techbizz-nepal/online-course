@@ -30,7 +30,7 @@ class PurchaseController extends Controller
 
     public function checkout()
     {
-        if (! Session::has('cart') || get_cart_count() === 0) {
+        if (!Session::has('cart') || get_cart_count() === 0) {
             return redirect()->route('home')->withErrors('No items have been added to cart.');
         }
         $cart = Session::get('cart');
@@ -66,7 +66,7 @@ class PurchaseController extends Controller
 
     public function payment()
     {
-        if (! Session::has('cart') || ! Session::has('user-checkout-details') || get_cart_count() <= 0) {
+        if (!Session::has('cart') || !Session::has('user-checkout-details') || get_cart_count() <= 0) {
             return redirect()->route('home')->withErrors('Cannot make payment. Make sure you have items in your cart or have filled in your user details form.');
         }
         $userEmail = Session::get('user-checkout-details')['email'];
@@ -85,26 +85,27 @@ class PurchaseController extends Controller
             'gender' => 'required | min: 1 | max: 10',
             'email' => 'required | min: 1 | max: 250 | email',
             'mobile' => 'required | min: 1 | max: 15',
-            'flat_details' => 'required | min: 1 | max: 500',
-            'street_name' => 'required | min: 1 | max: 500',
-            'suburb' => 'required | min: 1 | max: 500',
-            'post' => 'required | min: 1 | max: 500',
+            'flat_unit' => 'required | min: 1 | max: 500',
+            'street' => 'required | min: 1 | max: 500',
+            'locality' => 'required | min: 1 | max: 500',
+            'post_code' => 'required | min: 1 | max: 500',
         ]);
     }
 
     private function getDtoFromUserDetails(array $array): StudentData
     {
-        return new StudentData(
-            first_name: $array['first_name'],
-            surname: $array['surname'],
-            email: $array['email'],
-            dob: $array['dob'],
-            gender: $array['gender'],
-            mobile: $array['mobile'],
-            flat_details: $array['flat_details'],
-            street_name: $array['street_name'],
-            suburb: $array['suburb'],
-            post: $array['post'],
-        );
+        return StudentData::from([
+            "title" => $array['title'],
+            "first_name" => $array['first_name'],
+            "surname" => $array['surname'],
+            "email" => $array['email'],
+            "dob" => $array['dob'],
+            "gender" => $array['gender'],
+            "mobile" => $array['mobile'],
+            "flat_unit" => $array['flat_unit'],
+            "street" => $array['street'],
+            "locality" => $array['locality'],
+            "post_code" => $array['post_code'],
+        ]);
     }
 }

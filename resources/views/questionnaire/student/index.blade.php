@@ -4,6 +4,7 @@
         <h2 class="m-2 mb-0 d-flex justify-content-between">
             <span>My Enrollments</span>
         </h2>
+
         <div class="w-100 h-100 bg-white mx-2 p-2">
             <table class="table table-striped table-bordered" style="font-size: small;">
                 <thead>
