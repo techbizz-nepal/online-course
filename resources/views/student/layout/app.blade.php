@@ -63,6 +63,10 @@
                             <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                     </li>
                     <li>
+                        <a href="{{ route('student.updateProfile') }}">
+                            <i class="fas fa-tachometer-alt"></i>Update Profile</a>
+                    </li>
+                    <li>
                         <a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
                             <i class="fa fa-close"></i>Logout
                             <form action="{{ route('student.postLogout') }}" method="POST" class="d-none" id="logoutForm">
@@ -82,11 +86,15 @@
         </div>
         <div class="menu-sidebar__content js-scrollbar1">
             <nav class="navbar-sidebar pt-3">
-                <p>Welcome {{auth()->user()->name}}</p>
+                <p>Welcome Back {{auth()->user()->first_name}} !</p>
                 <ul class="list-unstyled navbar__list">
                     <li class="@yield('dashboard')">
                         <a href="{{ route('student.dashboard') }}">
                             <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('student.updateProfile') }}">
+                            <i class="fas fa-user"></i>Update Profile</a>
                     </li>
                     <li>
                         <a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
