@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class StudentSeeder extends Seeder
 {
@@ -17,11 +18,18 @@ class StudentSeeder extends Seeder
     public function run(): void
     {
         $rows = Arr::get(Arr::keyBy(File::json(database_path('data/keyeduau_muhamad.json')), 'name'), 'students')['data'];
-        if (! Student::query()->count() && $rows) {
+        if (!Student::query()->count() && $rows) {
             Arr::map($rows, function ($row) {
                 if ($row['email'] === 'student@student.com') {
                     $row['password'] = bcrypt(StudentData::DEFAULT_PASSWORD);
                 }
+                if ($row['name']) {
+                    $names = explode(' ', $row['name']);
+                    $row['first_name'] = $names[0];
+                    $row['surname'] = $names[1];
+                }
+                unset($row['name']);
+                $row['title'] = Arr::random(['mr', 'mrs', 'dr']);
                 DB::table('students')->insert($row);
             });
         }

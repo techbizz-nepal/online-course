@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DTO\StudentData;
 use App\Http\Controllers\Controller;
+use App\Mail\StudentCreated;
 use App\Models\Student;
 use Exception;
 use Illuminate\Contracts\View\Factory;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -28,7 +30,7 @@ class StudentController extends Controller
                 $builder->where('name', 'like', "%{$request->get('query')}%")
                     ->orWhere('email', 'like', "%{$request->get('query')}%");
             })
-            ->select(['id', 'name', 'email', 'pdf'])
+            ->select(['id', 'first_name', 'surname', 'email', 'pdf'])
             ->simplePaginate(5)
             ->appends($request->except('page'));
 
@@ -49,17 +51,18 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required | min: 1 | max: 250',
+            'first_name' => 'required | min: 1 | max: 250',
+            'surname' => 'required | min: 1 | max: 250',
             'pdf' => 'required|mimes:pdf|max:10000',
             'email' => 'required|regex:/^.+@.+$/i',
         ]);
         DB::beginTransaction();
         try {
             $uniqueKey = generate_random_key();
-            $key = Str::slug($data['name'].' '.$uniqueKey);
+            $key = Str::slug($data['first_name'] . ' ' . $data['surname'] . ' ' . $uniqueKey);
 
             $pdf = $request->file('pdf');
-            $pdfName = $key.'.'.$pdf->extension();
+            $pdfName = $key . '.' . $pdf->extension();
             $pdf->move(storage_path(StudentData::SYSTEM_PATH), $pdfName);
             $data['key'] = $key;
             $data['pdf'] = sprintf('%s/%s', StudentData::PUBLIC_PATH, $pdfName);
@@ -67,7 +70,7 @@ class StudentController extends Controller
             $data['password'] = bcrypt('student123');
             $newStudent = tap(Student::query()->create($data))->target;
             $newStudent->setAttribute('password', bcrypt(StudentData::DEFAULT_PASSWORD));
-            //            Mail::to($newStudent->email)->queue(new StudentCreated($newStudent));
+            Mail::to($newStudent->email)->queue(new StudentCreated($newStudent));
             DB::commit();
 
             return redirect()->route('admin.student.index')->with('success', 'Student Created Successfully');
@@ -87,7 +90,8 @@ class StudentController extends Controller
     public function update(Request $request, Student $student): RedirectResponse
     {
         $data = $request->validate([
-            'name' => 'required | min: 1 | max: 250',
+            'first_name' => 'required | min: 1 | max: 250',
+            'surname' => 'required | min: 1 | max: 250',
             'pdf' => 'file|nullable|mimetypes:application/pdf|max:10000',
             'email' => 'required|regex:/^.+@.+$/i',
         ]);
@@ -100,7 +104,7 @@ class StudentController extends Controller
                     File::delete(storage_path($getSystemPath));
                 }
                 $pdf = $request->file('pdf');
-                $pdfName = $key.'.'.$pdf->extension();
+                $pdfName = $key . '.' . $pdf->extension();
                 $pdf->move(storage_path(StudentData::SYSTEM_PATH), $pdfName);
                 $data['pdf'] = sprintf('%s/%s', StudentData::PUBLIC_PATH, $pdfName);
             }
@@ -119,12 +123,12 @@ class StudentController extends Controller
     {
         $url = asset($student->pdf);
         $headers = ['Content-Type' => ['svg']];
-        $imageName = 'qr-code-'.uniqid().generate_random_key();
+        $imageName = 'qr-code-' . uniqid() . generate_random_key();
         $image = QrCode::format('svg')->size(200)->generate($url);
 
         Storage::disk('public')->put($imageName, $image);
 
-        return response()->download('storage/'.$imageName, $imageName.'.svg', $headers)->deleteFileAfterSend();
+        return response()->download('storage/' . $imageName, $imageName . '.svg', $headers)->deleteFileAfterSend();
     }
 
     public function destroy(Student $student)
