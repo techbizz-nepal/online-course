@@ -15,4 +15,5 @@ Route::controller(DashboardController::class)
     ->middleware('auth:student')
     ->group(function () {
         Route::get('/', 'index')->name('dashboard');
+        Route::match(['get', 'post'], '/update-profile', 'updateProfile')->name('updateProfile');
     });

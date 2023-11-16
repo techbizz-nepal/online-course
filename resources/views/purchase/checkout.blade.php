@@ -155,27 +155,27 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Flat/unit details:</th>
+                                    <th scope="row">Flat/unit:</th>
                                     <td>
-                                        <input required name="flat_details" type="text" class="form-control" value="{{ old('flat_details') }}">
+                                        <input required name="flat_unit" type="text" class="form-control" value="{{ old('flat_unit') }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Street name:</th>
                                     <td>
-                                        <input required name="street_name" type="text" class="form-control" value="{{ old('street_name') }}">
+                                        <input required name="street" type="text" class="form-control" value="{{ old('street') }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Suburb:</th>
                                     <td>
-                                        <input required name="suburb" type="text" class="form-control" value="{{ old('suburb') }}">
+                                        <input required name="locality" type="text" class="form-control" value="{{ old('locality') }}">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Post:</th>
+                                    <th scope="row">Post Code:</th>
                                     <td>
-                                        <input required name="post" type="text" class="form-control" value="{{ old('post') }}">
+                                        <input required name="post_code" type="text" class="form-control" value="{{ old('post_code') }}">
                                     </td>
                                 </tr>
                                 </tbody>
