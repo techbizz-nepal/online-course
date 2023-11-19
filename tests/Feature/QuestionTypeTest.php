@@ -49,7 +49,7 @@ it('can create/update true false question', function () {
     ]);
     $questionTrueFalseUpdate = QuestionnaireAdmin::updateQuestionTrueFalse($question, $questionTrueFalseCreateData);
     //update
-    expect($questionTrueFalseUpdate)->toBe(1);
+    expect($questionTrueFalseUpdate)->answer->toBe($questionTrueFalseCreateData->answer);
 });
 it('can create/update describe image question', function () {
     $question = Question::factory()->create();
@@ -67,7 +67,7 @@ it('can create/update describe image question', function () {
     ]);
     $questionDescribeImageUpdate = QuestionnaireAdmin::updateQuestionDescribeImage($question, $questionDescribeImageData);
     //update
-    expect($questionDescribeImageUpdate)->toBe(1);
+    expect($questionDescribeImageUpdate)->image_path->toBe($questionDescribeImageData->image_path);
 });
 it('can create/update closed option question', function () {
     $question = Question::factory()->create();
@@ -97,5 +97,5 @@ it('can create/update closed option question', function () {
     ]);
     $questionOptionUpdate = QuestionnaireAdmin::updateQuestionOption($question, $questionOptionsData);
     //update
-    expect($questionOptionUpdate)->toBe(1);
+    expect($questionOptionUpdate)->answer->toBe($questionOptionsData->answer);
 });

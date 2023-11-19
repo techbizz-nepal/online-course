@@ -19,8 +19,7 @@ class Input extends Component
         public ?string $pattern = null,
         public bool    $required = false,
         public bool    $readonly = false
-    )
-    {
+    ) {
         $this->fillInput();
     }
 

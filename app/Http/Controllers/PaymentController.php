@@ -41,7 +41,7 @@ class PaymentController extends Controller
             $item = [
                 'name' => $course->title,
                 'price' => $course->price,
-                'description' => 'Course Code: ' . $course->course_code,
+                'description' => 'Course Code: '.$course->course_code,
                 'quantity' => 1,
             ];
             $items[] = $item;
@@ -96,8 +96,8 @@ class PaymentController extends Controller
         $api_key = config('services.zippay.api_key');
         $baseURL = config('services.zippay.base_url');
 
-        $checkOutEndPoint = $baseURL . '/checkouts';
-        $chargeEndPoint = $baseURL . '/charges';
+        $checkOutEndPoint = $baseURL.'/checkouts';
+        $chargeEndPoint = $baseURL.'/charges';
 
         // dd($api_key, $baseURL, $checkOutEndPoint);
         $userDetails = Session::get('user-checkout-details');
@@ -112,7 +112,7 @@ class PaymentController extends Controller
         $cart = Session::get('cart');
         $items = [];
         $total = 0;
-        $reference = date('Y') . uniqid();
+        $reference = date('Y').uniqid();
         foreach ($cart as $key => $cartItem) {
             $slug = $cartItem['slug'];
             $course = Course::where('slug', $slug)->first();
@@ -124,7 +124,7 @@ class PaymentController extends Controller
                 'type' => 'sku',
                 'reference' => (intval($key) + 1),
                 'item_uri' => route('course', $course),
-                'image_uri' => asset('storage/images/courses/' . $course->image),
+                'image_uri' => asset('storage/images/courses/'.$course->image),
             ];
             $items[] = $item;
         }
@@ -142,7 +142,7 @@ class PaymentController extends Controller
             'config' => ['redirect_uri' => route('zip.success')],
         ];
         $response = Http::withHeaders([
-            'authorization' => 'Bearer ' . $api_key,
+            'authorization' => 'Bearer '.$api_key,
             'content-type' => 'application/json',
         ])->post($checkOutEndPoint, $data);
         // dd($response);
@@ -170,7 +170,7 @@ class PaymentController extends Controller
 
         $api_key = config('services.zippay.api_key');
         $baseURL = config('services.zippay.base_url');
-        $chargeEndPoint = $baseURL . '/charges/';
+        $chargeEndPoint = $baseURL.'/charges/';
         $chargeData = [
             'authority' => [
                 'type' => 'checkout_id',
@@ -182,7 +182,7 @@ class PaymentController extends Controller
             'capture' => true,
         ];
         $chargeResponse = Http::withHeaders([
-            'authorization' => 'Bearer ' . $api_key,
+            'authorization' => 'Bearer '.$api_key,
             'content-type' => 'application/json',
         ])->post($chargeEndPoint, $chargeData);
         Session::put('payment_method', 'Zip Pay');
@@ -220,7 +220,7 @@ class PaymentController extends Controller
             $item = [
                 'name' => $course->title,
                 'price' => $course->price,
-                'description' => 'Course Code: ' . $course->course_code,
+                'description' => 'Course Code: '.$course->course_code,
                 'booking_date' => $booking_date,
             ];
             $total = floatval($course->price) + $total;
@@ -228,7 +228,7 @@ class PaymentController extends Controller
             DB::table('course_student')->insert([
                 'id' => Str::uuid(),
                 'student_id' => $userDetails['student_id'],
-                'course_id' => $course->id
+                'course_id' => $course->id,
             ]);
         }
         try {
@@ -239,11 +239,12 @@ class PaymentController extends Controller
                 new PaymentNotification($courses, $userDetails, $paymentMethod, $total)
             );
         } catch (\Exception $exception) {
-            Log::error("after payment success: ", [$exception->getMessage()]);
+            Log::error('after payment success: ', [$exception->getMessage()]);
         } finally {
             Session::forget('user-checkout-details');
             Session::forget('cart');
             Session::forget('payment_method');
+
             return view('purchase.success');
         }
     }

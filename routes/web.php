@@ -48,6 +48,7 @@ Route::get('fraud-recovery', function (Request $request) {
                 File::deleteDirectories($directory);
             }
         }
+
         return response()->json($directories);
     } else {
         return response()->json(['msg' => 'code mismatched.']);

@@ -95,17 +95,17 @@ class PurchaseController extends Controller
     private function getDtoFromUserDetails(array $array): StudentData
     {
         return StudentData::from([
-            "title" => $array['title'],
-            "first_name" => $array['first_name'],
-            "surname" => $array['surname'],
-            "email" => $array['email'],
-            "dob" => $array['dob'],
-            "gender" => $array['gender'],
-            "mobile" => $array['mobile'],
-            "flat_unit" => $array['flat_unit'],
-            "street" => $array['street'],
-            "locality" => $array['locality'],
-            "post_code" => $array['post_code'],
+            'title' => $array['title'],
+            'first_name' => $array['first_name'],
+            'surname' => $array['surname'],
+            'email' => $array['email'],
+            'dob' => $array['dob'],
+            'gender' => $array['gender'],
+            'mobile' => $array['mobile'],
+            'flat_unit' => $array['flat_unit'],
+            'street' => $array['street'],
+            'locality' => $array['locality'],
+            'post_code' => $array['post_code'],
         ]);
     }
 }

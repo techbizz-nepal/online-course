@@ -28,12 +28,11 @@ class QuestionController extends Controller
     }
 
     public function create(
-        Course     $course,
+        Course $course,
         Assessment $assessment,
-        Module     $module,
-        Request    $request
-    )
-    {
+        Module $module,
+        Request $request
+    ) {
         $data = $this->type->getQuestionCreateAttributes($request, $course, $assessment, $module);
 
         return view('questionnaire.admin.questions.create', $data);
@@ -45,13 +44,12 @@ class QuestionController extends Controller
     }
 
     public function store(
-        Course       $course,
-        Assessment   $assessment,
-        Module       $module,
+        Course $course,
+        Assessment $assessment,
+        Module $module,
         QuestionData $questionData,
-        Request      $request
-    )
-    {
+        Request $request
+    ) {
         $validated = $this->type->validated($request);
 
         DB::beginTransaction();
@@ -73,12 +71,11 @@ class QuestionController extends Controller
     }
 
     public function edit(
-        Course     $course,
+        Course $course,
         Assessment $assessment,
-        Module     $module,
-        Question   $question
-    )
-    {
+        Module $module,
+        Question $question
+    ) {
         $type = QuestionType::from($question->type);
         $data = $this->type
             ->getQuestionEditAttributes($course, $assessment, $module, $question, $type);
@@ -87,20 +84,20 @@ class QuestionController extends Controller
     }
 
     public function update(
-        Course       $course,
-        Assessment   $assessment,
-        Module       $module,
-        Question     $question,
+        Course $course,
+        Assessment $assessment,
+        Module $module,
+        Question $question,
         QuestionData $questionData,
-        Request      $request
-    )
-    {
+        Request $request
+    ) {
         $validated = $this->type->validated($request);
         try {
             if ($this->type->updateProcess($validated, $question, $questionData)) {
                 DB::commit();
             } else {
                 DB::rollBack();
+
                 return $this->failureRedirectResponse(translationKey: 'question.error.update');
             }
         } catch (\Exception $exception) {

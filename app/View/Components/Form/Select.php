@@ -12,13 +12,13 @@ class Select extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public string  $label,
-        public string  $name,
-        public string  $id,
-        public string  $cols,
-        public array   $options = [],
-        public string  $type = 'text',
-        public string  $placeholder = '',
+        public string $label,
+        public string $name,
+        public string $id,
+        public string $cols,
+        public array $options = [],
+        public string $type = 'text',
+        public string $placeholder = '',
         public ?string $selected = null,
         public ?string $value = '',
     ) {
