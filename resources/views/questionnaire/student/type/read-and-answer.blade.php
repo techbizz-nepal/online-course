@@ -7,6 +7,8 @@
                     <textarea name="answer['{{$item['id']}}']" class="form-control" rows="3"> </textarea>
                 </div>
             @endforeach
+        @else
+            <p class="text-lg-center">Please contact with Administrator</p>
         @endif
     </div>
     <div class="w-100 h-100 mx-2 px-4 py-2 text-right" style="background-color: #f5f5f4">

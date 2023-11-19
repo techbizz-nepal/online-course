@@ -19,8 +19,8 @@
         <select class="form-select form-select-lg "
                 name="answer"
                 aria-label="Correct Answer">
-            <option value="1" {{$question->trueFalse->answer == 1 ? "selected" : ""}}>True</option>
-            <option value="0" {{$question->trueFalse->answer == 0 ? "selected" : ""}}>False</option>
+            <option value="1" {{$question->trueFalse?->answer == 1 ? "selected" : ""}}>True</option>
+            <option value="0" {{$question->trueFalse?->answer == 0 ? "selected" : ""}}>False</option>
         </select>
     </div>
 </div>

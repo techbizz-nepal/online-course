@@ -16,7 +16,7 @@ interface InterfaceAdmin
 
     public function storeProcess(array $validated, Module $module, QuestionData $questionData): Model;
 
-    public function updateProcess(array $validated, Question $question, QuestionData $questionData): int;
+    public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model;
 
     public function deleteProcess(Question $question): void;
 }

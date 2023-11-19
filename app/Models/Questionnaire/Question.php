@@ -21,6 +21,7 @@ class Question extends Model
     protected $guarded = [];
 
     protected $table = 'questionnaire_questions';
+    protected $with = ['option', 'trueFalse', 'readAndAnswer', 'describeImage'];
 
     public function answers(): HasMany
     {

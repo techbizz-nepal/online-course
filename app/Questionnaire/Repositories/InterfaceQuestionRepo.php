@@ -26,17 +26,17 @@ interface InterfaceQuestionRepo
 
     public function createReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): Model;
 
-    public function updateOption(Question $question, QuestionOptionData $questionOptionData): int;
+    public function updateOption(Question $question, QuestionOptionData $questionOptionData): Model;
 
-    public function updateReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): int;
+    public function updateReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): Model;
 
-    public function updateDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData): int;
+    public function updateDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData): Model;
 
-    public function updateTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): int;
+    public function updateTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): Model;
 
     public function prepareOptions(array $options, string $answer): QuestionOptionData;
 
-    public function prepareTrueFalse(array $options, bool $correctAnswer): QuestionTrueFalseData;
+    public function prepareTrueFalse(int $correctAnswer): QuestionTrueFalseData;
 
     public function prepareReadAndAnswer(array $questionsArray): QuestionReadAndAnswerData;
 

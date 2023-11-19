@@ -66,7 +66,7 @@ final readonly class StudentFacade
     public function pullQuestionFromSession(Module $module, Question $question): void
     {
         try {
-            $questions = Session::get($module->slug);
+            $questions = Session::get($module->slug) ?? [];
             $filtered = Arr::where($questions, function ($row) use ($question) {
                 return $row['id'] !== $question->id;
             });

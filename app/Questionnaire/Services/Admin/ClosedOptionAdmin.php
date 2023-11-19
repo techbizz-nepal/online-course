@@ -35,7 +35,7 @@ class ClosedOptionAdmin extends BaseAdmin implements InterfaceAdmin
         return QuestionnaireAdmin::createQuestionOption($question, $options);
     }
 
-    public function updateProcess(array $validated, Question $question, QuestionData $questionData): int
+    public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model
     {
         $answer = Arr::pull($validated, 'answer');
         QuestionnaireAdmin::updateQuestion($question, $questionData);
