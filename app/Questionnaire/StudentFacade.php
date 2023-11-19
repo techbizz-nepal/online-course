@@ -50,6 +50,7 @@ final readonly class StudentFacade
     public function getNextQuestion(Module $module, Question $question)
     {
         self::pullQuestionFromSession($module, $question);
+
         return collect(Session::get($module->slug))->first() ?? null;
     }
 
@@ -84,7 +85,7 @@ final readonly class StudentFacade
             },
             'type_1_4_correct_0' => function ($item) {
                 return in_array($item['type'], QuestionType::getCorrectTypes()) && $item['answers'][0]['is_correct'] === 0;
-            }
+            },
         ];
 
         return Arr::where($questionOfModule->toArray(), function ($item, $key) use ($conditions) {

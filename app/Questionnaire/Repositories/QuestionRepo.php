@@ -9,7 +9,6 @@ use App\DTO\Questionnaire\QuestionReadAndAnswerData;
 use App\DTO\Questionnaire\QuestionTrueFalseData;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
-use App\Models\Questionnaire\QuestionTrueFalse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

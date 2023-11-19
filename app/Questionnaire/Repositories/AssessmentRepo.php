@@ -51,8 +51,8 @@ class AssessmentRepo extends BaseRepo implements InterfaceAssessmentRepo
     public function getAssessmentsByStudent(Course $course): Collection
     {
         return Assessment::with('modules.questions.answers')
-        ->where('course_id', $course->getAttribute('id'))
-        ->get();
+            ->where('course_id', $course->getAttribute('id'))
+            ->get();
     }
 
     public function calculatePercentage(Assessment $assessment): float|int
