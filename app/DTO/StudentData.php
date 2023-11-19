@@ -14,14 +14,14 @@ class StudentData extends Data
     public const PUBLIC_PATH = 'storage/files/students';
 
     public function __construct(
-        public Optional|string      $id,
-        public string               $title,
-        public string               $first_name,
-        public string               $surname,
-        public string               $email,
-        public string               $dob,
-        public string               $gender,
-        public string               $mobile,
+        public Optional|string $id,
+        public string $title,
+        public string $first_name,
+        public string $surname,
+        public string $email,
+        public string $dob,
+        public string $gender,
+        public string $mobile,
         public Optional|string|null $pdf,
         public Optional|string|null $home_phone,
         public Optional|string|null $work_phone,
@@ -34,8 +34,7 @@ class StudentData extends Data
         public Optional|string|null $emergency_home_phone,
         public Optional|string|null $emergency_work_phone,
         public Optional|string|null $emergency_mobile,
-    )
-    {
+    ) {
     }
 
     public const DEFAULT_PASSWORD = 'student123';
@@ -47,7 +46,8 @@ class StudentData extends Data
 
     public function getSlug(): string
     {
-        $withRandomString = sprintf("%s%s", $this->getName(), Str::random(6));
+        $withRandomString = sprintf('%s%s', $this->getName(), Str::random(6));
+
         return Str::slug($withRandomString);
     }
 

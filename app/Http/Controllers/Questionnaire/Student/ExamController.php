@@ -25,6 +25,7 @@ class ExamController extends Controller
         $data = [
             'course' => $course->load('assessments'),
         ];
+
         return view('questionnaire.student.course', $data);
     }
 
@@ -33,7 +34,7 @@ class ExamController extends Controller
         $data = [
             'course' => $course,
             'assessment' => $assessment->loadCount(['questions']),
-            'modules' => Module::getWithMetaInfo($assessment)
+            'modules' => Module::getWithMetaInfo($assessment),
         ];
         $data['modulesCount'] = collect($data['modules'])->count();
         $data['questionsCount'] = collect($data['modules'])->sum(fn ($module) => $module['questionCount']);
@@ -65,12 +66,12 @@ class ExamController extends Controller
     }
 
     public function submitAnswer(
-        Course     $course,
+        Course $course,
         Assessment $assessment,
-        Module     $module,
-        Question   $question,
-        Exam       $exam,
-        Request    $request
+        Module $module,
+        Question $question,
+        Exam $exam,
+        Request $request
     ) {
         try {
             $typeService = self::getStudentService($question);

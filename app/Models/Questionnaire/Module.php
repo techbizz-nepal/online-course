@@ -79,13 +79,14 @@ class Module extends Model
                         ->where('exam.student_id', Auth::guard('student')->id())
                         ->whereIn('question.type', QuestionType::getReviewTypes());
                 })->count();
+
                 return [
                     'slug' => $module->slug,
                     'name' => $module->name,
                     'questionCount' => $questionsCount,
                     'answered' => $answered,
                     'incorrect' => $incorrect,
-                    'toReview' => $toReview
+                    'toReview' => $toReview,
                 ];
             });
     }

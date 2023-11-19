@@ -30,6 +30,7 @@ class DashboardController extends Controller
                 Student::query()
                     ->where('id', Auth::guard('student')->id())
                     ->update($studentData->toArray());
+
                 return redirect()->back()->with('success', 'Profile Updated.');
             } catch (\Exception $exception) {
                 return back()->withErrors(['msg' => $exception->getMessage()])->withInput();
@@ -45,8 +46,9 @@ class DashboardController extends Controller
             'genderOptions' => [
                 ['value' => 'male', 'label' => 'Male'],
                 ['value' => 'female', 'label' => 'Female'],
-            ]
+            ],
         ];
+
         return view('student.update-profile', $data);
     }
 }

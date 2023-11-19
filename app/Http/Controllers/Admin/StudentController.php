@@ -59,10 +59,10 @@ class StudentController extends Controller
         DB::beginTransaction();
         try {
             $uniqueKey = generate_random_key();
-            $key = Str::slug($data['first_name'] . ' ' . $data['surname'] . ' ' . $uniqueKey);
+            $key = Str::slug($data['first_name'].' '.$data['surname'].' '.$uniqueKey);
 
             $pdf = $request->file('pdf');
-            $pdfName = $key . '.' . $pdf->extension();
+            $pdfName = $key.'.'.$pdf->extension();
             $pdf->move(storage_path(StudentData::SYSTEM_PATH), $pdfName);
             $data['key'] = $key;
             $data['pdf'] = sprintf('%s/%s', StudentData::PUBLIC_PATH, $pdfName);
@@ -104,7 +104,7 @@ class StudentController extends Controller
                     File::delete(storage_path($getSystemPath));
                 }
                 $pdf = $request->file('pdf');
-                $pdfName = $key . '.' . $pdf->extension();
+                $pdfName = $key.'.'.$pdf->extension();
                 $pdf->move(storage_path(StudentData::SYSTEM_PATH), $pdfName);
                 $data['pdf'] = sprintf('%s/%s', StudentData::PUBLIC_PATH, $pdfName);
             }
@@ -123,12 +123,12 @@ class StudentController extends Controller
     {
         $url = asset($student->pdf);
         $headers = ['Content-Type' => ['svg']];
-        $imageName = 'qr-code-' . uniqid() . generate_random_key();
+        $imageName = 'qr-code-'.uniqid().generate_random_key();
         $image = QrCode::format('svg')->size(200)->generate($url);
 
         Storage::disk('public')->put($imageName, $image);
 
-        return response()->download('storage/' . $imageName, $imageName . '.svg', $headers)->deleteFileAfterSend();
+        return response()->download('storage/'.$imageName, $imageName.'.svg', $headers)->deleteFileAfterSend();
     }
 
     public function destroy(Student $student)
