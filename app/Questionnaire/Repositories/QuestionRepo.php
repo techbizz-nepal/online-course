@@ -9,6 +9,7 @@ use App\DTO\Questionnaire\QuestionReadAndAnswerData;
 use App\DTO\Questionnaire\QuestionTrueFalseData;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
+use App\Models\Questionnaire\QuestionTrueFalse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -47,24 +48,24 @@ class QuestionRepo extends BaseRepo implements InterfaceQuestionRepo
         return $question->readAndAnswer()->create($questionReadAndAnswerData->toArray());
     }
 
-    public function updateOption(Question $question, QuestionOptionData $questionOptionData): int
+    public function updateOption(Question $question, QuestionOptionData $questionOptionData): Model
     {
-        return $question->option()->update($questionOptionData->toArray());
+        return $question->option()->updateOrCreate(['question_id' => $question->id], $questionOptionData->toArray());
     }
 
-    public function updateReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): int
+    public function updateReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): Model
     {
-        return $question->readAndAnswer()->update($questionReadAndAnswerData->toArray());
+        return $question->readAndAnswer()->updateOrCreate(['question_id' => $question->id], $questionReadAndAnswerData->toArray());
     }
 
-    public function updateDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData): int
+    public function updateDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData): Model
     {
-        return $question->describeImage()->update($questionDescribeImageData->toArray());
+        return $question->describeImage()->updateOrCreate(['question_id' => $question->id], $questionDescribeImageData->toArray());
     }
 
-    public function updateTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): int
+    public function updateTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): Model
     {
-        return $question->trueFalse()->update($questionTrueFalseData->toArray());
+        return $question->trueFalse()->updateOrCreate(['question_id' => $question->id], $questionTrueFalseData->toArray());
     }
 
     public function prepareOptions(array $options, string $answer): QuestionOptionData
@@ -75,7 +76,7 @@ class QuestionRepo extends BaseRepo implements InterfaceQuestionRepo
         ]);
     }
 
-    public function prepareTrueFalse(array $options, bool $correctAnswer): QuestionTrueFalseData
+    public function prepareTrueFalse(int $correctAnswer): QuestionTrueFalseData
     {
         return QuestionTrueFalseData::from([
             'answer' => $correctAnswer,

@@ -31,18 +31,18 @@ class TrueFalseAdmin extends BaseAdmin implements InterfaceAdmin
     {
         $correctAnswer = Arr::pull($validated, 'answer');
         $question = tap(QuestionnaireAdmin::createQuestion($module, $questionData))->target;
-        $questionTrueFalseData = QuestionnaireAdmin::prepareQuestionTrueFalse($validated, $correctAnswer);
+        $questionTrueFalseData = QuestionnaireAdmin::prepareQuestionTrueFalse($correctAnswer);
 
         return QuestionnaireAdmin::createQuestionTrueFalse($question, $questionTrueFalseData);
     }
 
-    public function updateProcess(array $validated, Question $question, QuestionData $questionData): int
+    public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model
     {
         $correctAnswer = Arr::pull($validated, 'answer');
         QuestionnaireAdmin::updateQuestion($question, $questionData);
-        $options = QuestionnaireAdmin::prepareQuestionTrueFalse($validated, $correctAnswer);
+        $trueFalseData = QuestionnaireAdmin::prepareQuestionTrueFalse($correctAnswer);
 
-        return QuestionnaireAdmin::updateQuestionTrueFalse($question, $options);
+        return QuestionnaireAdmin::updateQuestionTrueFalse($question, $trueFalseData);
     }
 
     public function deleteProcess(Question $question): void

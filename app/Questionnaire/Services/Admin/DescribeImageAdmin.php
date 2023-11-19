@@ -30,7 +30,7 @@ class DescribeImageAdmin extends BaseAdmin implements InterfaceAdmin
         return QuestionnaireAdmin::createQuestionDescribeImage($question, $questionDescribeImageData);
     }
 
-    public function updateProcess(array $validated, Question $question, QuestionData $questionData): int
+    public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model
     {
         QuestionnaireAdmin::updateQuestion($question, $questionData);
         $questionDescribeImageData = QuestionDescribeImageData::from($validated);

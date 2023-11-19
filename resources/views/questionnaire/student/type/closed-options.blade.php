@@ -12,6 +12,9 @@
                     <span>{{$value}}</span>
                 </div>
             @endforeach
+
+        @else
+            <p class="text-lg-center">Please contact with Administrator</p>
         @endif
         <input type="hidden" value="" name="answer" id="answer"/>
     </div>
