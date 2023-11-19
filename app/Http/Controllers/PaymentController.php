@@ -6,10 +6,12 @@ use App\Mail\PaymentNotification;
 use App\Mail\PaymentSuccess;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Omnipay\Omnipay;
 
 class PaymentController extends Controller
@@ -223,7 +225,11 @@ class PaymentController extends Controller
             ];
             $total = floatval($course->price) + $total;
             $courses[] = $item;
-            $course->students()->sync($userDetails['student_id']);
+            DB::table('course_student')->insert([
+                'id' => Str::uuid(),
+                'student_id' => $userDetails['student_id'],
+                'course_id' => $course->id
+            ]);
         }
         try {
             Mail::to($userDetails['email'])->send(
@@ -232,12 +238,12 @@ class PaymentController extends Controller
             Mail::to(config('app.email'))->send(
                 new PaymentNotification($courses, $userDetails, $paymentMethod, $total)
             );
+        } catch (\Exception $exception) {
+            Log::error("after payment success: ", [$exception->getMessage()]);
+        } finally {
             Session::forget('user-checkout-details');
             Session::forget('cart');
             Session::forget('payment_method');
-            return view('purchase.success');
-        } catch (\Exception $exception) {
-            Log::error("after payment success: ", [$exception->getMessage()]);
             return view('purchase.success');
         }
     }
