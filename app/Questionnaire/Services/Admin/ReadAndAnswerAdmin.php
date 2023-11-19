@@ -9,6 +9,7 @@ use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ReadAndAnswerAdmin extends BaseAdmin implements InterfaceAdmin
 {
@@ -18,6 +19,7 @@ class ReadAndAnswerAdmin extends BaseAdmin implements InterfaceAdmin
     {
         return $request->validate([
             'questions' => ['required', 'array'],
+            'questions.*' => ['required', 'string'],
         ]);
     }
 
