@@ -29,7 +29,7 @@ class ReadAndAnswerAdmin extends BaseAdmin implements InterfaceAdmin
         return QuestionnaireAdmin::createQuestionReadAndAnswer($question, $questionReadAndAnswerData);
     }
 
-    public function updateProcess(array $validated, Question $question, QuestionData $questionData): int
+    public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model
     {
         QuestionnaireAdmin::updateQuestion($question, $questionData);
         $questionReadAndAnswerData = QuestionnaireAdmin::prepareQuestionReadAndAnswer($validated);

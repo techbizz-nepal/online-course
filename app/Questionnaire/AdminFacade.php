@@ -103,9 +103,9 @@ final readonly class AdminFacade
         return $this->questionRepo->prepareOptions($options, $answer);
     }
 
-    public function prepareQuestionTrueFalse(array $options, ?string $correctAnswer): QuestionTrueFalseData
+    public function prepareQuestionTrueFalse(int $correctAnswer): QuestionTrueFalseData
     {
-        return $this->questionRepo->prepareTrueFalse($options, $correctAnswer);
+        return $this->questionRepo->prepareTrueFalse($correctAnswer);
     }
 
     public function prepareQuestionReadAndAnswer(array $questions): QuestionReadAndAnswerData
@@ -133,22 +133,22 @@ final readonly class AdminFacade
         return $this->questionRepo->createReadAndAnswer($question, $questionReadAndAnswerData);
     }
 
-    public function updateQuestionOption(Question $question, QuestionOptionData $questionOptionData): int
+    public function updateQuestionOption(Question $question, QuestionOptionData $questionOptionData): Model
     {
         return $this->questionRepo->updateOption($question, $questionOptionData);
     }
 
-    public function updateQuestionTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): int
+    public function updateQuestionTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): Model
     {
         return $this->questionRepo->updateTrueFalse($question, $questionTrueFalseData);
     }
 
-    public function updateQuestionDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData): int
+    public function updateQuestionDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData): Model
     {
         return $this->questionRepo->updateDescribeImage($question, $questionDescribeImageData);
     }
 
-    public function updateQuestionReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): int
+    public function updateQuestionReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData): Model
     {
         return $this->questionRepo->updateReadAndAnswer($question, $questionReadAndAnswerData);
     }

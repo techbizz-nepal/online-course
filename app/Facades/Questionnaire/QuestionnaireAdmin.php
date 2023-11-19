@@ -28,14 +28,14 @@ use Illuminate\Support\Facades\Facade;
  * @method static int updateCourseAssessment(Course $course, AssessmentData $assessmentData) update course assessment
  * @method static int updateCourseAssessmentModule(Assessment $assessment, ModuleData $moduleData) update assessment module
  * @method static int updateQuestion(Question $question, QuestionData $questionData) update question
- * @method static int updateQuestionOption(Question $question, QuestionOptionData $questionOptionData) update one question to one option
- * @method static int updateQuestionTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData) update one question to one true false
- * @method static int updateQuestionReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData) update one question to one read and answer
- * @method static int updateQuestionDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData) update one question to one describe image
+ * @method static Model updateQuestionOption(Question $question, QuestionOptionData $questionOptionData) update one question to one option
+ * @method static Model updateQuestionTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData) update one question to one true false
+ * @method static Model updateQuestionReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData) update one question to one read and answer
+ * @method static Model updateQuestionDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData) update one question to one describe image
  * @method static string getNewIfAssessmentSlugExists(AssessmentData $assessmentData, Assessment $assessment) check if assessment slug exists
  * @method static string getNewIfModuleSlugExists(ModuleData $moduleData, Module $module) check if module slug exists
  * @method static QuestionOptionData prepareQuestionOptions(array $options, string|null $correctAnswer) prepare question option for create many
- * @method static QuestionTrueFalseData prepareQuestionTrueFalse(array $options, string|null $correctAnswer) prepare question true false for create many
+ * @method static QuestionTrueFalseData prepareQuestionTrueFalse(int $correctAnswer) prepare question true false for create many
  * @method static QuestionReadAndAnswerData prepareQuestionReadAndAnswer(array $questionsArray) prepare question read and answer for create one
  * @method static array uploadAssessmentMaterial(Request $request, Course $course) Upload course assessment material
  * @method static array uploadModuleMaterial(Request $request, Assessment $assessment) Upload course assessment module material

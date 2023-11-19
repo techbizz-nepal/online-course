@@ -73,11 +73,11 @@ class ExamController extends Controller
         Request    $request
     ) {
         try {
-
             $typeService = self::getStudentService($question);
+            $studentFacade = new StudentFacade();
             $answerData = AnswerData::from($typeService->validated($request));
             ['result' => $result, 'msg' => $msg] = $typeService->submitAnswer($question, $answerData)->checkResult();
-            $nextQuestion = $this->studentFacade->getNextQuestion($module, $question);
+            $nextQuestion = $studentFacade->getNextQuestion($module, $question);
             if ($nextQuestion) {
                 $nextQuestion = route('student.openQuestion', [$course, $assessment, $module, $nextQuestion['id'], $exam]);
             }
