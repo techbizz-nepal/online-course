@@ -23,3 +23,5 @@ update-package:
 	docker-compose -f $(source_path) exec app composer update
 dump-autoload:
 	docker-compose -f $(source_path) exec app composer dump
+bash:
+	docker-compose -f $(source_path) exec app bash
