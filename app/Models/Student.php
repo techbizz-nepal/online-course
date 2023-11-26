@@ -20,7 +20,7 @@ class Student extends \Illuminate\Foundation\Auth\User
 
     public function courses(): BelongsToMany
     {
-        return $this->belongsToMany(Course::class)->withTimestamps();
+        return $this->belongsToMany(Course::class)->withTimestamps()->as('purchased');
     }
 
     public function exams()

@@ -1,4 +1,5 @@
 source_path=./deployment/docker-compose.yaml
+EXEC_ARGS?=php artisan --version
 build:
 	docker-compose -f $(source_path) build
 up:
@@ -25,3 +26,5 @@ dump-autoload:
 	docker-compose -f $(source_path) exec app composer dump
 bash:
 	docker-compose -f $(source_path) exec app bash
+exec-app:
+	docker-compose -f $(source_path) exec app $(EXEC_ARGS)

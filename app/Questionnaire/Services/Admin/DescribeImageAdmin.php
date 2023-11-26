@@ -11,7 +11,7 @@ use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class DescribeImageAdmin extends BaseAdmin implements InterfaceAdmin
+class DescribeImageAdmin implements InterfaceAdmin
 {
     public const TYPE = QuestionType::DESCRIBE_IMAGE;
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Questionnaire;
 
+use App\Enums\Questionnaire\QuestionType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +12,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
+/**
+ * @property QuestionType $type
+ */
 class Question extends Model
 {
     use HasFactory;
@@ -23,6 +27,9 @@ class Question extends Model
     protected $table = 'questionnaire_questions';
 
     protected $with = ['option', 'trueFalse', 'readAndAnswer', 'describeImage'];
+    protected $casts = [
+        'type' => QuestionType::class
+    ];
 
     public function answers(): HasMany
     {

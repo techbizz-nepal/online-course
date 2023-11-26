@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
-class ClosedOptionAdmin extends BaseAdmin implements InterfaceAdmin
+class ClosedOptionAdmin implements InterfaceAdmin
 {
     public const TYPE = QuestionType::CLOSE_ENDED_OPTIONS;
 
