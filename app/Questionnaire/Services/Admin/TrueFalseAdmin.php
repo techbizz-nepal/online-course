@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
-class TrueFalseAdmin extends BaseAdmin implements InterfaceAdmin
+class TrueFalseAdmin implements InterfaceAdmin
 {
     public const TYPE = QuestionType::TRUE_FALSE;
 

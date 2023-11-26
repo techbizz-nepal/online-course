@@ -35,7 +35,12 @@ Route::get('/paymet/eway/success', [PaymentController::class, 'ewaySuccess'])->n
 Route::get('/payment/eway', [PaymentController::class, 'eWay'])->name('eWay');
 
 Route::get('/test', function () {
-    dd(session()->get('user-checkout-details'));
+    $course = \App\Models\Course::query()->where('id', 10)->first();
+    $cc = $course->students()->where('student_id', auth()->guard('student')->id())->get();
+    return $cc[0]->purchased;
+
+    //    return auth()->guard('student')->user()->courses()->where('course_id', 10)->get();
+    //    dd(session()->get('user-checkout-details'));
     //    dd(session()->get('tacs'));
 });
 

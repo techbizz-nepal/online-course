@@ -1,8 +1,5 @@
-FROM php:8.2-fpm-bullseye
-
+FROM php:8.2.0-fpm-bullseye
 USER root
-
-
 RUN apt-get update && apt-get install -y \
             git \
             libxpm-dev \
@@ -25,7 +22,6 @@ RUN pecl install -o -f redis \
 &&  rm -rf /tmp/pear \
 &&  docker-php-ext-enable redis \
 && docker-php-ext-enable xdebug
-
 RUN docker-php-ext-configure pcntl --enable-pcntl \
     && docker-php-ext-install sockets \
     && docker-php-ext-enable sockets \
@@ -37,7 +33,6 @@ RUN docker-php-ext-configure pcntl --enable-pcntl \
     && docker-php-ext-install mysqli \
     && docker-php-ext-install zip \
     && docker-php-source delete
-
 RUN docker-php-ext-configure gd \
             --enable-gd \
             --with-jpeg \
@@ -46,7 +41,11 @@ RUN docker-php-ext-configure gd \
             --with-freetype \
     # docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install gd
+
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+COPY ./conf.d/php.ini /usr/local/etc/php/php.ini
+COPY ./conf.d/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY ./conf.d/error_reporting.ini /usr/local/etc/php/conf.d/error_reporting.ini
 # Add a non-root user to prevent files being created with root permissions on host machine.
 ARG PGID
 ARG PUID
@@ -63,12 +62,12 @@ ENV TZ ${TZ}
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-COPY --chown=${PUID}:${PGID} . /var/www
+#COPY --chown=${PUID}:${PGID} ../.. /var/www
 
 WORKDIR /var/www
 
-RUN chgrp -R ${PUID} storage bootstrap/cache
-RUN chmod -R ug+rwx storage bootstrap/cache
+RUN #chgrp -R ${PUID} storage bootstrap/cache
+RUN #chmod -R ug+rwx storage bootstrap/cache
 
 USER ${PUID}
 EXPOSE 9000

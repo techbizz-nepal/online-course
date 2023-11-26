@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Questionnaire\Student;
 use App\DTO\StudentData;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $data = [
             'student' => Student::query()
@@ -22,7 +26,7 @@ class DashboardController extends Controller
         return view('questionnaire.student.index', $data);
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(Request $request): Application|View|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         if ($request->method() === 'POST') {
             try {
