@@ -86,7 +86,7 @@ const incrementInputBox = (pageId, questionCount, addBtnEl) => {
     setSessionItem(pageId, questionCount)
     appendInputBox(questionCount, addBtnEl)
 }
-const populateAvailableInputBox = (questionCount, node) => {
+const populateExistingInputBox = (questionCount, node) => {
     if (questionCount) {
         for (let i = 1; i <= questionCount; i++) {
             if (questionCount > 5) {

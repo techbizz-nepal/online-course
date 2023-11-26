@@ -15,7 +15,7 @@ return new class () extends Migration {
             $table->foreignUuid('module_id')->constrained()->on('questionnaire_modules');
             $table->text('body');
             $table->integer('order')->default(0);
-            $table->string('type');
+            $table->string('type', 2);
             $table->timestamps();
             $table->softDeletes();
         });

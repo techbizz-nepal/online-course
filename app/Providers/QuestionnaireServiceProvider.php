@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Enums\Questionnaire\QuestionType;
 use App\Http\Controllers\Questionnaire\Admin\QuestionController;
+use App\Models\Course;
+use App\Models\Student;
 use App\Questionnaire\AdminFacade;
 use App\Questionnaire\Repositories\AssessmentRepo;
 use App\Questionnaire\Repositories\InterfaceAssessmentRepo;
@@ -15,6 +17,8 @@ use App\Questionnaire\Services\Admin\InterfaceAdmin;
 use App\Questionnaire\Services\Admin\TrueFalseAdmin;
 use App\Questionnaire\StudentFacade;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class QuestionnaireServiceProvider extends ServiceProvider
@@ -34,7 +38,9 @@ class QuestionnaireServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('open-course', function (Student $student, Course $course) {
+            return $course->students()->where('student_id', $student->getAttribute('id'))->exists();
+        });
     }
 
     private function registerInterfaces(): void

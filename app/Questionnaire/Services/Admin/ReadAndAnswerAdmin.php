@@ -10,7 +10,7 @@ use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class ReadAndAnswerAdmin extends BaseAdmin implements InterfaceAdmin
+class ReadAndAnswerAdmin implements InterfaceAdmin
 {
     public const TYPE = QuestionType::READ_AND_ANSWER;
 

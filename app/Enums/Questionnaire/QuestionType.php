@@ -14,16 +14,17 @@ enum QuestionType: string
     case CLOSE_ENDED_OPTIONS = '1';
     case READ_AND_ANSWER = '2';
     case DESCRIBE_IMAGE = '3';
-
     case TRUE_FALSE = '4';
+    case SEE_AND_ANSWER = "5";
 
     public function value(): string
     {
         return match ($this) {
             self::CLOSE_ENDED_OPTIONS => 'Close Ended Options',
             self::READ_AND_ANSWER => 'Read and Answer',
+            self::SEE_AND_ANSWER => 'See and Answer',
             self::DESCRIBE_IMAGE => 'Describe Image',
-            self::TRUE_FALSE => 'True False'
+            self::TRUE_FALSE => 'True False',
         };
     }
 
@@ -33,7 +34,8 @@ enum QuestionType: string
             self::CLOSE_ENDED_OPTIONS => 'option',
             self::READ_AND_ANSWER => 'readAndAnswer',
             self::DESCRIBE_IMAGE => 'describeImage',
-            self::TRUE_FALSE => 'trueFalse'
+            self::TRUE_FALSE => 'trueFalse',
+            self::SEE_AND_ANSWER => 'seeAndAnswer'
         };
     }
 
@@ -43,7 +45,8 @@ enum QuestionType: string
             self::CLOSE_ENDED_OPTIONS => new ClosedOptionAdmin(),
             self::READ_AND_ANSWER => new ReadAndAnswerAdmin(),
             self::DESCRIBE_IMAGE => new DescribeImageAdmin(),
-            self::TRUE_FALSE => new TrueFalseAdmin()
+            self::TRUE_FALSE => new TrueFalseAdmin(),
+            self::SEE_AND_ANSWER => throw new \Exception('To be implemented')
         };
     }
 
@@ -53,7 +56,8 @@ enum QuestionType: string
             self::CLOSE_ENDED_OPTIONS => new \App\Questionnaire\Services\Student\ClosedOptionService(),
             self::READ_AND_ANSWER => new \App\Questionnaire\Services\Student\ReadAndAnswerService(),
             self::DESCRIBE_IMAGE => new \App\Questionnaire\Services\Student\DescribeImageService(),
-            default => new \App\Questionnaire\Services\Student\TrueFalseService(),
+            self::TRUE_FALSE => new \App\Questionnaire\Services\Student\TrueFalseService(),
+            self::SEE_AND_ANSWER => throw new \Exception('To be implemented'),
         };
     }
 
@@ -70,5 +74,28 @@ enum QuestionType: string
     public static function getReviewTypes(): array
     {
         return [self::READ_AND_ANSWER->value, self::DESCRIBE_IMAGE->value];
+    }
+
+    public function getCreateViewName(): string
+    {
+        return match ($this) {
+            self::READ_AND_ANSWER => 'questionnaire.admin.questions.types.read-and-answer.create',
+            self::DESCRIBE_IMAGE => 'questionnaire.admin.questions.types.describe-image.create',
+            self::TRUE_FALSE => 'questionnaire.admin.questions.types.true-false.create',
+            self::CLOSE_ENDED_OPTIONS => 'questionnaire.admin.questions.types.closed-option.create',
+            self::SEE_AND_ANSWER => throw new \Exception('To be implemented'),
+
+        };
+    }
+
+    public function getEditViewName(): string
+    {
+        return match ($this) {
+            self::READ_AND_ANSWER => 'questionnaire.admin.questions.types.read-and-answer.edit',
+            self::DESCRIBE_IMAGE => 'questionnaire.admin.questions.types.describe-image.edit',
+            self::TRUE_FALSE => 'questionnaire.admin.questions.types.true-false.edit',
+            self::CLOSE_ENDED_OPTIONS => 'questionnaire.admin.questions.types.closed-option.edit',
+            self::SEE_AND_ANSWER => throw new \Exception('To be implemented')
+        };
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Questionnaire\Admin;
 
 use App\DTO\Questionnaire\QuestionData;
-use App\Enums\Questionnaire\QuestionType;
 use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
@@ -28,13 +27,19 @@ class QuestionController extends Controller
     }
 
     public function create(
-        Course $course,
+        Course     $course,
         Assessment $assessment,
-        Module $module,
-        Request $request
+        Module     $module,
+        Request    $request
     ) {
-        $data = $this->type->getQuestionCreateAttributes($request, $course, $assessment, $module);
-
+        $data = [
+            'params' => [
+                'course' => $course->getAttribute('slug'),
+                'assessment' => $assessment->getAttribute('slug'),
+                'module' => $module->getAttribute('slug'),
+                'type' => $request->get('type'),
+            ]
+        ];
         return view('questionnaire.admin.questions.create', $data);
     }
 
@@ -44,11 +49,11 @@ class QuestionController extends Controller
     }
 
     public function store(
-        Course $course,
-        Assessment $assessment,
-        Module $module,
+        Course       $course,
+        Assessment   $assessment,
+        Module       $module,
         QuestionData $questionData,
-        Request $request
+        Request      $request
     ) {
         $validated = $this->type->validated($request);
 
@@ -71,25 +76,31 @@ class QuestionController extends Controller
     }
 
     public function edit(
-        Course $course,
+        Course     $course,
         Assessment $assessment,
-        Module $module,
-        Question $question
+        Module     $module,
+        Question   $question
     ) {
-        $type = QuestionType::from($question->type);
-        $data = $this->type
-            ->getQuestionEditAttributes($course, $assessment, $module, $question, $type);
-
+        $data = [
+            'question' => $question,
+            'params' => [
+                'course' => $course->getAttribute('slug'),
+                'assessment' => $assessment->getAttribute('slug'),
+                'module' => $module->getAttribute('slug'),
+                'question' => $question->getAttribute('id'),
+                'type' => $question->type,
+            ]
+        ];
         return view('questionnaire.admin.questions.edit', $data);
     }
 
     public function update(
-        Course $course,
-        Assessment $assessment,
-        Module $module,
-        Question $question,
+        Course       $course,
+        Assessment   $assessment,
+        Module       $module,
+        Question     $question,
         QuestionData $questionData,
-        Request $request
+        Request      $request
     ) {
         $validated = $this->type->validated($request);
         try {

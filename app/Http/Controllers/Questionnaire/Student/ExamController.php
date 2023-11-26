@@ -3,25 +3,34 @@
 namespace App\Http\Controllers\Questionnaire\Student;
 
 use App\DTO\Questionnaire\AnswerData;
-use App\Enums\Questionnaire\QuestionType;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Exam;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
-use App\Questionnaire\Services\Student\InterfaceStudent;
 use App\Questionnaire\StudentFacade;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class ExamController extends Controller
 {
+    protected StudentFacade $studentFacade;
+
+    public function __construct()
+    {
+        $this->studentFacade = new StudentFacade();
+    }
+
     public function listAssessments(Request $request, Course $course): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
+        if (!Gate::allows('open-course', $course)) {
+            abort(403);
+        }
         $data = [
             'course' => $course->load('assessments'),
         ];
@@ -29,7 +38,7 @@ class ExamController extends Controller
         return view('questionnaire.student.course', $data);
     }
 
-    public function listModules(Course $course, Assessment $assessment)
+    public function listModules(Course $course, Assessment $assessment): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $data = [
             'course' => $course,
@@ -44,14 +53,13 @@ class ExamController extends Controller
 
     public function listQuestions(Course $course, Assessment $assessment, Module $module)
     {
-        $facade = new StudentFacade();
-        $questions = $facade->populateQuestions($module);
-        $facade->startSession($module, $questions);
+        $questions = $this->studentFacade->populateQuestions($module);
+        $this->studentFacade->startSession($module, $questions);
         $data = [
             'course' => $course,
             'assessment' => $assessment,
             'module' => $module,
-            'exam' => $facade->startExam($module),
+            'exam' => $this->studentFacade->startExam($module),
             'questions' => $questions,
         ];
 
@@ -60,26 +68,27 @@ class ExamController extends Controller
 
     public function openQuestion(Course $course, Assessment $assessment, Module $module, Question $question, Exam $exam)
     {
-        $data = self::getStudentService($question)->getViewData($course, $assessment, $module, $question, $exam);
+        $data = $question->type
+            ->getStudentServiceObject()
+            ->getViewData($course, $assessment, $module, $question, $exam);
 
         return view('questionnaire.student.question', $data);
     }
 
     public function submitAnswer(
-        Course $course,
+        Course     $course,
         Assessment $assessment,
-        Module $module,
-        Question $question,
-        Exam $exam,
-        Request $request
+        Module     $module,
+        Question   $question,
+        Exam       $exam,
+        Request    $request
     ) {
         try {
-            $typeService = self::getStudentService($question);
-            $studentFacade = new StudentFacade();
+            $typeService = $question->type->getStudentServiceObject();
             $answerData = AnswerData::from($typeService->validated($request));
             ['result' => $result, 'msg' => $msg] = $typeService->submitAnswer($question, $answerData)->checkResult();
-            $nextQuestion = $studentFacade->getNextQuestion($module, $question);
-            if ($nextQuestion) {
+
+            if ($nextQuestion = $this->studentFacade->getNextQuestion($module, $question)) {
                 $nextQuestion = route('student.openQuestion', [$course, $assessment, $module, $nextQuestion['id'], $exam]);
             }
 
@@ -89,10 +98,5 @@ class ExamController extends Controller
 
             return response()->json(['error' => $exception->getMessage()]);
         }
-    }
-
-    private static function getStudentService(Question $question): InterfaceStudent
-    {
-        return QuestionType::from($question->getAttribute('type'))->getStudentServiceObject();
     }
 }

@@ -41,7 +41,7 @@
                                 <p>{{str()->title($question['body'])}}</p>
                             </td>
                             <td class="inline">
-                                @if(count($question['answers']) && in_array($question->type, QuestionType::getCorrectTypes()))
+                                @if(count($question['answers']) && in_array($question->type->value, QuestionType::getCorrectTypes()))
                                     @if($question['answers'][0]['is_correct'])
                                         <p>correctly answered</p>
                                     @else
@@ -55,7 +55,7 @@
                             </td>
                             <td>
                                 @if(count($question['answers']))
-                                    @if(in_array($question->type, QuestionType::getCorrectTypes()) && !$question['answers'][0]['is_correct'])
+                                    @if(in_array($question->type->value, QuestionType::getCorrectTypes()) && !$question['answers'][0]['is_correct'])
                                         <a href="{{route('student.openQuestion', [$course, $assessment, $module['slug'], $question['id'], $exam])}}">
                                             <button class="btn btn-primary">retake</button>
                                         </a>
