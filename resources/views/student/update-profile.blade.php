@@ -1,5 +1,6 @@
 @extends('student.layout.app')
 @section('title', 'Update Profile')
+@section('update-profile', 'active')
 @section('content')
     <div class="main-content pt-lg-4">
         <h2 class="m-2 mb-0 d-flex justify-content-between">
@@ -13,6 +14,11 @@
         <div class="w-100 h-100 bg-white mx-2 p-2">
             <form action="{{ route('student.updateProfile') }}" method="POST">
                 @csrf
+                <div class="form-row mb-5">
+                    <x-form.input label="USI" name="usi" id="usi" type="text"
+                                  :value="$student['usi']"
+                                  placeholder="please input your usi number" cols="col-md-8 col-4"/>
+                </div>
                 <div class="form-row mb-5">
                     <x-form.select label="Title" name="title" id="title" cols="col-md-4 col-1"
                                    :options="$titleOptions" :value="$student['title']"/>

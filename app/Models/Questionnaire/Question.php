@@ -32,7 +32,7 @@ class Question extends Model
     protected $attributes = [
         'type' => QuestionType::TRUE_FALSE
     ];
-//    protected $with = ['option', 'trueFalse', 'readAndAnswer', 'describeImage'];
+    //    protected $with = ['option', 'trueFalse', 'readAndAnswer', 'describeImage'];
     protected $casts = [
         'type' => QuestionType::class
     ];
