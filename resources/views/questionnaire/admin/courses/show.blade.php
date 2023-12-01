@@ -42,7 +42,8 @@
         {{-- Assessment Section        --}}
         <h2 class="m-2 mb-0 d-flex justify-content-between">
             <span>Assessments</span>
-            <a href="{{route('admin.courses.assessments.create',['course'=> $courseData->slug])}}" class="btn btn-primary">Add New
+            <a href="{{route('admin.courses.assessments.create',['course'=> $courseData->slug])}}"
+               class="btn btn-primary">Add New
                 Assessment</a>
         </h2>
 

@@ -9,7 +9,7 @@
         </h2>
         <div class="w-100 h-100 mx-2 p-2" style="background-color: #f5f5f4">
             <div>
-                You are about to begin a new section of your exam...
+                {{auth()->guard('student')->id()}} You are about to begin a new section of your exam...
             </div>
             <hr>
             <div class="mt-5">
@@ -33,7 +33,7 @@
                 </thead>
                 <tbody>
                 @isset($questions)
-                    @foreach($module['questions'] as $question)
+                    @foreach($questions as $question)
                         <tr>
                             <td>{{$loop->iteration}}</td>
                             <td>
@@ -41,30 +41,24 @@
                                 <p>{{str()->title($question['body'])}}</p>
                             </td>
                             <td class="inline">
-                                @if(count($question['answers']) && in_array($question->type->value, QuestionType::getCorrectTypes()))
-                                    @if($question['answers'][0]['is_correct'])
-                                        <p>correctly answered</p>
-                                    @else
-                                        <p>incorrectly answered</p>
-                                    @endif
-                                @elseif(count($question['answers']))
-                                    <p>answered</p>
-                                @else
-                                    <p>new</p>
-                                @endif
+                                {{$question['status']}}
                             </td>
                             <td>
-                                @if(count($question['answers']))
-                                    @if(in_array($question->type->value, QuestionType::getCorrectTypes()) && !$question['answers'][0]['is_correct'])
+                                @switch($question['action'])
+                                    @case('open')
+                                        <a href="{{route('student.openQuestion', [$course, $assessment, $module['slug'], $question['id'], $exam])}}">
+                                            <button class="btn btn-primary">open</button>
+                                        </a>
+                                        @break
+                                    @case('retake')
                                         <a href="{{route('student.openQuestion', [$course, $assessment, $module['slug'], $question['id'], $exam])}}">
                                             <button class="btn btn-primary">retake</button>
                                         </a>
-                                    @endif
-                                @else
-                                    <a href="{{route('student.openQuestion', [$course, $assessment, $module['slug'], $question['id'], $exam])}}">
-                                        <button class="btn btn-primary">open</button>
-                                    </a>
-                                @endif
+                                        @break
+                                    @case(null)
+
+                                        @break
+                                @endswitch
                             </td>
                         </tr>
                     @endforeach

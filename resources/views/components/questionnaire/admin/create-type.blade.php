@@ -9,7 +9,7 @@
             id="questionForm">
             @csrf
             @include($viewName, $params)
-            <div class="row">
+            <div class="row mx-auto">
                 <div class="col-md-12 text-left">
                     <button class="btn btn-primary" type="submit">Save</button>
                     <a href="{{ route('admin.courses.assessments.modules.show', collect($params)->except(['type'])->toArray()) }}"
