@@ -1,4 +1,5 @@
 @extends('student.layout.app')
+@section('dashboard', 'active')
 @section('content')
     <div class="main-content pt-lg-4">
         <h2 class="m-2 mb-0 d-flex justify-content-between">
@@ -16,8 +17,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                @isset($student)
-                    @foreach($student->courses as $course)
+                @isset($courses)
+                    @foreach($courses as $course)
                         <tr>
                             <th style="width: 10%" class="text-center" scope="row">{{$loop->iteration}}</th>
                             <td style="width: 30%" class="text-center">{{$course['title']}}</td>

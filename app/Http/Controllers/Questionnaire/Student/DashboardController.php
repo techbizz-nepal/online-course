@@ -8,31 +8,26 @@ use App\Models\Student;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $data = [
-            'student' => Student::query()
-                ->where('id', Auth::id())
-                ->with('courses')
-                ->first(),
+            'courses' => StudentData::authenticatedGuard()->user()->courses()->get()
         ];
 
         return view('questionnaire.student.index', $data);
     }
 
-    public function updateProfile(Request $request): Application|View|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function updateProfile(Request $request)
     {
         if ($request->method() === 'POST') {
             try {
                 $studentData = StudentData::from($request->all());
                 Student::query()
-                    ->where('id', Auth::guard('student')->id())
+                    ->where('id', StudentData::authenticatedGuard()->id())
                     ->update($studentData->toArray());
 
                 return redirect()->back()->with('success', 'Profile Updated.');
@@ -41,7 +36,7 @@ class DashboardController extends Controller
             }
         }
         $data = [
-            'student' => Auth::user(),
+            'student' => StudentData::authenticatedGuard()->user(),
             'titleOptions' => [
                 ['value' => 'mr', 'label' => 'Mr'],
                 ['value' => 'mrs', 'label' => 'Mrs'],

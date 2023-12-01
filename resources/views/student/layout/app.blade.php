@@ -92,7 +92,7 @@
                         <a href="{{ route('student.dashboard') }}">
                             <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                     </li>
-                    <li>
+                    <li class="@yield('update-profile')">
                         <a href="{{ route('student.updateProfile') }}">
                             <i class="fas fa-user"></i>Update Profile</a>
                     </li>
