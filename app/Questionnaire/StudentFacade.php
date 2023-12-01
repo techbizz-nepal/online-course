@@ -6,8 +6,6 @@ use App\Enums\Questionnaire\QuestionType;
 use App\Models\Questionnaire\Exam;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -20,31 +18,98 @@ final readonly class StudentFacade
     {
     }
 
-    public function startExam(Module $module): Model|Builder|null
+    public function startExam(Module $module)
     {
-        try {
-            return Exam::query()->firstOrCreate([
-                'module_id' => $module->id,
-                'student_id' => Auth::guard('student')->id(),
-            ])->with(['answers'])->first();
-        } catch (\Exception $exception) {
-            Log::error('while fetch or create exam: ', [$exception->getMessage()]);
-            throw new \Error('Contact Developer');
+        $createAttributes = [
+            'module_id' => $module->id,
+            'student_id' => Auth::guard('student')->id()
+        ];
+        $queryAttributes = [
+            ['module_id', '=', $module->id],
+            ['student_id', '=', Auth::guard('student')->id()]
+        ];
+
+        $exam = Exam::query()->where($queryAttributes)->first();
+        if ($exam === null) {
+            $exam = Exam::query()->create($createAttributes);
         }
+        return $exam;
     }
 
-    public function populateQuestions(Module $module): \Illuminate\Database\Eloquent\Collection|array
+    public function populateAnsweredQuestions(Exam $exam): array
     {
-        $studentID = Auth::id();
-        $moduleID = $module->getAttribute('id');
+        $list = [];
+        Exam::query()
+            ->with('questionAnswer')
+            ->where([
+                ['student_id', '=', Auth::guard('student')->id()],
+                ['id', '=', $exam->getAttribute('id')]
+            ])
+            ->get()
+            ->each(function (Exam $exam) use (&$list) {
+                foreach ($exam->questionAnswer as $item) {
+                    $row = [
+                        'id' => $item->id,
+                        'body' => $item->body,
+                        'type' => $item->type->value()
+                    ];
+                    if (in_array($item->type->value, QuestionType::getCorrectTypes()) && $item->pivot->is_correct) {
+                        $row['status'] = 'correctly answered';
+                        $row['action'] = null;
+                    } else {
+                        $row['status'] = 'incorrectly answered';
+                        $row['action'] = "retake";
+                    }
+                    if (in_array($item->type->value, QuestionType::getReviewTypes())) {
+                        $row['status'] = 'answered';
+                        $row['action'] = null;
+                    }
+                    $list[] = $row;
+                }
+                return $exam;
+            });
+        return $list;
+    }
 
-        return Question::query()->where('module_id', $moduleID)
-            ->with(['answers' => function ($query) use ($studentID) {
-                $query->whereHas('exam', function ($query) use ($studentID) {
-                    $query->where('student_id', $studentID);
-                })->select('id', 'question_id', 'answer', 'is_correct', 'exam_id');
-            }])->orderBy('created_at', 'desc')
+    //    public function populateQuestions(Module $module): \Illuminate\Database\Eloquent\Collection|array
+    //    {
+    //        $studentID = Auth::guard('student')->id();
+    //        $moduleID = $module->getAttribute('id');
+    //
+    //        return Question::query()->where('module_id', $moduleID)
+    //            ->with(['answers' => function ($query) use ($studentID) {
+    //                $query->whereHas('exam', function ($query) use ($studentID) {
+    //                    $query->where('student_id', $studentID);
+    //                })->select('id', 'question_id', 'answer', 'is_correct', 'exam_id');
+    //            }])->orderBy('created_at', 'desc')
+    //            ->get();
+    //    }
+
+    public function populateQuestions(Module $module, array $columns = ['*']): \Illuminate\Database\Eloquent\Collection|array
+    {
+        return Question::byModuleId($module->getAttribute('id'))
+            ->select($columns)
             ->get();
+    }
+
+    public function getMappedQuestionsWithAnswers(Module $module, Exam $exam): Collection
+    {
+        $mapped = collect();
+        $questions = $this->populateQuestions($module)->toArray();
+        $answeredQuestions = collect($this->populateAnsweredQuestions($exam));
+
+        array_walk($questions, function ($value, $key) use ($answeredQuestions, &$mapped) {
+            if (in_array($value['id'], $answeredQuestions->pluck('id')->toArray())) {
+                $answered = $answeredQuestions->firstWhere('id', $value['id']);
+                $value['status'] = $answered['status'];
+                $value['action'] = $answered['action'];
+            } else {
+                $value['status'] = "new";
+                $value['action'] = "open";
+            }
+            $mapped[] = $value;
+        });
+        return $mapped;
     }
 
     public function getNextQuestion(Module $module, Question $question)
@@ -79,28 +144,7 @@ final readonly class StudentFacade
 
     private function filterQuestionForSession(Collection $questionOfModule): array
     {
-        $conditions = [
-            'empty_answers' => function ($item) {
-                return empty($item['answers']);
-            },
-            'type_1_4_correct_0' => function ($item) {
-                return in_array($item['type'], QuestionType::getCorrectTypes()) && $item['answers'][0]['is_correct'] === 0;
-            },
-        ];
-
-        return Arr::where($questionOfModule->toArray(), function ($item, $key) use ($conditions) {
-            foreach ($conditions as $conditionName => $conditionCallback) {
-                if ($conditionCallback($item)) {
-                    return true;
-                }
-            }
-
-            return false;
-        });
+        $filtered = $questionOfModule->whereIn('status', ['incorrectly answered', 'new']);
+        return $filtered->all();
     }
-
-    //    public function getAssessmentsByStudent(Course $course): \Illuminate\Database\Eloquent\Collection
-    //    {
-    //        return $this->assessmentRepo->getAssessmentsByStudent($course);
-    //    }
 }

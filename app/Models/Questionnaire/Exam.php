@@ -5,8 +5,12 @@ namespace App\Models\Questionnaire;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property BelongsToMany $questionAnswer
+ */
 class Exam extends Model
 {
     use HasFactory;
@@ -24,6 +28,18 @@ class Exam extends Model
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);
+    }
+
+    /**
+     * This should be actually named exam_question table name, and method name should be examAnswer
+     * after refactoring codes remove answers() method from this class
+     * @return BelongsToMany
+     */
+    public function questionAnswer(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(Question::class, 'questionnaire_answers', 'exam_id', 'question_id')
+            ->withPivot('answer', 'is_correct');
     }
 
     public function modules(): HasMany

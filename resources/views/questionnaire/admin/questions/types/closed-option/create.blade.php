@@ -1,4 +1,4 @@
-<div class="form-group row">
+<div class="form-group row mx-auto">
     <div class="col-12">
         <label for="body">Question Text</label>
         <textarea class="form-control @error('body') is-invalid @enderror"
@@ -11,7 +11,7 @@
     </div>
 </div>
 @foreach(range(0, 3) as $option)
-    <div class="form-group row">
+    <div class="form-group row mx-auto">
         <div class="col-6">
             <input name="option{{$loop->iteration}}"
                    type="text" class="form-control mb-2 @error("option".$loop->iteration) is-invalid @enderror"

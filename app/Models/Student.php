@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Questionnaire\Exam;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -22,7 +24,7 @@ class Student extends \Illuminate\Foundation\Auth\User
         return $this->belongsToMany(Course::class)->withTimestamps()->as('purchased');
     }
 
-    public function exams()
+    public function exams(): HasMany
     {
         return $this->hasMany(Exam::class);
     }

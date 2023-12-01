@@ -1,4 +1,4 @@
-<div class="form-group row">
+<div class="form-group row mx-auto">
     <div class="col-12">
         <label for="body">Question Text</label>
         <textarea class="form-control @error('body') is-invalid @enderror"
@@ -10,7 +10,7 @@
         @enderror
     </div>
 </div>
-<div class="form-group row">
+<div class="form-group row mx-auto">
     <div class="col-12">
         <button class="btn btn-outline-warning mb-2" id="add-describe-image-question">Add Question</button>
         @if(isset($question->readAndAnswer->questions))

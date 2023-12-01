@@ -6,6 +6,7 @@ use App\Questionnaire\Services\Admin\ClosedOptionAdmin;
 use App\Questionnaire\Services\Admin\DescribeImageAdmin;
 use App\Questionnaire\Services\Admin\InterfaceAdmin;
 use App\Questionnaire\Services\Admin\ReadAndAnswerAdmin;
+use App\Questionnaire\Services\Admin\SeeAndAnswerAdmin;
 use App\Questionnaire\Services\Admin\TrueFalseAdmin;
 use App\Questionnaire\Services\Student\InterfaceStudent;
 
@@ -46,7 +47,7 @@ enum QuestionType: string
             self::READ_AND_ANSWER => new ReadAndAnswerAdmin(),
             self::DESCRIBE_IMAGE => new DescribeImageAdmin(),
             self::TRUE_FALSE => new TrueFalseAdmin(),
-            self::SEE_AND_ANSWER => throw new \Exception('To be implemented')
+            self::SEE_AND_ANSWER => new SeeAndAnswerAdmin()
         };
     }
 
@@ -83,7 +84,7 @@ enum QuestionType: string
             self::DESCRIBE_IMAGE => 'questionnaire.admin.questions.types.describe-image.create',
             self::TRUE_FALSE => 'questionnaire.admin.questions.types.true-false.create',
             self::CLOSE_ENDED_OPTIONS => 'questionnaire.admin.questions.types.closed-option.create',
-            self::SEE_AND_ANSWER => throw new \Exception('To be implemented'),
+            self::SEE_AND_ANSWER => 'questionnaire.admin.questions.types.see-and-answer.create',
 
         };
     }
