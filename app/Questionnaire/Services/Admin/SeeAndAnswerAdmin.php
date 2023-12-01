@@ -8,7 +8,7 @@ use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class SeeAndAnswer implements InterfaceAdmin
+class SeeAndAnswerAdmin implements InterfaceAdmin
 {
     public function getTypeValue(): string
     {
@@ -17,7 +17,12 @@ class SeeAndAnswer implements InterfaceAdmin
 
     public function validated(Request $request): array
     {
-        // TODO: Implement validated() method.
+        return $request->validate([
+            'items' => ['required', 'array'],
+            'items.*.name' => ['required', 'string'],
+            'items.*.image_path' => ['required', 'string'],
+            'items.*.id' => ['required', 'string']
+        ]);
     }
 
     public function storeProcess(array $validated, Module $module, QuestionData $questionData): Model

@@ -16,6 +16,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class ExamController extends Controller
 {
@@ -53,16 +54,16 @@ class ExamController extends Controller
 
     public function listQuestions(Course $course, Assessment $assessment, Module $module)
     {
-        $questions = $this->studentFacade->populateQuestions($module);
+        $exam = $this->studentFacade->startExam($module);
+        $questions = $this->studentFacade->getMappedQuestionsWithAnswers($module, $exam);
         $this->studentFacade->startSession($module, $questions);
         $data = [
             'course' => $course,
             'assessment' => $assessment,
             'module' => $module,
-            'exam' => $this->studentFacade->startExam($module),
+            'exam' => $exam,
             'questions' => $questions,
         ];
-
         return view('questionnaire.student.module', $data);
     }
 

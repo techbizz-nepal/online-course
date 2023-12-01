@@ -1,4 +1,4 @@
-<div class="form-group row">
+<div class="form-group row mx-auto">
     <div class="col-12">
         <label for="body">Question Text</label>
         <textarea class="form-control @error('body') is-invalid @enderror"
@@ -12,7 +12,7 @@
 </div>
 @isset($question->option)
     @foreach($question->option->body as $key => $value)
-        <div class="form-group row">
+        <div class="form-group row mx-auto">
             <div class="col-6">
                 <input name="{{$key}}"
                        type="text" class="form-control mb-2 @error($key) is-invalid @enderror"

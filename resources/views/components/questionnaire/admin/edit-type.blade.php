@@ -10,7 +10,7 @@
             @csrf
             @method('PATCH')
             @include($viewName, ['params' => $params, 'question' => $question])
-            <div class="row">
+            <div class="row mx-auto">
                 <div class="col-md-12 text-left">
                     <button class="btn btn-primary" type="submit">Save</button>
                     <a href="{{ route('admin.courses.assessments.modules.show', collect($params)->except(['type','question'])->toArray()) }}"
