@@ -10,7 +10,7 @@ class CartController extends Controller
 {
     public function cart()
     {
-        if (!Session::has('cart') || get_cart_count() === 0) {
+        if (! Session::has('cart') || get_cart_count() === 0) {
             return redirect()->route('home')->withErrors('No items have been added to cart.');
         }
         $cart = Session::get('cart');
@@ -32,7 +32,7 @@ class CartController extends Controller
             // 'booking_date' => 'required | date | after-or-equal:today',
             'booking_date' => 'required | date',
         ]);
-        if (!$course) {
+        if (! $course) {
             return back()->withErrors('Course Not Found');
         }
         //        $redirectToCart = !($request->get('cart') === 'false');
@@ -48,7 +48,7 @@ class CartController extends Controller
                     break;
                 }
             }
-            if (!$cartHasItem) {
+            if (! $cartHasItem) {
                 array_push($cart, ['slug' => $course->slug, 'booking_date' => $request->get('booking_date')]);
             }
         } else {
@@ -62,7 +62,7 @@ class CartController extends Controller
 
     public function removeFromCart(Course $course)
     {
-        if (!Session::has('cart') || get_cart_count() === 0) {
+        if (! Session::has('cart') || get_cart_count() === 0) {
             return redirect()->route('home')->withErrors('No items have been added to cart.');
         }
         $cart = Session::get('cart');

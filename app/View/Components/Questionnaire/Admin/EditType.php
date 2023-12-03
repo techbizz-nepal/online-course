@@ -11,9 +11,9 @@ class EditType extends Component
 {
     public function __construct(
         public Question $question,
-        public array    $params,
-        private string  $label = '',
-        private string  $viewName = ''
+        public array $params,
+        private string $label = '',
+        private string $viewName = ''
     ) {
         $this->viewName = $this->question->type->getEditViewName();
         $this->label = $this->question->type->value();
@@ -28,6 +28,7 @@ class EditType extends Component
                 'label' => $this->label,
                 'params' => $this->params,
                 'question' => $this->question,
+                'module' => $this->question->module()->first(),
             ]
         );
     }

@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\Questionnaire\Admin;
 
 use App\DTO\Questionnaire\QuestionData;
-use App\Facades\Questionnaire\QuestionnaireAdmin;
+use App\Enums\Questionnaire\QuestionType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Questionnaire\QuestionImageableRequest;
 use App\Models\Course;
 use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use App\Questionnaire\Services\Admin\InterfaceAdmin;
 use App\Traits\HasRedirectResponse;
+use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,24 +27,28 @@ class QuestionController extends Controller
 {
     use HasRedirectResponse;
 
+    /**
+     * @throws Exception
+     */
     public function __construct(protected InterfaceAdmin $type)
     {
     }
 
     public function create(
-        Course     $course,
+        Course $course,
         Assessment $assessment,
-        Module     $module,
-        Request    $request
-    ) {
+        Module $module,
+        Request $request
+    ): View|Application|Factory|\Illuminate\Contracts\Foundation\Application {
         $data = [
             'params' => [
                 'course' => $course->getAttribute('slug'),
                 'assessment' => $assessment->getAttribute('slug'),
                 'module' => $module->getAttribute('slug'),
                 'type' => $request->get('type'),
-            ]
+            ],
         ];
+
         return view('questionnaire.admin.questions.create', $data);
     }
 
@@ -49,11 +58,11 @@ class QuestionController extends Controller
     }
 
     public function store(
-        Course       $course,
-        Assessment   $assessment,
-        Module       $module,
+        Course $course,
+        Assessment $assessment,
+        Module $module,
         QuestionData $questionData,
-        Request      $request
+        Request $request
     ) {
         $validated = $this->type->validated($request);
 
@@ -61,7 +70,7 @@ class QuestionController extends Controller
         try {
             $this->type->storeProcess($validated, $module, $questionData);
             DB::commit();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
             Log::error('while creating question: ', [$exception->getMessage()]);
 
@@ -76,31 +85,31 @@ class QuestionController extends Controller
     }
 
     public function edit(
-        Course     $course,
+        Course $course,
         Assessment $assessment,
-        Module     $module,
-        Question   $question
+        Module $module,
+        Question $question
     ) {
         $data = [
-            'question' => $question,
+            'question' => $question->load(QuestionType::from($question->type->value)->relation()),
             'params' => [
                 'course' => $course->getAttribute('slug'),
                 'assessment' => $assessment->getAttribute('slug'),
                 'module' => $module->getAttribute('slug'),
                 'question' => $question->getAttribute('id'),
                 'type' => $question->type,
-            ]
+            ],
         ];
         return view('questionnaire.admin.questions.edit', $data);
     }
 
     public function update(
-        Course       $course,
-        Assessment   $assessment,
-        Module       $module,
-        Question     $question,
+        Course $course,
+        Assessment $assessment,
+        Module $module,
+        Question $question,
         QuestionData $questionData,
-        Request      $request
+        Request $request
     ) {
         $validated = $this->type->validated($request);
         try {
@@ -111,7 +120,7 @@ class QuestionController extends Controller
 
                 return $this->failureRedirectResponse(translationKey: 'question.error.update');
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
             Log::error($exception->getMessage());
 
@@ -132,17 +141,18 @@ class QuestionController extends Controller
         return $this->successRedirectResponse(translationKey: 'question.success.delete');
     }
 
-    public function uploadMaterial(Request $request, Course $course, Assessment $assessment, Module $module, Question $question): JsonResponse
+    public function uploadOrUpdateImage(QuestionImageableRequest $request, Module $module, Question $question): JsonResponse
     {
         try {
-            if ($question->exists) {
-                QuestionnaireAdmin::deleteQuestionMaterial($question);
-            }
-            $array = QuestionnaireAdmin::uploadQuestionMaterial($request, $module);
+            $type = QuestionType::from($request->get('type'));
+            $typeImageSystemPath = $type->getTypeSystemPath();
+            $typeActionableObject = $type->getActionableQuestionObject();
 
-            return response()->json($array);
-        } catch (\Exception $exception) {
-            Log::error('while uploading question material', [$exception->getMessage()]);
+            $response = $typeActionableObject->uploadSingleImage($request->validated(), $module, $typeImageSystemPath);
+
+            return response()->json($response);
+        } catch (Exception $exception) {
+            Log::error("while uploading image -> question type {$this->type->getTypeValue()}", [$exception->getMessage()]);
 
             return response()->json(['error' => __('question.errors.uploadMaterial')]);
         }

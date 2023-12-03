@@ -30,10 +30,10 @@ Route::controller(ModuleController::class)
     });
 
 Route::controller(QuestionController::class)
-    ->name('courses.assessments.modules.questions.')
+    ->name('modules.questions.')
     ->group(function () {
-        Route::post('courses/{course}/assessments/{assessment}/modules/{module}/questions/create-material', 'uploadMaterial')
-            ->name('storeMaterial');
-        Route::post('courses/{course}/assessments/{assessment}/modules/{module}/questions/{question}/update-material', 'uploadMaterial')
-            ->name('updateMaterial');
+        Route::post('modules/{module}/questions/image', 'uploadOrUpdateImage')
+            ->name('uploadImage');
+        Route::post('modules/{module}/questions/{question}/image', 'uploadOrUpdateImage')
+            ->name('updateImage');
     });

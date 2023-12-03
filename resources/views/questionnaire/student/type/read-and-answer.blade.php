@@ -30,7 +30,6 @@
         const listLocation = `{{route('student.moduleStart', [$course, $assessment, $module])}}`
 
         const afterSuccessfullyCall = (data) => {
-            console.log(data)
             if (data.result) {
                 fireToast('success', data.msg)
             } else {
