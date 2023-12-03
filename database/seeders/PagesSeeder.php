@@ -16,7 +16,7 @@ class PagesSeeder extends Seeder
     public function run(): void
     {
         $rows = Arr::get(Arr::keyBy(File::json(database_path('data/keyeduau_muhamad.json')), 'name'), 'pages')['data'];
-        if (!Page::query()->count() && $rows) {
+        if (! Page::query()->count() && $rows) {
             Arr::map($rows, function ($row) {
                 DB::table('pages')->insert($row);
             });

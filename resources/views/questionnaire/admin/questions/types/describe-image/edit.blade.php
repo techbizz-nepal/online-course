@@ -18,15 +18,16 @@
                    class="form-control @error('image_path') is-invalid @enderror"
                    name="image_path"
                    id="image_path"
-                   value="{{$question->describeImage->image_path ?? @old('image_path')}}">
+                   type="text"
+                   value="{{$question->describeImage?->image_path ?? @old('image_path')}}">
             <div class="input-group-append">
                 <button id="upload-btn" class="btn btn-primary">Upload</button>
             </div>
         </div>
-        <input style="display: none" class="form-control @error('material') is-invalid @enderror"
+        <input style="display: none" class="form-control @error('image_file') is-invalid @enderror"
                type="file"
-               name="material" id="material" accept="image/*">
-        @error('material')
+               name="image_file" id="image_file" accept="image/*">
+        @error('image_file')
         <span class="invalid-feedback">{{ $message }}</span>
         @enderror
         <div class="progress mt-2">
@@ -40,25 +41,31 @@
                     aria-valuemax="100">0%
             </div>
         </div>
+        <div class="position-relative pt-4" id="preview">
+            <img src="{{asset(sprintf("%s/%s", \App\DTO\Questionnaire\QuestionDescribeImageData::PUBLIC_PATH, $question->describeImage?->image_path))}}"
+                 alt="{{$question['name']}}">
+        </div>
     </div>
 
 </div>
 @push('js')
     <script type="text/javascript" src="{{ asset('assets/js/admin-utilities.js') }}"></script>
     <script>
-        const requestPath = `{{route('admin.courses.assessments.modules.questions.storeMaterial', [$course, $assessment, $module, 'type' => request()->get('type')])}}`
+        const requestPath = `{{route('admin.modules.questions.updateImage', [$module, $question, 'type' => request()->get('type')])}}`
         const token = `{{csrf_token()}}`
-        const fileInputEl = document.getElementById('material')
+        const fileInputEl = document.getElementById('image_file')
         const textInputEl = document.getElementById('image_path')
         const uploadBtnEl = document.getElementById('upload-btn')
         const uploadProgressEl = document.getElementById('upload-progress')
         const bodyInputEl = document.getElementById('body')
+        const previewEl = document.getElementById('preview')
         const regex = /[A-Za-z0-9_-]+/
 
         uploadBtnEl.addEventListener('click', (e) => {
             e.preventDefault()
             if (regex.test(bodyInputEl.value)) {
                 fileInputEl.click()
+                previewEl.remove()
             } else {
                 bodyInputEl.focus()
             }

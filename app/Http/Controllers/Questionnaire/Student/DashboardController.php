@@ -15,7 +15,7 @@ class DashboardController extends Controller
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $data = [
-            'courses' => StudentData::authenticatedGuard()->user()->courses()->get()
+            'courses' => StudentData::authenticatedGuard()->user()->courses()->get(),
         ];
 
         return view('questionnaire.student.index', $data);

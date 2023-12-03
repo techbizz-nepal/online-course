@@ -28,7 +28,7 @@ class ExamController extends Controller
 
     public function listAssessments(Request $request, Course $course): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        if (!Gate::allows('open-course', $course)) {
+        if (! Gate::allows('open-course', $course)) {
             abort(403);
         }
         $data = [
@@ -76,12 +76,12 @@ class ExamController extends Controller
     }
 
     public function submitAnswer(
-        Course     $course,
+        Course $course,
         Assessment $assessment,
-        Module     $module,
-        Question   $question,
-        Exam       $exam,
-        Request    $request
+        Module $module,
+        Question $question,
+        Exam $exam,
+        Request $request
     ) {
         try {
             $typeService = $question->type->getStudentServiceObject();

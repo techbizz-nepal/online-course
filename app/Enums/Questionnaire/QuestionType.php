@@ -2,13 +2,16 @@
 
 namespace App\Enums\Questionnaire;
 
+use App\DTO\Questionnaire\QuestionDescribeImageData;
+use App\DTO\Questionnaire\QuestionSeeAndAnswerData;
 use App\Questionnaire\Services\Admin\ClosedOptionAdmin;
-use App\Questionnaire\Services\Admin\DescribeImageAdmin;
+use App\Questionnaire\Services\Admin\DescribeImage;
 use App\Questionnaire\Services\Admin\InterfaceAdmin;
 use App\Questionnaire\Services\Admin\ReadAndAnswerAdmin;
 use App\Questionnaire\Services\Admin\SeeAndAnswerAdmin;
 use App\Questionnaire\Services\Admin\TrueFalseAdmin;
 use App\Questionnaire\Services\Student\InterfaceStudent;
+use Exception;
 
 enum QuestionType: string
 {
@@ -16,7 +19,7 @@ enum QuestionType: string
     case READ_AND_ANSWER = '2';
     case DESCRIBE_IMAGE = '3';
     case TRUE_FALSE = '4';
-    case SEE_AND_ANSWER = "5";
+    case SEE_AND_ANSWER = '5';
 
     public function value(): string
     {
@@ -45,9 +48,21 @@ enum QuestionType: string
         return match ($this) {
             self::CLOSE_ENDED_OPTIONS => new ClosedOptionAdmin(),
             self::READ_AND_ANSWER => new ReadAndAnswerAdmin(),
-            self::DESCRIBE_IMAGE => new DescribeImageAdmin(),
+            self::DESCRIBE_IMAGE => new DescribeImage(),
             self::TRUE_FALSE => new TrueFalseAdmin(),
             self::SEE_AND_ANSWER => new SeeAndAnswerAdmin()
+        };
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getActionableQuestionObject(): InterfaceAdmin
+    {
+        return match ($this) {
+            self::DESCRIBE_IMAGE => new DescribeImage(),
+            self::SEE_AND_ANSWER => new SeeAndAnswerAdmin(),
+            self::TRUE_FALSE, self::CLOSE_ENDED_OPTIONS, self::READ_AND_ANSWER => throw new Exception('To be implemented'),
         };
     }
 
@@ -58,7 +73,19 @@ enum QuestionType: string
             self::READ_AND_ANSWER => new \App\Questionnaire\Services\Student\ReadAndAnswerService(),
             self::DESCRIBE_IMAGE => new \App\Questionnaire\Services\Student\DescribeImageService(),
             self::TRUE_FALSE => new \App\Questionnaire\Services\Student\TrueFalseService(),
-            self::SEE_AND_ANSWER => throw new \Exception('To be implemented'),
+            self::SEE_AND_ANSWER => new \App\Questionnaire\Services\Student\SeeAndAnswerService(),
+        };
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getTypeSystemPath(): string
+    {
+        return match ($this) {
+            self::SEE_AND_ANSWER => QuestionSeeAndAnswerData::SYSTEM_PATH,
+            self::DESCRIBE_IMAGE => QuestionDescribeImageData::SYSTEM_PATH,
+            default => throw new Exception('To be implemented'),
         };
     }
 
@@ -74,7 +101,7 @@ enum QuestionType: string
 
     public static function getReviewTypes(): array
     {
-        return [self::READ_AND_ANSWER->value, self::DESCRIBE_IMAGE->value];
+        return [self::READ_AND_ANSWER->value, self::DESCRIBE_IMAGE->value, self::SEE_AND_ANSWER->value];
     }
 
     public function getCreateViewName(): string
@@ -96,7 +123,7 @@ enum QuestionType: string
             self::DESCRIBE_IMAGE => 'questionnaire.admin.questions.types.describe-image.edit',
             self::TRUE_FALSE => 'questionnaire.admin.questions.types.true-false.edit',
             self::CLOSE_ENDED_OPTIONS => 'questionnaire.admin.questions.types.closed-option.edit',
-            self::SEE_AND_ANSWER => throw new \Exception('To be implemented')
+            self::SEE_AND_ANSWER => 'questionnaire.admin.questions.types.see-and-answer.edit'
         };
     }
 }

@@ -47,7 +47,6 @@
         })
 
         const afterSuccessfullyCall = (data) => {
-            console.log('here', data)
             if (data.result) {
                 fireToast('success', data.msg)
             } else {

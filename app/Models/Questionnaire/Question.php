@@ -17,6 +17,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 /**
  * @property QuestionType $type
  * @property BelongsToMany $questionAnswer
+ *
  * @method static void byModuleId(string $module_id)
  */
 class Question extends Model
@@ -29,12 +30,13 @@ class Question extends Model
     protected $guarded = [];
 
     protected $table = 'questionnaire_questions';
+
     protected $attributes = [
-        'type' => QuestionType::TRUE_FALSE
+        'type' => QuestionType::TRUE_FALSE,
     ];
-    //    protected $with = ['option', 'trueFalse', 'readAndAnswer', 'describeImage'];
+
     protected $casts = [
-        'type' => QuestionType::class
+        'type' => QuestionType::class,
     ];
 
     public function answers(): HasMany
@@ -57,6 +59,11 @@ class Question extends Model
         return $this->hasOne(QuestionReadAndAnswer::class);
     }
 
+    public function seeAndAnswer(): HasOne
+    {
+        return $this->hasOne(QuestionSeeAndAnswer::class);
+    }
+
     public function trueFalse(): HasOne
     {
         return $this->hasOne(QuestionTrueFalse::class);
@@ -70,7 +77,6 @@ class Question extends Model
     /**
      * This should be actually named exam_question table name, and method name should be examAnswer
      * after refactoring codes remove answers() method from this class
-     * @return BelongsToMany
      */
     public function questionAnswer(): BelongsToMany
     {

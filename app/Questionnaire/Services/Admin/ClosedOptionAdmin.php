@@ -8,6 +8,7 @@ use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -53,5 +54,10 @@ class ClosedOptionAdmin implements InterfaceAdmin
     public function getTypeValue(): string
     {
         return self::TYPE->value;
+    }
+
+    public function uploadQuestionImage(Module $module, Question $question): JsonResponse
+    {
+        return response()->json();
     }
 }

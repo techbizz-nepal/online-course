@@ -18,19 +18,20 @@ class StudentData extends Data
     public const SYSTEM_PATH = 'app/public/files/students';
 
     public const PUBLIC_PATH = 'storage/files/students';
+
     public const GUARD_NAME = 'student';
 
     public function __construct(
-        public Optional|string      $id,
+        public Optional|string $id,
         #[Max(10), Min(10), AlphaNumeric]
         public string|Optional|null $usi,
-        public string               $title,
-        public string               $first_name,
-        public string               $surname,
-        public string               $email,
-        public string               $dob,
-        public string               $gender,
-        public string               $mobile,
+        public string $title,
+        public string $first_name,
+        public string $surname,
+        public string $email,
+        public string $dob,
+        public string $gender,
+        public string $mobile,
         public Optional|string|null $pdf,
         public Optional|string|null $home_phone,
         public Optional|string|null $work_phone,

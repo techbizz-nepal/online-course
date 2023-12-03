@@ -33,7 +33,6 @@ class Exam extends Model
     /**
      * This should be actually named exam_question table name, and method name should be examAnswer
      * after refactoring codes remove answers() method from this class
-     * @return BelongsToMany
      */
     public function questionAnswer(): BelongsToMany
     {

@@ -16,7 +16,7 @@ class CourseSeeder extends Seeder
     public function run(): void
     {
         $rows = Arr::get(Arr::keyBy(File::json(database_path('data/keyeduau_muhamad.json')), 'name'), 'courses')['data'];
-        if (!Course::query()->count() && $rows) {
+        if (! Course::query()->count() && $rows) {
             Arr::map($rows, function ($row) {
                 DB::table('courses')->insert($row);
             });
