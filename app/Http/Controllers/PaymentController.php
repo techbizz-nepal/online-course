@@ -18,7 +18,7 @@ class PaymentController extends Controller
 {
     public function paypal()
     {
-        if (!Session::has('cart') || !Session::has('user-checkout-details')) {
+        if (! Session::has('cart') || ! Session::has('user-checkout-details')) {
             return redirect()->route('home')->withErrors('Failed to make payments. Please try again.');
         }
         if (Session::has('tac') && Session::get('tac')) {
@@ -74,7 +74,7 @@ class PaymentController extends Controller
     public function ewaySuccess(Request $request)
     {
         Session::put('payment_method', 'EWay');
-        if (!$request->has('AccessCode')) {
+        if (! $request->has('AccessCode')) {
             return redirect()->route('payment.fail');
         }
 
@@ -84,7 +84,7 @@ class PaymentController extends Controller
     public function zipPay()
     {
 
-        if (!Session::has('cart') || !Session::has('user-checkout-details')) {
+        if (! Session::has('cart') || ! Session::has('user-checkout-details')) {
             return redirect()->route('home')->withErrors('Failed to make payments. Please try again.');
         }
         if (Session::has('tac') && Session::get('tac')) {
@@ -162,7 +162,7 @@ class PaymentController extends Controller
 
     public function zipSuccess()
     {
-        if (!Session::has('zip-response') || Session::get('zip-response') === null) {
+        if (! Session::has('zip-response') || Session::get('zip-response') === null) {
             return redirect()->route('payment');
         }
         $checkOutResponse = Session::get('zip-response');
@@ -203,7 +203,7 @@ class PaymentController extends Controller
 
     public function paymentSuccess()
     {
-        if (!Session::has('cart') || !Session::has('user-checkout-details') || !Session::has('payment_method')) {
+        if (! Session::has('cart') || ! Session::has('user-checkout-details') || ! Session::has('payment_method')) {
             return redirect()->route('home')->withErrors('Failed to make payments. Please try again.');
         }
         $userDetails = Session::get('user-checkout-details');
@@ -251,7 +251,7 @@ class PaymentController extends Controller
 
     public function paymentFail()
     {
-        if (!Session::has('cart') || !Session::has('user-checkout-details') || !Session::has('payment_method')) {
+        if (! Session::has('cart') || ! Session::has('user-checkout-details') || ! Session::has('payment_method')) {
             return redirect()->route('home')->withErrors('Failed to make payments. Please try again.');
         }
         Session::forget('payment_method');

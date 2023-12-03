@@ -22,7 +22,7 @@ fresh-seed:
 	docker-compose -f $(source_path) exec app php artisan migrate:fresh --seed
 update-package:
 	docker-compose -f $(source_path) exec app composer update
-dump-autoload:
+dump:
 	docker-compose -f $(source_path) exec app composer dump
 bash:
 	docker-compose -f $(source_path) exec app bash

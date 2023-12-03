@@ -9,7 +9,7 @@
             id="questionForm">
             @csrf
             @method('PATCH')
-            @include($viewName, ['params' => $params, 'question' => $question])
+            @include($viewName, ['params' => $params, 'question' => $question, 'module' => $module])
             <div class="row mx-auto">
                 <div class="col-md-12 text-left">
                     <button class="btn btn-primary" type="submit">Save</button>

@@ -30,7 +30,7 @@ class PurchaseController extends Controller
 
     public function checkout()
     {
-        if (!Session::has('cart') || get_cart_count() === 0) {
+        if (! Session::has('cart') || get_cart_count() === 0) {
             return redirect()->route('home')->withErrors('No items have been added to cart.');
         }
         $cart = Session::get('cart');
@@ -66,7 +66,7 @@ class PurchaseController extends Controller
 
     public function payment()
     {
-        if (!Session::has('cart') || !Session::has('user-checkout-details') || get_cart_count() <= 0) {
+        if (! Session::has('cart') || ! Session::has('user-checkout-details') || get_cart_count() <= 0) {
             return redirect()->route('home')->withErrors('Cannot make payment. Make sure you have items in your cart or have filled in your user details form.');
         }
         $userEmail = Session::get('user-checkout-details')['email'];

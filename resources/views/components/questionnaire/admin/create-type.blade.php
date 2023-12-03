@@ -3,6 +3,15 @@
         <span>Add New {{$label}}</span>
     </h2>
     <div class="w-100 h-100 bg-white mx-2 p-2">
+        @if (isset($errors) && $errors->any())
+            <div class="my-3 alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form
             action="{{ route('admin.courses.assessments.modules.questions.store', $params) }}"
             method="POST"

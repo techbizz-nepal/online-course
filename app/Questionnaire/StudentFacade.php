@@ -22,17 +22,18 @@ final readonly class StudentFacade
     {
         $createAttributes = [
             'module_id' => $module->id,
-            'student_id' => Auth::guard('student')->id()
+            'student_id' => Auth::guard('student')->id(),
         ];
         $queryAttributes = [
             ['module_id', '=', $module->id],
-            ['student_id', '=', Auth::guard('student')->id()]
+            ['student_id', '=', Auth::guard('student')->id()],
         ];
 
         $exam = Exam::query()->where($queryAttributes)->first();
         if ($exam === null) {
             $exam = Exam::query()->create($createAttributes);
         }
+
         return $exam;
     }
 
@@ -43,7 +44,7 @@ final readonly class StudentFacade
             ->with('questionAnswer')
             ->where([
                 ['student_id', '=', Auth::guard('student')->id()],
-                ['id', '=', $exam->getAttribute('id')]
+                ['id', '=', $exam->getAttribute('id')],
             ])
             ->get()
             ->each(function (Exam $exam) use (&$list) {
@@ -51,14 +52,14 @@ final readonly class StudentFacade
                     $row = [
                         'id' => $item->id,
                         'body' => $item->body,
-                        'type' => $item->type->value()
+                        'type' => $item->type->value(),
                     ];
                     if (in_array($item->type->value, QuestionType::getCorrectTypes()) && $item->pivot->is_correct) {
                         $row['status'] = 'correctly answered';
                         $row['action'] = null;
                     } else {
                         $row['status'] = 'incorrectly answered';
-                        $row['action'] = "retake";
+                        $row['action'] = 'retake';
                     }
                     if (in_array($item->type->value, QuestionType::getReviewTypes())) {
                         $row['status'] = 'answered';
@@ -66,8 +67,10 @@ final readonly class StudentFacade
                     }
                     $list[] = $row;
                 }
+
                 return $exam;
             });
+
         return $list;
     }
 
@@ -104,11 +107,12 @@ final readonly class StudentFacade
                 $value['status'] = $answered['status'];
                 $value['action'] = $answered['action'];
             } else {
-                $value['status'] = "new";
-                $value['action'] = "open";
+                $value['status'] = 'new';
+                $value['action'] = 'open';
             }
             $mapped[] = $value;
         });
+
         return $mapped;
     }
 
@@ -145,6 +149,7 @@ final readonly class StudentFacade
     private function filterQuestionForSession(Collection $questionOfModule): array
     {
         $filtered = $questionOfModule->whereIn('status', ['incorrectly answered', 'new']);
+
         return $filtered->all();
     }
 }

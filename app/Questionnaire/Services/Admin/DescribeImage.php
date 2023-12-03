@@ -8,12 +8,20 @@ use App\Enums\Questionnaire\QuestionType;
 use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
+use App\Questionnaire\Traits\HasImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class DescribeImageAdmin implements InterfaceAdmin
+class DescribeImage implements InterfaceAdmin
 {
+    use HasImage;
+
     public const TYPE = QuestionType::DESCRIBE_IMAGE;
+
+    public function getTypeValue(): string
+    {
+        return self::TYPE->value;
+    }
 
     public function validated(Request $request): array
     {
@@ -42,10 +50,5 @@ class DescribeImageAdmin implements InterfaceAdmin
     {
         $question->describeImage()->delete();
         $question->delete();
-    }
-
-    public function getTypeValue(): string
-    {
-        return self::TYPE->value;
     }
 }

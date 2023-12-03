@@ -10,8 +10,8 @@ use Illuminate\View\Component;
 class CreateType extends Component
 {
     public function __construct(
-        public array   $params,
-        public string  $label = '',
+        public array $params,
+        public string $label = '',
         private string $viewName = ''
     ) {
         $this->viewName = QuestionType::from($this->params['type'])->getCreateViewName();
@@ -25,7 +25,7 @@ class CreateType extends Component
             [
                 'viewName' => $this->viewName,
                 'label' => $this->label,
-                'params' => $this->params
+                'params' => $this->params,
             ]
         );
     }

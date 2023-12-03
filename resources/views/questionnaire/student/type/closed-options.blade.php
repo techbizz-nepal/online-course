@@ -1,6 +1,3 @@
-@php
-    use App\Enums\Questionnaire\ColorType;use Illuminate\Support\Arr;
-@endphp
 <form id="answerForm">
     <div class="w-75 h-100 my-5 mx-5" id="answer-body">
         @isset($question->option)
