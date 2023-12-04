@@ -72,7 +72,7 @@
                     @foreach($module->questions as $question)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td class="text-center w-25">{{ str()->words($question->body, 20) }}</td>
+                            <td class="text-center w-25">{!! str()->words($question->body, 20) !!}</td>
                             <td class="text-center w-25">{{ $question->type->value() }}</td>
                             <td class="text-center w-25">{{ \Carbon\Carbon::parse($question['created_at'])->format('d M Y') }}</td>
                             <td class="text-left w-25">
