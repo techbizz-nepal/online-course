@@ -1,10 +1,10 @@
 <div class="form-group row mx-auto">
     <div class="col-12">
         <label for="body">Question Text</label>
-        <textarea class="form-control @error('body') is-invalid @enderror"
-                  name="body"
-                  id="body"
-                  rows="10">{{$question->body ?? @old('body')}}</textarea>
+        <input class="form-control @error('body') is-invalid @enderror"
+               name="body"
+               id="body"
+               value="{{$question->body ?? @old('body')}}"/>
         @error('body')
         <span class="invalid-feedback">{{ $message }}</span>
         @enderror
@@ -32,18 +32,19 @@
         @enderror
         <div class="progress mt-2">
             <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: 0;"
-                    id="upload-progress"
-                    aria-valuenow="25"
-                    aria-valuemin="0"
-                    aria-valuemax="100">0%
+                class="progress-bar"
+                role="progressbar"
+                style="width: 0;"
+                id="upload-progress"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100">0%
             </div>
         </div>
         <div class="position-relative pt-4" id="preview">
-            <img src="{{asset(sprintf("%s/%s", \App\DTO\Questionnaire\QuestionDescribeImageData::PUBLIC_PATH, $question->describeImage?->image_path))}}"
-                 alt="{{$question['name']}}">
+            <img
+                src="{{asset(sprintf("%s/%s", \App\DTO\Questionnaire\QuestionDescribeImageData::PUBLIC_PATH, $question->describeImage?->image_path))}}"
+                alt="{{$question['name']}}">
         </div>
     </div>
 

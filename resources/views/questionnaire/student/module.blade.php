@@ -37,8 +37,8 @@
                         <tr>
                             <td>{{$loop->iteration}}</td>
                             <td>
-                                <p class="mb-2">{{str()->title($module['name'])}}</p>
-                                <p>{{str()->title($question['body'])}}</p>
+{{--                                <p class="mb-2">{{str()->title($module['name'])}}</p>--}}
+                                <p>{!! str()->title($question['body']) !!}</p>
                             </td>
                             <td class="inline">
                                 {{$question['status']}}

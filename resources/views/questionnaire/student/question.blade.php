@@ -12,7 +12,7 @@
         </span>
         <div class="w-100 h-100 mx-2 p-2" style="background-color: #f5f5f4">
             <div class="my-5" id="question-body">
-                <h5>{{$question->body}}</h5>
+                <h5>{!! $question->body !!}</h5>
             </div>
 
         </div>
