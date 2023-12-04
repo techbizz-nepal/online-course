@@ -3,8 +3,7 @@
         <label for="body">Question Text</label>
         <textarea class="form-control @error('body') is-invalid @enderror"
                   name="body"
-                  id="body"
-                  rows="20">{{@old('body')}}</textarea>
+                  id="body">{{@old('body')}}</textarea>
         @error('body')
         <span class="invalid-feedback">{{ $message }}</span>
         @enderror
@@ -18,10 +17,16 @@
         </button>
     </div>
 </div>
+@push('css')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+@endpush
 @push('js')
     <script src="{{asset('assets/js/admin-utilities.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
     <script defer>
         const pageId = getPageId()
+        const textArea = document.getElementById('body')
         const addBtnEl = document.getElementById("add-describe-image-question")
         let describeImageQuestionCount = getSessionItem(pageId)
 
@@ -32,6 +37,10 @@
             describeImageQuestionCount++
             incrementInputBox(pageId, describeImageQuestionCount, addBtnEl)
             return false
+        })
+        $("#body").summernote({
+            tabsize: 2,
+            height: 250
         })
     </script>
 @endpush

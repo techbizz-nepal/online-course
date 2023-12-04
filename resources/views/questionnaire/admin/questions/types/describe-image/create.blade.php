@@ -1,10 +1,10 @@
 <div class="form-group row mx-auto">
     <div class="col-12">
         <label for="body">Question Text</label>
-        <textarea class="form-control @error('body') is-invalid @enderror"
-                  name="body"
-                  id="body"
-                  rows="10">{{@old('body')}}</textarea>
+        <input class="form-control @error('body') is-invalid @enderror"
+               name="body"
+               id="body"
+               value="{{@old('body')}}"/>
         @error('body')
         <span class="invalid-feedback">{{ $message }}</span>
         @enderror
@@ -35,13 +35,13 @@
 
         <div class="progress mt-2">
             <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: 0;"
-                    id="upload-progress"
-                    aria-valuenow="25"
-                    aria-valuemin="0"
-                    aria-valuemax="100">0%
+                class="progress-bar"
+                role="progressbar"
+                style="width: 0;"
+                id="upload-progress"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100">0%
             </div>
         </div>
     </div>

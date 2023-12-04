@@ -37,8 +37,13 @@
 
     </div>
 </div>
+@push('css')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+@endpush
 @push('js')
     <script src="{{asset('assets/js/admin-utilities.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
     <script>
         const pageId = getPageId('readAndAnswerQuestionUpdate')
         const addBtnEl = document.getElementById("add-describe-image-question")
@@ -50,6 +55,10 @@
             describeImageQuestionCount++
             incrementInputBox(pageId, describeImageQuestionCount, addBtnEl)
             return false
+        })
+        $("#body").summernote({
+            tabsize: 2,
+            height: 250
         })
     </script>
 @endpush
