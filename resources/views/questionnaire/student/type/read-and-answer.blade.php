@@ -3,8 +3,9 @@
         @if(isset($question->readAndAnswer->questions))
             @foreach($question->readAndAnswer->questions as $item)
                 <div class="mb-4">
-                    <p class="mb-2">{{$loop->iteration}}. {{$item['value']}}</p>
-                    <textarea name="answer['{{$item['id']}}']" class="form-control" rows="3"> </textarea>
+                    <p class="mb-2">{{sprintf("%s. %s", $loop->iteration, $item['body'])}} </p>
+                    <input type="hidden" name="answer[{{$loop->index}}][id]" value="{{$item['id']}}">
+                    <textarea name="answer[{{$loop->index}}][answer]" class="form-control" rows="3"> </textarea>
                 </div>
             @endforeach
         @else
@@ -51,9 +52,8 @@
             data.append("exam_id", `{{$exam->id}}`)
             data.append("question_id", `{{$question->id}}`)
 
-
             let answers = Array.from(data.entries())
-                .filter(([key, value]) => key.startsWith('answer[') && value.trim() === '')
+                .filter(([key, value]) => key.startsWith(`answer[`) && value.trim() === '')
 
             if (answers.length > 0) {
                 fireToast('error', 'Please give all answers');

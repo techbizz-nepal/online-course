@@ -41,13 +41,48 @@
                 aria-valuemax="100">0%
             </div>
         </div>
-        <div class="position-relative pt-4" id="preview">
+
+
+    </div>
+
+    <div class="col-6">
+        <div id="preview">
             <img
                 src="{{asset(sprintf("%s/%s", \App\DTO\Questionnaire\QuestionDescribeImageData::PUBLIC_PATH, $question->describeImage?->image_path))}}"
                 alt="{{$question['name']}}">
         </div>
     </div>
+</div>
+<div class="form-group row mx-auto">
+    <div class="col-12" id="question-wrapper">
+        <p onclick="appendInputBox(this)" class="btn btn-outline-warning mb-2" id="add-describe-image-question">Add
+            Question</p>
+        @if(isset($question->describeImage->questions))
+            @foreach($question->describeImage->questions as $item)
+                <div class="form-group row" id="row-{{$loop->iteration}}">
+                    <div class="col-10">
+                        <input id="id1" type="hidden" name="questions[{{$loop->index}}][id]"
+                               @required(true)
+                               value="{{$item['id'] ?? \Illuminate\Support\Str::uuid()}}">
+                        <input name="questions[{{$loop->index}}][body]"
+                               value="{{$item['body']}}"
+                               type="text"
+                               @required(true) minlength="5" pattern="[a-zA-Z0-9]+"
+                               class="form-control mb-2"
+                               placeholder="Write question 1"
+                               id="questions{{$loop->iteration}}">
+                    </div>
+                    <div class="col-2 " onclick="removeInputBox(this)">
+                        <button class="btn btn-danger"
+                                id="btn-{{$loop->index}}"
+                                type="button">Remove Question
+                        </button>
+                    </div>
+                </div>
+            @endforeach
+        @endif
 
+    </div>
 </div>
 @push('js')
     <script type="text/javascript" src="{{ asset('assets/js/admin-utilities.js') }}"></script>

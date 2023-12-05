@@ -7,6 +7,7 @@ use App\Models\Questionnaire\Question;
 use App\Models\Questionnaire\QuestionDescribeImage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<QuestionDescribeImage>
@@ -25,10 +26,10 @@ class QuestionReadAndAnswerFactory extends Factory
         return QuestionReadAndAnswerData::from([
             'question_id' => $randomQuestionId,
             'questions' => [
-                $this->faker->paragraph(1),
-                $this->faker->paragraph(1),
-                $this->faker->paragraph(1),
-                $this->faker->paragraph(1),
+                ['id' => Str::uuid(), 'body' => $this->faker->paragraph],
+                ['id' => Str::uuid(), 'body' => $this->faker->paragraph],
+                ['id' => Str::uuid(), 'body' => $this->faker->paragraph],
+                ['id' => Str::uuid(), 'body' => $this->faker->paragraph],
             ],
         ])->toArray();
     }

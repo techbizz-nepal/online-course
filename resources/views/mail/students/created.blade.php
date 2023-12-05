@@ -1,10 +1,9 @@
 <x-mail::message>
 # Student Registration
-    Name: {{$student->name}}
     Email: {{$student->email}}
     Password: {{$password}}
 
-**_NOTE:_** Please change your password
+**_NOTE:_** Please change your password after login.
 
 Thanks,<br>
     {{ config('app.name') }}

@@ -27,6 +27,9 @@ class DescribeImage implements InterfaceAdmin
     {
         return $request->validate([
             'image_path' => ['string', 'required'],
+            'questions' => ['array', 'required'],
+            'questions.*.id' => ['string', 'required'],
+            'questions.*.body' => ['string', 'required'],
         ]);
     }
 

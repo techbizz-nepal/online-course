@@ -15,6 +15,7 @@ return new class() extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('question_id')->constrained()->on('questionnaire_questions');
             $table->string('image_path');
+            $table->json('questions');
             $table->timestamps();
             $table->softDeletes();
         });

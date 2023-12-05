@@ -19,7 +19,7 @@ class DescribeImageService extends BaseStudent implements InterfaceStudent
     public function validated(Request $request): array
     {
         return $request->validate([
-            'answer' => ['required', 'string'],
+            'answer' => ['required', 'array'],
             'exam_id' => ['required', 'string'],
             'question_id' => ['required', 'string'],
         ]);

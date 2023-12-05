@@ -16,7 +16,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * @property QuestionType $type
- * @property BelongsToMany $questionAnswer
+ * @property BelongsToMany $examQuestion
  *
  * @method static void byModuleId(string $module_id)
  */
@@ -78,9 +78,13 @@ class Question extends Model
      * This should be actually named exam_question table name, and method name should be examAnswer
      * after refactoring codes remove answers() method from this class
      */
-    public function questionAnswer(): BelongsToMany
+    public function examQuestion(): BelongsToMany
     {
-        return $this->belongsToMany(Exam::class, 'questionnaire_answers', 'question_id', 'exam_id');
+        return $this->belongsToMany(
+            Exam::class,
+            table: 'questionnaire_exam_question',
+            foreignPivotKey: 'exam_id',
+            relatedPivotKey: 'question_id');
     }
 
     public function scopeByModuleId(Builder $query, string $module_id): void

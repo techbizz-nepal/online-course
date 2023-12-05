@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\DTO\StudentData;
 use App\Models\Student;
 use Illuminate\Bus\Queueable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -18,7 +19,7 @@ class StudentCreated extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public Student $student)
+    public function __construct(public Student|Model $student)
     {
         $this->afterCommit();
     }

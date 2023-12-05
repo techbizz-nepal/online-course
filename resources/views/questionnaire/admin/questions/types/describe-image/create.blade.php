@@ -4,7 +4,7 @@
         <input class="form-control @error('body') is-invalid @enderror"
                name="body"
                id="body"
-               value="{{@old('body')}}"/>
+               value="{{@old('body') ?? "Observe the image and answer the questions"}}"/>
         @error('body')
         <span class="invalid-feedback">{{ $message }}</span>
         @enderror
@@ -47,9 +47,32 @@
     </div>
 
 </div>
+<div class="form-group row mx-auto">
+    <div class="col-12" id="question-wrapper">
+        <p class="btn btn-outline-warning mb-2"
+           onclick="appendInputBox(this)"
+           id="add-describe-image-question">
+            Add Question
+        </p>
+        <div class="form-group row" id="row-1">
+            <div class="col-10">
+                <input id="id1" type="hidden" name="questions[0][id]" value="{{\Illuminate\Support\Str::uuid()}}">
+                <input name="questions[0][body]" type="text" class="form-control mb-2" placeholder="Write question 1"
+                       @required(true) minlength="5" pattern="[a-zA-Z0-9]+"
+                       id="questions1">
+            </div>
+            <div class="col-2" onclick="removeInputBox(this)">
+                <button class="btn btn-danger" id="btn-1" type="button">Remove Question</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('js')
     <script type="text/javascript" src="{{ asset('assets/js/admin-utilities.js') }}"></script>
     <script>
+
+
         const requestPath = `{{route('admin.modules.questions.uploadImage', [$module, 'type' => request()->get('type')])}}`
         const token = `{{csrf_token()}}`
         const fileInputEl = document.getElementById('image_file')
@@ -75,5 +98,6 @@
                 postRequestToServer(requestPath, token, body, uploadProgressEl, textInputEl)
             }
         })
+
     </script>
 @endpush

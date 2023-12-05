@@ -4,9 +4,9 @@ namespace Database\Factories\Questionnaire;
 
 use App\DTO\Questionnaire\QuestionDescribeImageData;
 use App\Models\Questionnaire\Question;
-use App\Models\Questionnaire\QuestionDescribeImage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<QuestionDescribeImage>
@@ -25,6 +25,12 @@ class QuestionDescribeImageFactory extends Factory
         return QuestionDescribeImageData::from([
             'question_id' => $randomQuestionId,
             'image_path' => $this->faker->imageUrl,
+            'questions' => [
+                ['id' => Str::uuid(), 'body' => $this->faker->paragraph],
+                ['id' => Str::uuid(), 'body' => $this->faker->paragraph],
+                ['id' => Str::uuid(), 'body' => $this->faker->paragraph],
+                ['id' => Str::uuid(), 'body' => $this->faker->paragraph],
+            ],
         ])->toArray();
     }
 }
