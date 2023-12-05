@@ -70,7 +70,7 @@ class StudentController extends Controller
             $data['password'] = bcrypt('student123');
             $newStudent = tap(Student::query()->create($data))->target;
             $newStudent->setAttribute('password', bcrypt(StudentData::DEFAULT_PASSWORD));
-            Mail::to($newStudent->email)->queue(new StudentCreated($newStudent));
+            Mail::to($newStudent->email)->send(new StudentCreated($newStudent));
             DB::commit();
 
             return redirect()->route('admin.student.index')->with('success', 'Student Created Successfully');

@@ -41,14 +41,14 @@ final readonly class StudentFacade
     {
         $list = [];
         Exam::query()
-            ->with('questionAnswer')
+            ->with('examQuestion')
             ->where([
                 ['student_id', '=', Auth::guard('student')->id()],
                 ['id', '=', $exam->getAttribute('id')],
             ])
             ->get()
             ->each(function (Exam $exam) use (&$list) {
-                foreach ($exam->questionAnswer as $item) {
+                foreach ($exam->examQuestion as $item) {
                     $row = [
                         'id' => $item->id,
                         'body' => $item->body,

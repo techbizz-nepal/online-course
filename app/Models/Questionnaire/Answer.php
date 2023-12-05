@@ -14,7 +14,7 @@ class Answer extends Model
     use HasUuids;
     use SoftDeletes;
 
-    protected $table = 'questionnaire_answers';
+    protected $table = 'questionnaire_exam_question';
 
     protected $guarded = [];
 

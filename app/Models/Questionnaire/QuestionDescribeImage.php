@@ -19,7 +19,7 @@ class QuestionDescribeImage extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'body' => 'array',
+        'questions' => 'array',
     ];
 
     public function question(): BelongsTo

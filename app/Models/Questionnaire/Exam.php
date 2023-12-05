@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property BelongsToMany $questionAnswer
+ * @property BelongsToMany $examQuestion
  */
 class Exam extends Model
 {
@@ -34,10 +34,15 @@ class Exam extends Model
      * This should be actually named exam_question table name, and method name should be examAnswer
      * after refactoring codes remove answers() method from this class
      */
-    public function questionAnswer(): BelongsToMany
+    public function examQuestion(): BelongsToMany
     {
         return $this
-            ->belongsToMany(Question::class, 'questionnaire_answers', 'exam_id', 'question_id')
+            ->belongsToMany(
+                Question::class,
+                table: 'questionnaire_exam_question',
+                foreignPivotKey: 'exam_id',
+                relatedPivotKey: 'question_id'
+            )
             ->withPivot('answer', 'is_correct');
     }
 

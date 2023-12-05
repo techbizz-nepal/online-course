@@ -4,7 +4,17 @@
              src="{{asset(sprintf("%s/%s", \App\DTO\Questionnaire\QuestionDescribeImageData::PUBLIC_PATH, $question->describeImage?->image_path))}}"/>
     </div>
     <div class="w-75 h-100 my-5 mx-5" id="answer-body">
-        <textarea class="form-control" rows="10" cols="50" name="answer"></textarea>
+        @if(isset($question->describeImage->questions))
+            @foreach($question->describeImage->questions as $item)
+                <div class="mb-4">
+                    <p class="mb-2">{{sprintf("%s. %s", $loop->iteration, $item['body'])}} </p>
+                    <input type="hidden" name="answer[{{$loop->index}}][id]" value="{{$item['id']}}">
+                    <textarea name="answer[{{$loop->index}}][answer]" class="form-control" rows="3"> </textarea>
+                </div>
+            @endforeach
+        @else
+            <p class="text-lg-center">Please contact with Administrator</p>
+        @endif
     </div>
     <div class="w-100 h-100 mx-2 px-4 py-2 text-right" style="background-color: #f5f5f4">
         <button class="btn btn-success"
@@ -46,10 +56,14 @@
             const data = new FormData(e.currentTarget)
             data.append("exam_id", `{{$exam->id}}`)
             data.append("question_id", `{{$question->id}}`)
-            for (const key of data.keys()) {
-                !data.get('answer')?.length
-                    ? fireToast('error', 'Please give answer')
-                    : validation = true
+
+            let answers = Array.from(data.entries())
+                .filter(([key, value]) => key.startsWith(`answer[`) && value.trim() === '')
+
+            if (answers.length > 0) {
+                fireToast('error', 'Please give all answers');
+            } else {
+                validation = true;
             }
             if (validation) {
                 await submitAnswer(answerPostUrl, data, csrfToken, afterSuccessfullyCall)
