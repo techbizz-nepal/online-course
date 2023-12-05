@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Questionnaire\Answer>
  */
-class AnswerFactory extends Factory
+class ExamQuestionFactory extends Factory
 {
     /**
      * Define the model's default state.

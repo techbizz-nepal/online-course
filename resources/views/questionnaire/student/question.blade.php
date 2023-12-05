@@ -7,9 +7,6 @@
             </h2>
             <span>{{$module->name}}</span>
         </div>
-        <span class="m-2">
-            {{(!$question?->answer?->is_correct && $question?->answer?->is_opened) ? "You previously incorrectly answered this question." : null}}
-        </span>
         <div class="w-100 h-100 mx-2 p-2" style="background-color: #f5f5f4">
             <div class="my-5" id="question-body">
                 <h5>{!! $question->body !!}</h5>

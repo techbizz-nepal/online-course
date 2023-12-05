@@ -11,7 +11,7 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::create('questionnaire_answers', function (Blueprint $table) {
+        Schema::create('questionnaire_exam_question', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('exam_id')->constrained()->on('questionnaire_exams');
             $table->foreignUuid('question_id')->constrained()->on('questionnaire_questions');

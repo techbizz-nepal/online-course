@@ -10,11 +10,22 @@
     </div>
 </div>
 <div class="form-group row mx-auto">
-    <div class="col-12">
+    <div class="col-12" id="question-wrapper">
         <button class="btn btn-outline-warning mb-2"
-                id="add-describe-image-question">
+                onclick="appendInputBox(this)">
             Add Question
         </button>
+        <div class="form-group row" id="row-1">
+            <div class="col-10">
+                <input id="id1" type="hidden" name="questions[0][id]" value="{{\Illuminate\Support\Str::uuid()}}">
+                <input name="questions[0][body]" type="text" class="form-control mb-2" placeholder="Write question 1"
+                       @required(true) minlength="5" pattern="[a-zA-Z0-9]+"
+                       id="questions1">
+            </div>
+            <div class="col-2" onclick="removeInputBox(this)">
+                <button class="btn btn-danger" id="btn-1" type="button">Remove Question</button>
+            </div>
+        </div>
     </div>
 </div>
 @push('css')
@@ -25,19 +36,6 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
     <script defer>
-        const pageId = getPageId()
-        const textArea = document.getElementById('body')
-        const addBtnEl = document.getElementById("add-describe-image-question")
-        let describeImageQuestionCount = getSessionItem(pageId)
-
-        populateExistingInputBox(describeImageQuestionCount, addBtnEl)
-
-        addBtnEl.addEventListener('click', (event) => {
-            event.preventDefault()
-            describeImageQuestionCount++
-            incrementInputBox(pageId, describeImageQuestionCount, addBtnEl)
-            return false
-        })
         $("#body").summernote({
             tabsize: 2,
             height: 250

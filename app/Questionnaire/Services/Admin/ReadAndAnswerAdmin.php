@@ -3,10 +3,12 @@
 namespace App\Questionnaire\Services\Admin;
 
 use App\DTO\Questionnaire\QuestionData;
+use App\DTO\Questionnaire\QuestionReadAndAnswerData;
 use App\Enums\Questionnaire\QuestionType;
 use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
+use App\Models\Questionnaire\QuestionReadAndAnswer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -17,15 +19,16 @@ class ReadAndAnswerAdmin implements InterfaceAdmin
     public function validated(Request $request): array
     {
         return $request->validate([
-            'questions' => ['required', 'array'],
-            'questions.*' => ['required', 'string'],
+            'questions' => ['array', 'required'],
+            'questions.*.id' => ['string', 'required'],
+            'questions.*.body' => ['string', 'required'],
         ]);
     }
 
     public function storeProcess(array $validated, Module $module, QuestionData $questionData): Model
     {
         $question = tap(QuestionnaireAdmin::createQuestion($module, $questionData))->target;
-        $questionReadAndAnswerData = QuestionnaireAdmin::prepareQuestionReadAndAnswer($validated);
+        $questionReadAndAnswerData = QuestionReadAndAnswerData::from($validated);
 
         return QuestionnaireAdmin::createQuestionReadAndAnswer($question, $questionReadAndAnswerData);
     }
@@ -33,7 +36,7 @@ class ReadAndAnswerAdmin implements InterfaceAdmin
     public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model
     {
         QuestionnaireAdmin::updateQuestion($question, $questionData);
-        $questionReadAndAnswerData = QuestionnaireAdmin::prepareQuestionReadAndAnswer($validated);
+        $questionReadAndAnswerData = QuestionReadAndAnswerData::from($validated);
 
         return QuestionnaireAdmin::updateQuestionReadAndAnswer($question, $questionReadAndAnswerData);
     }
