@@ -48,6 +48,7 @@
     <div class="col-6">
         <div id="preview">
             <img
+                width="300"
                 src="{{asset(sprintf("%s/%s", \App\DTO\Questionnaire\QuestionDescribeImageData::PUBLIC_PATH, $question->describeImage?->image_path))}}"
                 alt="{{$question['name']}}">
         </div>
