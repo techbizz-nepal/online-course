@@ -2,9 +2,11 @@
 
 namespace App\Models\Questionnaire;
 
+use App\Models\Student;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -36,18 +38,23 @@ class Exam extends Model
      */
     public function examQuestion(): BelongsToMany
     {
+
         return $this
             ->belongsToMany(
                 Question::class,
                 table: 'questionnaire_exam_question',
                 foreignPivotKey: 'exam_id',
                 relatedPivotKey: 'question_id'
-            )
-            ->withPivot('answer', 'is_correct');
+            )->withPivot(['answer']);
     }
 
-    public function modules(): HasMany
+    public function module(): BelongsTo
     {
-        return $this->hasMany(Module::class);
+        return $this->belongsTo(Module::class);
+    }
+
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
     }
 }

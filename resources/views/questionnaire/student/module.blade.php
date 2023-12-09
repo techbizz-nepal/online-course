@@ -1,6 +1,3 @@
-@php
-    use \App\Enums\Questionnaire\QuestionType;
-@endphp
 @extends('student.layout.app')
 @section('content')
     <div class="main-content pt-lg-4">

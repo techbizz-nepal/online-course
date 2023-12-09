@@ -63,6 +63,7 @@ class ExamController extends Controller
             'exam' => $exam,
             'questions' => $questions,
         ];
+
         return view('questionnaire.student.module', $data);
     }
 

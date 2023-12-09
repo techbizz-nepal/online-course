@@ -39,9 +39,9 @@ class Module extends Model
         return $this->hasMany(Question::class);
     }
 
-    public function exam(): BelongsTo
+    public function exams(): HasMany
     {
-        return $this->belongsTo(Exam::class);
+        return $this->hasMany(Exam::class);
     }
 
     public function questionReviewType(): HasMany
