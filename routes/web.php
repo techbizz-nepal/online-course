@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\Questionnaire\QuestionType;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaymentController;

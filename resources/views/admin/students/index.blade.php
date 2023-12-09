@@ -1,5 +1,5 @@
 @extends('admin.layout.app')
-@section('students', 'active')
+@section('student', 'active')
 @section('content')
     <div class="main-content pt-lg-4">
         <h2 class="m-2 mb-0 d-flex justify-content-between">
@@ -18,11 +18,12 @@
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-center" style="width: 30%;">Student</th>
-                    <th class="text-center">Email</th>
-                    <th class="text-center">PDF File</th>
-                    <th class="text-center">Action</th>
+                    <th>#</th>
+                    <th style="width: 30%;">Student</th>
+                    <th>Email</th>
+                    <th>PDF File</th>
+                    <th>Exam Taken</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,6 +42,9 @@
                                     View File
                                 </a>
                             </td>
+                            <td><a href="{{route('admin.student.exams', [$student])}}">
+                                    {{$student->exams_count ?? 0 }}
+                                </a></td>
                             {{--                    <td class="text-center">--}}
                             {{--                        {!! QrCode::format('svg')->size(100)->generate(asset($student->pdf)); !!}--}}
                             {{--                    </td>--}}

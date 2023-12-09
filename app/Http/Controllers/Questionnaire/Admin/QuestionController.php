@@ -100,6 +100,7 @@ class QuestionController extends Controller
                 'type' => $question->type,
             ],
         ];
+
         return view('questionnaire.admin.questions.edit', $data);
     }
 

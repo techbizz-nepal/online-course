@@ -62,14 +62,17 @@ class PurchaseController extends Controller
             Log::info('while purchase: ', $studentData->toArray());
             Session::put('user-checkout-details', $userDetails);
             DB::commit();
+
             return redirect()->route('payment');
         } catch (QueryException $exception) {
             DB::rollBack();
             Log::error('while creating student: ', [$exception->getMessage()]);
+
             return back()->withErrors(['error' => 'The email might be already used.'])->withInput();
         } catch (\Exception $exception) {
             Log::error('while creating student: ', [$exception->getMessage()]);
             DB::rollBack();
+
             return back()->withErrors(['error' => 'Request Failed. Contact Developer'])->withInput();
         }
     }

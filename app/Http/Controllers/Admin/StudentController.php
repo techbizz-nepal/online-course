@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\DTO\StudentData;
 use App\Http\Controllers\Controller;
 use App\Mail\StudentCreated;
+use App\Models\Questionnaire\Exam;
 use App\Models\Student;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -31,6 +34,7 @@ class StudentController extends Controller
                     ->orWhere('email', 'like', "%{$request->get('query')}%");
             })
             ->select(['id', 'first_name', 'surname', 'email', 'pdf'])
+            ->withCount('exams')
             ->simplePaginate(5)
             ->appends($request->except('page'));
 
@@ -136,5 +140,37 @@ class StudentController extends Controller
         $student->delete();
 
         return back()->with('success', 'Item Deleted Successfully');
+    }
+
+    public function exams(Student $student)
+    {
+        $student = $student->load(['exams' => function (HasMany $q) {
+            $q->with([
+                'module' => function ($q) {
+                    $q->select(['id', 'name']);
+                },
+            ])
+                ->withCount('examQuestion');
+        }])
+            ->only(['id', 'usi', 'fullName', 'email', 'exams']);
+        $exams = Arr::pull($student, 'exams');
+
+        $data = [
+            'student' => $student,
+            'exams' => $exams,
+        ];
+
+        return view('admin.students.results.index', $data);
+    }
+
+    public function result(Student $student, Exam $exam)
+    {
+        $data['exam'] = $exam->load(['examQuestion', 'module' => function ($q) {
+            $q->select(['id', 'name']);
+        }]);
+        $data['student'] = $student->only(['fullName']);
+
+        //return $data;
+        return view('admin.students.results.result', $data);
     }
 }

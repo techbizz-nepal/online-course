@@ -28,13 +28,13 @@ class DatabaseSeeder extends Seeder
             MetaTagSeeder::class,
             MetaTagPageSeeder::class,
             BookingDateSeeder::class,
-            AssessmentSeeder::class,
-            ModuleSeeder::class,
-            QuestionSeeder::class,
-            QuestionTrueFalseSeeder::class,
-            QuestionOptionSeeder::class,
-            QuestionReadAndAnswerSeeder::class,
-            QuestionDescribeImageSeeder::class,
+            //            AssessmentSeeder::class,
+            //            ModuleSeeder::class,
+            //            QuestionSeeder::class,
+            //            QuestionTrueFalseSeeder::class,
+            //            QuestionOptionSeeder::class,
+            //            QuestionReadAndAnswerSeeder::class,
+            //            QuestionDescribeImageSeeder::class,
         ]);
     }
 }
