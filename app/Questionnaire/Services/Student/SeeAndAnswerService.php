@@ -15,6 +15,7 @@ class SeeAndAnswerService extends BaseStudent implements InterfaceStudent
     public const RELATION_NAME = 'seeAndAnswer';
 
     public const VIEW_PATH = 'questionnaire.student.type.see-and-answer';
+
     public function validated(Request $request): array
     {
         return $request->validate([

@@ -14,6 +14,8 @@ tinker:
 	docker-compose -f $(source_path) exec app php artisan tinker
 optimize:
 	docker-compose -f $(source_path) exec app php artisan optimize
+view-cache:
+	docker-compose -f $(source_path) exec app php artisan view:cache
 clear:
 	docker-compose -f $(source_path) exec app php artisan optimize:clear
 route-list:

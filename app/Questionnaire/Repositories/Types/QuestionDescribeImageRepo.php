@@ -5,7 +5,6 @@ namespace App\Questionnaire\Repositories\Types;
 use App\DTO\Questionnaire\QuestionDescribeImageData;
 use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\File;
 
 class QuestionDescribeImageRepo implements InterfaceQuestionDescribeImageRepo
 {

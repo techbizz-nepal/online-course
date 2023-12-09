@@ -19,6 +19,8 @@ class Student extends \Illuminate\Foundation\Auth\User
 
     protected $hidden = ['password'];
 
+    protected $appends = ['fullName'];
+
     public function courses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class)->withTimestamps()->as('purchased');
@@ -27,5 +29,10 @@ class Student extends \Illuminate\Foundation\Auth\User
     public function exams(): HasMany
     {
         return $this->hasMany(Exam::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return sprintf('%s %s', $this->first_name, $this->surname);
     }
 }

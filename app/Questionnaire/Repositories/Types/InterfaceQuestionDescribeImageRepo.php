@@ -11,5 +11,4 @@ interface InterfaceQuestionDescribeImageRepo
     public function create(Question $question, QuestionDescribeImageData $questionDescribeImageData): Model;
 
     public function update(Question $question, QuestionDescribeImageData $questionDescribeImageData): Model;
-
 }

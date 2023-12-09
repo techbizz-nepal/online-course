@@ -89,6 +89,15 @@ enum QuestionType: string
         };
     }
 
+    public function getTypePublicPath(): string
+    {
+        return match ($this) {
+            self::SEE_AND_ANSWER => QuestionSeeAndAnswerData::PUBLIC_PATH,
+            self::DESCRIBE_IMAGE => QuestionDescribeImageData::PUBLIC_PATH,
+            default => throw new Exception('To be implemented'),
+        };
+    }
+
     public static function toArray(): array
     {
         return array_column(self::cases(), 'value');
@@ -124,6 +133,17 @@ enum QuestionType: string
             self::TRUE_FALSE => 'questionnaire.admin.questions.types.true-false.edit',
             self::CLOSE_ENDED_OPTIONS => 'questionnaire.admin.questions.types.closed-option.edit',
             self::SEE_AND_ANSWER => 'questionnaire.admin.questions.types.see-and-answer.edit'
+        };
+    }
+
+    public function getResultViewName(): string
+    {
+        return match ($this) {
+            self::READ_AND_ANSWER => 'components.questionnaire.admin.types.read-and-answer',
+            self::DESCRIBE_IMAGE => 'components.questionnaire.admin.types.describe-image',
+            self::TRUE_FALSE => 'components.questionnaire.admin.types.true-false',
+            self::CLOSE_ENDED_OPTIONS => 'components.questionnaire.admin.types.closed-options',
+            self::SEE_AND_ANSWER => 'components.questionnaire.admin.types.see-and-answer'
         };
     }
 }

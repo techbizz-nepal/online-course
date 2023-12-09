@@ -1,6 +1,4 @@
-@php
-    use App\Enums\Questionnaire\QuestionType;
-@endphp
+@use(App\Enums\Questionnaire\QuestionType)
 @isset($editRoute)
     <a href="{{ route($editRoute["name"], $param) }}"
        class="btn btn-info mb-1">{{$editRoute["label"]}}</a>

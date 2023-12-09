@@ -8,7 +8,6 @@ use App\Enums\Questionnaire\QuestionType;
 use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
-use App\Models\Questionnaire\QuestionReadAndAnswer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 

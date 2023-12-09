@@ -127,7 +127,7 @@
                         <a href="{{ route('admin.courses.index') }}">
                             <i class="fas fa-book"></i>Courses</a>
                     </li>
-                    <li>
+                    <li class="@yield('student')">
                         <a href="{{ route('admin.student.index') }}">
                             <i class="fas fa-graduation-cap"></i>Students</a>
                     </li>
