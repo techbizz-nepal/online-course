@@ -2,7 +2,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -21,7 +24,8 @@
         "spatie/laravel-honeypot": "^4.0",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "symfony/http-client": "^6.3",
-        "symfony/mailer": "^6.3"
+        "symfony/mailer": "^6.3",
+        "ext-zend-opcache": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
@@ -53,7 +57,7 @@
     },
     "scripts": {
         "format": [
-           "./vendor/bin/pint "
+            "./vendor/bin/pint "
         ],
         "test": [
             "./vendor/bin/pest --parallel --group=questionnaire-crud"

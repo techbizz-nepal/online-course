@@ -50,9 +50,6 @@ class QuestionnaireServiceProvider extends ServiceProvider
         Gate::define('open-course', function (Student $student, Course $course) {
             return $course->students()->where('student_id', $student->getAttribute('id'))->exists();
         });
-        //        Gate::define('open-assessment', function(Student $student, Assessment $assessment){
-        //
-        //        });
     }
 
     private function registerInterfaces(): void
