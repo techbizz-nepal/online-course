@@ -19,6 +19,7 @@ class QuestionData extends Data
         public Optional|Carbon|null $deleted_at,
         public Optional|string|null $module_id,
         public QuestionType $type,
+        public int $weight = 0,
         public int $order = 0,
     ) {
     }

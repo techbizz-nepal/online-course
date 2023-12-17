@@ -19,7 +19,7 @@
             <div class="col-10">
                 <input id="id1" type="hidden" name="questions[0][id]" value="{{\Illuminate\Support\Str::uuid()}}">
                 <input name="questions[0][body]" type="text" class="form-control mb-2" placeholder="Write question 1"
-                       @required(true) minlength="5" pattern="[a-zA-Z0-9]+"
+                       @required(true) minlength="5"
                        id="questions1">
             </div>
             <div class="col-2" onclick="removeInputBox(this)">

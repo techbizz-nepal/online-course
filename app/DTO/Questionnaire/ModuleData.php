@@ -26,7 +26,8 @@ class ModuleData extends Data
         public Optional|Carbon|null $created_at,
         public Optional|Carbon|null $updated_at,
         public Optional|Carbon|null $deleted_at,
-        public Optional|string|null $assessment_id
+        public Optional|string|null $assessment_id,
+        public int $weight = 0
     ) {
         $this->slug ??= Str::slug($this->name);
     }

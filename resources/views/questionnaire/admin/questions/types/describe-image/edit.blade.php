@@ -68,7 +68,7 @@
                         <input name="questions[{{$loop->index}}][body]"
                                value="{{$item['body']}}"
                                type="text"
-                               @required(true) minlength="5" pattern="[a-zA-Z0-9]+"
+                               @required(true) minlength="5"
                                class="form-control mb-2"
                                placeholder="Write question 1"
                                id="questions{{$loop->iteration}}">
