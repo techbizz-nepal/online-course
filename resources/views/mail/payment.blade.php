@@ -27,9 +27,10 @@ Street Name: **{{ $userDetails['street_name'] ?? '' }}** <br>
 Suburb: **{{ $userDetails['suburb'] ?? '' }}** <br>
 Post: **{{ $userDetails['post'] ?? '' }}** <br>
 
-To book more courses:
-@component('mail::button', ['url' => route('home')])
-Visit {{ config('app.name') }}
+username: **{{ $userDetails['email'] }}** <br>
+password: **{{$userDetails['default_password']}}**
+@component('mail::button', ['url' => route('student.getLogin')])
+Login to portal
 @endcomponent
 <br>
 If you have any concerns or questions, contact us at: info@key.edu.au

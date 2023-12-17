@@ -8,6 +8,7 @@ use App\Models\Student;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -21,7 +22,7 @@ class DashboardController extends Controller
         return view('questionnaire.student.index', $data);
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(Request $request): Application|View|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         if ($request->method() === 'POST') {
             try {
@@ -45,6 +46,7 @@ class DashboardController extends Controller
             'genderOptions' => [
                 ['value' => 'male', 'label' => 'Male'],
                 ['value' => 'female', 'label' => 'Female'],
+                ['value' => 'other', 'label' => 'Other'],
             ],
         ];
 

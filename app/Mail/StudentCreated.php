@@ -42,6 +42,7 @@ class StudentCreated extends Mailable
         return new Content(
             markdown: 'mail.students.created',
             with: [
+                'login_url' => sprintf('%s/%s', config('app.url'), 'student/login'),
                 'password' => StudentData::DEFAULT_PASSWORD,
             ]
         );
