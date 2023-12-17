@@ -1,5 +1,5 @@
 <div class="form-group row mx-auto">
-    <div class="col-12">
+    <div class="col-9">
         <label for="body">Question Text</label>
         <textarea class="form-control @error('body') is-invalid @enderror"
                   name="body"
@@ -9,6 +9,7 @@
         <span class="invalid-feedback">{{ $message }}</span>
         @enderror
     </div>
+    {{$slot}}
 </div>
 <div class="form-group row mx-auto">
     <div class="col-12" id="question-wrapper">

@@ -54,8 +54,15 @@
                     @foreach($assessment->modules as $module)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td class="text-center">{{ $module->name }}</td>
-                            <td class="text-center">{{ \Illuminate\Support\Str::words($module->description, 10, '...') }}</td>
+                            <td class="text-center">
+                                <p>{{ $module->name }}</p>
+                                <p>Full: {{$module->fullMark}}</p>
+                                <p>Pass: {{$module->passMark}}</p>
+                            </td>
+                            <td class="text-center">
+                                <p>{{ \Illuminate\Support\Str::words($module->description, 10, '...') }}</p>
+
+                            </td>
                             <td class="text-center">
                                 <a href="{{ asset(\App\DTO\Questionnaire\ModuleData::PUBLIC_PATH.'/'.$module['material']) }}"
                                    class="btn btn-blueLight" target="_blank">View File</a>
