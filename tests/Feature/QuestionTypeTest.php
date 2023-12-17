@@ -12,6 +12,7 @@ use Database\Seeders\CategorySeeder;
 use Database\Seeders\CourseSeeder;
 use Database\Seeders\Questionnaire\AssessmentSeeder;
 use Database\Seeders\Questionnaire\ModuleSeeder;
+use Illuminate\Support\Str;
 
 uses()->group('questionnaire-crud');
 beforeEach(function () {
@@ -52,9 +53,16 @@ it('can create/update true false question', function () {
     expect($questionTrueFalseUpdate)->answer->toBe($questionTrueFalseCreateData->answer);
 });
 it('can create/update describe image question', function () {
+
     $question = Question::factory()->create();
     $questionDescribeImageData = QuestionDescribeImageData::from([
         'image_path' => 'some-path.jpg',
+        'questions' => [
+            ['id' => Str::uuid(), 'body' => 'question 1'],
+            ['id' => Str::uuid(), 'body' => 'question 2'],
+            ['id' => Str::uuid(), 'body' => 'question 3'],
+            ['id' => Str::uuid(), 'body' => 'question 4'],
+        ],
     ]);
     $questionDescribeImageCreate = QuestionnaireAdmin::createQuestionDescribeImage($question, $questionDescribeImageData);
     //create
@@ -64,6 +72,12 @@ it('can create/update describe image question', function () {
         ->image_path->toBe($questionDescribeImageData->image_path);
     $questionDescribeImageData = QuestionDescribeImageData::from([
         'image_path' => 'another-path.jpg',
+        'questions' => [
+            ['id' => Str::uuid(), 'body' => 'question 1'],
+            ['id' => Str::uuid(), 'body' => 'question 2'],
+            ['id' => Str::uuid(), 'body' => 'question 3'],
+            ['id' => Str::uuid(), 'body' => 'question 4'],
+        ],
     ]);
     $questionDescribeImageUpdate = QuestionnaireAdmin::updateQuestionDescribeImage($question, $questionDescribeImageData);
     //update
