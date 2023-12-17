@@ -1,5 +1,5 @@
 <div class="form-group row">
-    <div class="col-12">
+    <div class="col-9">
         <label for="body">Question Text</label>
         <input class="form-control @error('body') is-invalid @enderror"
                value="{{@old('body')}}"
@@ -10,6 +10,7 @@
         <span class="invalid-feedback">{{ $message }}</span>
         @enderror
     </div>
+    {{$slot}}
 </div>
 
 <div class="form-group row">
