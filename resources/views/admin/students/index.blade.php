@@ -21,8 +21,8 @@
                     <th>#</th>
                     <th style="width: 30%;">Student</th>
                     <th>Email</th>
-                    <th>PDF File</th>
                     <th>Exam Taken</th>
+                    <th>QR</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -33,24 +33,28 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $student->first_name }} {{$student->surname}}</td>
                             <td>{{$student->email}}</td>
+                            {{--                            <td>--}}
+                            {{--                                <a--}}
+                            {{--                                    href="{{ asset($student->pdf) }}"--}}
+                            {{--                                    class="btn btn-blueLight"--}}
+                            {{--                                    target="_blank"--}}
+                            {{--                                >--}}
+                            {{--                                    View File--}}
+                            {{--                                </a>--}}
+                            {{--                            </td>--}}
                             <td>
-                                <a
-                                        href="{{ asset($student->pdf) }}"
-                                        class="btn btn-blueLight"
-                                        target="_blank"
-                                >
-                                    View File
-                                </a>
+                                @if($student->exams_count)
+                                    <a href="{{route('admin.student.exams', [$student])}}">
+                                        {{$student->exams_count }}
+                                    </a>
+                                @else
+                                    None
+                                @endif
                             </td>
-                            <td><a href="{{route('admin.student.exams', [$student])}}">
-                                    {{$student->exams_count ?? 0 }}
-                                </a></td>
-                            {{--                    <td class="text-center">--}}
-                            {{--                        {!! QrCode::format('svg')->size(100)->generate(asset($student->pdf)); !!}--}}
-                            {{--                    </td>--}}
+                            <td>
+                                {!! QrCode::format('svg')->size(100)->generate(asset($student->pdf)); !!}
+                            </td>
                             <td class="text-center">
-                                <a href="{{ route('admin.student.qr', $student) }}" class="btn btn-secondary mb-1">Download
-                                    QR</a>
                                 <a href="{{ route('admin.student.edit', $student) }}" class="btn btn-info mb-1">Edit</a>
                                 <a href="javascript:void(0)"
                                    onclick="document.getElementById('deleteStudent{{ $loop->iteration }}').submit();"

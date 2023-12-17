@@ -3,15 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DTO\StudentData;
-use App\Mail\StudentCreated;
 use App\Models\Course;
-use App\Models\Student;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class PurchaseController extends Controller
@@ -52,29 +46,9 @@ class PurchaseController extends Controller
     public function collectDetails(Request $request): RedirectResponse
     {
         $userDetails = $this->validateRequest($request);
-        $studentData = $this->getDtoFromUserDetails($userDetails);
-        try {
-            DB::beginTransaction();
-            $studentData = Student::query()->create($studentData->getStudentRow());
-            Mail::to($studentData['email'])->send(new StudentCreated($studentData));
-            $userDetails['model_created'] = true;
-            $userDetails['student_id'] = $studentData->getAttribute('id');
-            Log::info('while purchase: ', $studentData->toArray());
-            Session::put('user-checkout-details', $userDetails);
-            DB::commit();
+        Session::put('user-checkout-details', $userDetails);
 
-            return redirect()->route('payment');
-        } catch (QueryException $exception) {
-            DB::rollBack();
-            Log::error('while creating student: ', [$exception->getMessage()]);
-
-            return back()->withErrors(['error' => 'The email might be already used.'])->withInput();
-        } catch (\Exception $exception) {
-            Log::error('while creating student: ', [$exception->getMessage()]);
-            DB::rollBack();
-
-            return back()->withErrors(['error' => 'Request Failed. Contact Developer'])->withInput();
-        }
+        return redirect()->route('payment');
     }
 
     public function payment()
@@ -105,20 +79,4 @@ class PurchaseController extends Controller
         ]);
     }
 
-    private function getDtoFromUserDetails(array $array): StudentData
-    {
-        return StudentData::from([
-            'title' => $array['title'],
-            'first_name' => $array['first_name'],
-            'surname' => $array['surname'],
-            'email' => $array['email'],
-            'dob' => $array['dob'],
-            'gender' => $array['gender'],
-            'mobile' => $array['mobile'],
-            'flat_unit' => $array['flat_unit'],
-            'street' => $array['street'],
-            'locality' => $array['locality'],
-            'post_code' => $array['post_code'],
-        ]);
-    }
 }
