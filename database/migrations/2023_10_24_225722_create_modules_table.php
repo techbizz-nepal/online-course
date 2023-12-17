@@ -18,6 +18,7 @@ return new class() extends Migration
             $table->string('slug')->index();
             $table->text('description')->nullable();
             $table->string('material')->nullable();
+            $table->integer('weight')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
