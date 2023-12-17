@@ -139,6 +139,11 @@
                                             <label for="female">
                                                 Female
                                             </label>
+
+                                            <input required type="radio" name="gender" id="other" value="other" {{ old('gender') === 'other' ? 'checked' : '' }}>
+                                            <label for="other">
+                                                Other
+                                            </label>
                                         </div>
                                     </td>
                                 </tr>

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\StudentData;
 use App\Mail\PaymentNotification;
 use App\Mail\PaymentSuccess;
 use App\Models\Course;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -206,47 +208,50 @@ class PaymentController extends Controller
         if (! Session::has('cart') || ! Session::has('user-checkout-details') || ! Session::has('payment_method')) {
             return redirect()->route('home')->withErrors('Failed to make payments. Please try again.');
         }
-        $userDetails = Session::get('user-checkout-details');
-        $paymentMethod = Session::get('payment_method');
-        $cart = Session::get('cart');
+        $userDetails = Session::pull('user-checkout-details');
+        $paymentMethod = Session::pull('payment_method');
+        $cart = Session::pull('cart');
 
         $courses = [];
         $total = 0;
-
-        foreach ($cart as $cartItem) {
-            $slug = $cartItem['slug'];
-            $course = Course::query()->where('slug', $slug)->first();
-            $booking_date = $cartItem['booking_date'];
-            $item = [
-                'name' => $course->title,
-                'price' => $course->price,
-                'description' => 'Course Code: '.$course->course_code,
-                'booking_date' => $booking_date,
-            ];
-            $total = floatval($course->price) + $total;
-            $courses[] = $item;
-            DB::table('course_student')->insert([
-                'id' => Str::uuid(),
-                'student_id' => $userDetails['student_id'],
-                'course_id' => $course->id,
-            ]);
-        }
         try {
+            DB::beginTransaction();
+            $studentData = $this->getDtoFromUserDetails($userDetails);
+            $studentData = Student::query()->create($studentData->getStudentRow());
+            $userDetails['student_id'] = $studentData->getAttribute('id');
+            $userDetails['default_password'] = StudentData::DEFAULT_PASSWORD;
+            foreach ($cart as $cartItem) {
+                $slug = $cartItem['slug'];
+                $course = Course::query()->where('slug', $slug)->first();
+                $booking_date = $cartItem['booking_date'];
+                $item = [
+                    'name' => $course->title,
+                    'price' => $course->price,
+                    'description' => 'Course Code: '.$course->course_code,
+                    'booking_date' => $booking_date,
+                ];
+                $total = floatval($course->price) + $total;
+                $courses[] = $item;
+                DB::table('course_student')->insert([
+                    'id' => Str::uuid(),
+                    'student_id' => $userDetails['student_id'],
+                    'course_id' => $course->id,
+                ]);
+            }
+
             Mail::to($userDetails['email'])->send(
                 new PaymentSuccess($courses, $userDetails, $paymentMethod, $total)
             );
             Mail::to(config('app.email'))->send(
                 new PaymentNotification($courses, $userDetails, $paymentMethod, $total)
             );
+            DB::commit();
         } catch (\Exception $exception) {
             Log::error('after payment success: ', [$exception->getMessage()]);
-        } finally {
-            Session::forget('user-checkout-details');
-            Session::forget('cart');
-            Session::forget('payment_method');
-
-            return view('purchase.success');
+            DB::rollBack();
         }
+
+        return view('purchase.success');
     }
 
     public function paymentFail()
@@ -257,5 +262,22 @@ class PaymentController extends Controller
         Session::forget('payment_method');
 
         return view('purchase.fail');
+    }
+
+    private function getDtoFromUserDetails(array $array): StudentData
+    {
+        return StudentData::from([
+            'title' => $array['title'],
+            'first_name' => $array['first_name'],
+            'surname' => $array['surname'],
+            'email' => $array['email'],
+            'dob' => $array['dob'],
+            'gender' => $array['gender'],
+            'mobile' => $array['mobile'],
+            'flat_unit' => $array['flat_unit'],
+            'street' => $array['street'],
+            'locality' => $array['locality'],
+            'post_code' => $array['post_code'],
+        ]);
     }
 }
