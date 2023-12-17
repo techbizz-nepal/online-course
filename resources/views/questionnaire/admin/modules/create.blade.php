@@ -51,15 +51,28 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-12">
+                    <div class="col-6">
                         <label for="description">Description</label>
                         <textarea class="form-control @error('description') is-invalid @enderror" name="description"
-                                  id="description" rows="2" placeholder="Description">{{@old('description')}}</textarea>
+                                  id="description" rows="1" placeholder="Description">{{@old('description')}}</textarea>
                         @error('description')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div class="col-3">
+                        <label for="fullMark">Full Mark</label>
+                        <input required class="form-control @error('fullMark') is-invalid @enderror" type="number" name="fullMark"
+                               value="{{@old('fullMark')}}"
+                               id="fullMark">
+                    </div>
+                    <div class="col-3">
+                        <label for="passMark">Pass Mark</label>
+                        <input required class="form-control @error('passMark') is-invalid @enderror" type="number" name="passMark"
+                               value="{{@old('passMark')}}"
+                               id="passMark">
+                    </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-12 text-left">
                         <button class="btn btn-primary" type="submit">Save</button>
