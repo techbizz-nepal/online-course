@@ -17,6 +17,8 @@
                 <div class="form-row mb-5">
                     <x-form.input label="USI" name="usi" id="usi" type="text"
                                   :value="$student['usi']"
+                                  helpText="Get new USI"
+                                  helpLink="https://www.usi.gov.au/students/get-a-usi"
                                   cols="col-md-8 col-4"/>
                 </div>
                 <div class="form-row mb-5">

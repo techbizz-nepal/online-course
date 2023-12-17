@@ -55,6 +55,7 @@
                                 {!! QrCode::format('svg')->size(100)->generate(asset($student->pdf)); !!}
                             </td>
                             <td class="text-center">
+                                <a href="{{route('admin.student.show', $student)}}" class="btn btn-outline-success mb-1">View Detail</a>
                                 <a href="{{ route('admin.student.edit', $student) }}" class="btn btn-info mb-1">Edit</a>
                                 <a href="javascript:void(0)"
                                    onclick="document.getElementById('deleteStudent{{ $loop->iteration }}').submit();"

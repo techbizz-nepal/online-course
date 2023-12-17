@@ -39,6 +39,7 @@ class StudentController extends Controller
             ->appends($request->except('page'));
 
         $viewData = [
+            'viewDetailUrl' => '',
             'students' => $students,
             'next_page_url' => $students->nextPageUrl(),
             'prev_page_url' => $students->previousPageUrl(),
@@ -50,6 +51,11 @@ class StudentController extends Controller
     public function create()
     {
         return view('admin.students.create');
+    }
+
+    public function show()
+    {
+        return view('admin.students.show');
     }
 
     public function store(Request $request)
