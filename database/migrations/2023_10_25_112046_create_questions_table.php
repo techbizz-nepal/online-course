@@ -17,6 +17,7 @@ return new class() extends Migration
             $table->text('body');
             $table->integer('order')->default(0);
             $table->string('type', 2);
+            $table->integer('weight')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
