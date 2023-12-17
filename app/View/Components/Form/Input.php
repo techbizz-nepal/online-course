@@ -18,7 +18,9 @@ class Input extends Component
         public ?string $value = '',
         public ?string $pattern = null,
         public bool $required = false,
-        public bool $readonly = false
+        public bool $readonly = false,
+        public string $helpText = '',
+        public string $helpLink = '#'
     ) {
         $this->fillInput();
     }
