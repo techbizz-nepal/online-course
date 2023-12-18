@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * @property BelongsToMany $examQuestion
@@ -38,14 +39,13 @@ class Exam extends Model
      */
     public function examQuestion(): BelongsToMany
     {
-
         return $this
             ->belongsToMany(
                 Question::class,
                 table: 'questionnaire_exam_question',
                 foreignPivotKey: 'exam_id',
                 relatedPivotKey: 'question_id'
-            )->withPivot(['answer']);
+            )->withPivot(['answer', 'id', 'score']);
     }
 
     public function module(): BelongsTo
@@ -56,5 +56,15 @@ class Exam extends Model
     public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function pluckScore(): Collection
+    {
+        return $this->examQuestion->pluck('pivot.score');
+    }
+
+    public function scopeByStudentID($query, string|int $studentID)
+    {
+        return $query->where('student_id', $studentID);
     }
 }

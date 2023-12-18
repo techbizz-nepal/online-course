@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Session;
 
 final readonly class StudentFacade
 {
-    public function __construct()
-    {
-    }
-
     public function startExam(Module $module)
     {
         $createAttributes = [

@@ -1,12 +1,16 @@
 @extends('student.layout.app')
 @section('content')
     <div class="main-content pt-lg-4">
-        <h2 class="m-2 mb-0 d-flex justify-content-between">
-            <span>{{$module['name']}}</span>
+        <h2 class="m-2 mb-0 d-flex justify-content-evenly">
+            <a href="{{route('student.startExam', [$course, $assessment])}}"
+               class="mr-2 py-2 px-4 bg-primary rounded text-white">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <span class="mr-2 p-2">{{$module['name']}}</span>
         </h2>
         <div class="w-100 h-100 mx-2 p-2" style="background-color: #f5f5f4">
             <div>
-                {{auth()->guard('student')->id()}} You are about to begin a new section of your exam...
+                You are about to begin a new section of your exam...
             </div>
             <hr>
             <div class="mt-5">
