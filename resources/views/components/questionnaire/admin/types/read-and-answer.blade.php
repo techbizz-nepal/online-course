@@ -11,3 +11,6 @@
         @endforeach
     </div>
 @endisset
+<div class="row">
+    {{$slot}}
+</div>

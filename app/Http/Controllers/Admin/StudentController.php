@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -153,14 +155,21 @@ class StudentController extends Controller
         $student = $student->load(['exams' => function (HasMany $q) {
             $q->with([
                 'module' => function ($q) {
-                    $q->select(['id', 'name']);
+                    $q->select(['id', 'name', 'fullMark', 'passMark']);
                 },
-            ])
-                ->withCount('examQuestion');
+            ])->with('examQuestion');
         }])
             ->only(['id', 'usi', 'fullName', 'email', 'exams']);
         $exams = Arr::pull($student, 'exams');
 
+        foreach ($exams as $exam) {
+            $score = $exam->pluckScore()->sum();
+            $exam->score = $score;
+            $exam->pass = false;
+            if ($score >= $exam->module->passMark) {
+                $exam->pass = true;
+            }
+        }
         $data = [
             'student' => $student,
             'exams' => $exams,
@@ -176,7 +185,19 @@ class StudentController extends Controller
         }]);
         $data['student'] = $student->only(['fullName']);
 
-        //return $data;
         return view('admin.students.results.result', $data);
+    }
+
+    public function submitAnswerWeight(Request $request, string $id): JsonResponse
+    {
+        $data = $request->validate([
+            'score' => ['numeric', 'required'],
+        ]);
+
+        $data = DB::table('questionnaire_exam_question')
+            ->where('id', $id)
+            ->update($data);
+
+        return Response::json($data);
     }
 }

@@ -12,6 +12,7 @@
                     <th>#</th>
                     <th style="width: 30%;">Module</th>
                     <th>Total Answered</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -22,7 +23,12 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{$exam['module']['name']}}</td>
-                            <td>{{$exam['exam_question_count']}}</td>
+                            <td>{{count($exam['examQuestion'])}}</td>
+                            <td>
+                                <span @class(['text-white', 'text-white', 'py-2', 'px-3', 'rounded-circle', 'bg-flat-color-2'=> $exam['pass'], 'bg-flat-color-3'=> !$exam['pass']])>
+                                    {{$exam['pass'] ? 'Pass' : 'Fail'}}
+                                </span>
+                            </td>
                             <td>
                                 <a href="{{route('admin.student.exams.result', [$student['id'], $exam['id']])}}">
                                     <button class="btn btn-info">See Results</button>

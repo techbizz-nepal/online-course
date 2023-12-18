@@ -78,5 +78,4 @@ class PurchaseController extends Controller
             'post_code' => 'required | min: 1 | max: 500',
         ]);
     }
-
 }

@@ -3,6 +3,7 @@ const fireToast = (type, msg) => {
         icon: type,
         title: msg
     })
+    return false
 }
 /************************************** student part start*********************************************/
 const handleBackToModuleIndex = (el, routePath) => {

@@ -17,6 +17,7 @@ return new class() extends Migration
             $table->foreignUuid('question_id')->constrained()->on('questionnaire_questions');
             $table->json('answer');
             $table->boolean('is_correct')->default(false);
+            $table->integer('score')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
