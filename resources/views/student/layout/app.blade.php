@@ -44,7 +44,7 @@
         <div class="header-mobile__bar">
             <div class="container-fluid">
                 <div class="header-mobile-inner">
-                    <a class="logo" href="{{ route('admin.dashboard') }}">
+                    <a class="logo" href="{{ route('student.dashboard') }}">
                         <img src="{{ asset('assets/images/logo-primary.png') }}" alt="Knowledge Empowers You" />
                     </a>
                     <button class="hamburger hamburger--slider" type="button">

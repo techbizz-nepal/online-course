@@ -14,6 +14,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
@@ -38,15 +39,24 @@ class ExamController extends Controller
         return view('questionnaire.student.course', $data);
     }
 
-    public function listModules(Course $course, Assessment $assessment): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function listModules(Course $course, Assessment $assessment)
     {
         $data = [
             'course' => $course,
-            'assessment' => $assessment->loadCount(['questions']),
-            'modules' => Module::getWithMetaInfo($assessment),
+            'assessment' => $assessment,
+            'modules' => Module::query()
+                ->select(['id', 'name', 'fullMark', 'passMark', 'slug'])
+                ->with(['exams' => function ($q) {
+                    $q->byStudentID(Auth::guard('student')->id())->with('examQuestion');
+                }])
+                ->withCount('questions')
+                ->get()
+                ->each(function (Module $module) {
+                    $module->mutateWithScoreStatus();
+                }),
         ];
         $data['modulesCount'] = collect($data['modules'])->count();
-        $data['questionsCount'] = collect($data['modules'])->sum(fn ($module) => $module['questionCount']);
+        $data['questionsCount'] = collect($data['modules'])->sum(fn ($module) => $module->questions_count);
 
         return view('questionnaire.student.assessment', $data);
     }
@@ -95,7 +105,7 @@ class ExamController extends Controller
 
             return response()->json(['msg' => $msg, 'result' => $result, 'nextQuestion' => $nextQuestion]);
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+            Log::error($exception->getMessage(), ['data' => $request->all()]);
 
             return response()->json(['error' => $exception->getMessage()]);
         }

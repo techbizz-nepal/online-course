@@ -19,6 +19,7 @@ class AnswerData extends Data
         public Optional|Carbon|null $updated_at,
         public Optional|Carbon|null $deleted_at,
         public Optional|bool $is_correct = false,
+        public Optional|int $score = 0
     ) {
     }
 }
