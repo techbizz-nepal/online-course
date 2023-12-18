@@ -22,10 +22,16 @@ Route::resources([
     'banner' => BannerController::class,
 ]);
 Route::resource('student', StudentController::class)->except(['index']);
-Route::get('student/{query?}', [StudentController::class, 'index'])->name('student.index');
-Route::get('student/{student}/qr/download', [StudentController::class, 'downloadQR'])->name('student.qr');
-Route::get('student/{student}/exams', [StudentController::class, 'exams'])->name('student.exams');
-Route::get('student/{student}/exams/{exam}/result', [StudentController::class, 'result'])->name('student.exams.result');
+
+Route::controller(StudentController::class)
+    ->name('student.')
+    ->group(function () {
+        Route::get('student/{query?}', 'index')->name('index');
+        Route::get('student/{student}/qr/download', 'downloadQR')->name('qr');
+        Route::get('student/{student}/exams', 'exams')->name('exams');
+        Route::get('student/{student}/exams/{exam}/result', 'result')->name('exams.result');
+        Route::post('examQuestion/{id}/marking', 'submitAnswerWeight')->name('examQuestion.marking');
+    });
 
 Route::get('/password/change', [PasswordController::class, 'showPasswordChangeForm'])->name('password.change');
 Route::patch('/password/change', [PasswordController::class, 'change'])->name('password.change.post');

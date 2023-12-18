@@ -1,5 +1,4 @@
 @isset($question->describeImage?->questions)
-
     <div class="row">
         <div class="col-12 mb-2">
             <img width="300px" alt='{{$question->describeImage->question_id}}'
@@ -15,3 +14,6 @@
         @endforeach
     </div>
 @endisset
+<div class="row">
+    {{$slot}}
+</div>

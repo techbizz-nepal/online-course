@@ -14,3 +14,6 @@
         <p class="my-3">Student Answer: {{ $getClosedOptionAnswer }}</p>
     </div>
 </div>
+<div class="row">
+    {{$slot}}
+</div>
