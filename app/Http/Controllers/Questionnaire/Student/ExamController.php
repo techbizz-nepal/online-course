@@ -20,11 +20,9 @@ use Illuminate\Support\Facades\Log;
 
 class ExamController extends Controller
 {
-    protected StudentFacade $studentFacade;
-
-    public function __construct()
+    public function __construct(protected StudentFacade $studentFacade)
     {
-        $this->studentFacade = new StudentFacade();
+
     }
 
     public function listAssessments(Request $request, Course $course): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
