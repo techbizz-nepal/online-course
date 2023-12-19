@@ -19,6 +19,10 @@ class Student extends \Illuminate\Foundation\Auth\User
 
     protected $hidden = ['password'];
 
+    protected $casts = [
+        'survey' => 'array',
+    ];
+
     protected $appends = ['fullName'];
 
     public function courses(): BelongsToMany
@@ -34,5 +38,10 @@ class Student extends \Illuminate\Foundation\Auth\User
     public function getFullNameAttribute(): string
     {
         return sprintf('%s %s', $this->first_name, $this->surname);
+    }
+
+    public function scopeByID($query, $id)
+    {
+        return $query->where('id', $id);
     }
 }

@@ -44,6 +44,7 @@ class CreateStudentsTable extends Migration
             $table->integer('display_order')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->json('extra')->nullable();
+            $table->json('survey')->nullable();
             $table->timestamps();
         });
     }
