@@ -45,6 +45,7 @@ class StudentData extends Data
         public Optional|string|null $emergency_home_phone,
         public Optional|string|null $emergency_work_phone,
         public Optional|string|null $emergency_mobile,
+        public Optional|array|null $survey,
     ) {
     }
 
