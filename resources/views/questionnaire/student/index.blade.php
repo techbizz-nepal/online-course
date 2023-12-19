@@ -1,7 +1,7 @@
 @extends('student.layout.app')
 @section('dashboard', 'active')
 @section('content')
-    <div class="main-content pt-lg-4">
+    <div class="main-content pt-lg-4 ">
         <h2 class="m-2 mb-0 d-flex justify-content-between">
             <span>My Enrollments</span>
         </h2>

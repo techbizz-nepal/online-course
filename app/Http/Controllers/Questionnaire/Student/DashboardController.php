@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Questionnaire\Student;
 
 use App\DTO\StudentData;
 use App\Http\Controllers\Controller;
-use App\Models\Student;
+use App\Questionnaire\StudentFacade;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    public function __construct(protected StudentFacade $studentFacade)
+    {
+
+    }
+
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $data = [
@@ -22,33 +26,17 @@ class DashboardController extends Controller
         return view('questionnaire.student.index', $data);
     }
 
-    public function updateProfile(Request $request): Application|View|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function updateProfile(Request $request)
     {
+        $student = StudentData::authenticatedGuard()->user();
         if ($request->method() === 'POST') {
-            try {
-                $studentData = StudentData::from($request->all());
-                Student::query()
-                    ->where('id', StudentData::authenticatedGuard()->id())
-                    ->update($studentData->toArray());
+            $studentData = StudentData::from($request->all());
 
-                return redirect()->back()->with('success', 'Profile Updated.');
-            } catch (\Exception $exception) {
-                return back()->withErrors(['msg' => $exception->getMessage()])->withInput();
-            }
+            return $this->studentFacade->postUpdateProfile($studentData, $student);
         }
-        $data = [
-            'student' => StudentData::authenticatedGuard()->user(),
-            'titleOptions' => [
-                ['value' => 'mr', 'label' => 'Mr'],
-                ['value' => 'mrs', 'label' => 'Mrs'],
-                ['value' => 'dr', 'label' => 'Dr'],
-            ],
-            'genderOptions' => [
-                ['value' => 'male', 'label' => 'Male'],
-                ['value' => 'female', 'label' => 'Female'],
-                ['value' => 'other', 'label' => 'Other'],
-            ],
-        ];
+        $data = $this->studentFacade->getStudentWithFormInputs($student);
+        $fetchSurveyData = $student->getAttribute('survey');
+        $data['survey'] = $this->studentFacade->getEnquiryData($fetchSurveyData);
 
         return view('student.update-profile', $data);
     }

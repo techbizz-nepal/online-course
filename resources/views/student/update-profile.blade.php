@@ -2,8 +2,8 @@
 @section('title', 'Update Profile')
 @section('update-profile', 'active')
 @section('content')
-    <div class="main-content pt-lg-4">
-        <h2 class="m-2 mb-0 d-flex justify-content-between">
+    <div class="main-content pt-lg-4 bg-flat-color-1 ">
+        <h2 class="m-2 mb-0 d-flex justify-content-between text-white">
             <span>Update profile</span>
         </h2>
         @if(session()->has('success'))
@@ -11,7 +11,7 @@
                 {{ session()->get('success') }}
             </div>
         @endif
-        <div class="w-100 h-100 bg-white mx-2 p-2">
+        <div class="w-100 h-100 bg-white mx-1 p-2">
             <form action="{{ route('student.updateProfile') }}" method="POST">
                 @csrf
                 <div class="form-row mb-5">
@@ -38,7 +38,11 @@
 
                 </div>
                 <div class="form-row mb-5">
-                    <h4 class="col-12 mb-2">Contact Information</h4>
+                    <div class="col-12" id="heading">
+                        <h4 class="mb-4 bg-flat-color-1 p-3 text-white">
+                            Contact Information
+                        </h4>
+                    </div>
                     <x-form.input label="Home Phone" name="home_phone" id="home_phone" type="tel" required="true"
                                   :value="$student['home_phone']"
                                   pattern="[0-9]{10}" cols="col-md-8 col-3"/>
@@ -55,7 +59,11 @@
                                   required="true" cols="col-md-8 col-3" :value="$student['email']" :readonly="true"/>
                 </div>
                 <div class="form-row mb-5">
-                    <h4 class="col-12 mb-2">Address</h4>
+                    <div class="col-12" id="heading">
+                        <h4 class="mb-4 bg-flat-color-1 p-3 text-white">
+                            Address
+                        </h4>
+                    </div>
                     <x-form.input label="Flat/Unit" name="flat_unit" id="flat_unit" type="text"
                                   :value="$student['flat_unit']" required="true" cols="col-md-8 col-2"/>
 
@@ -74,7 +82,11 @@
                                   :value="$student['post_code']"/>
                 </div>
                 <div class="form-row mb-5">
-                    <h4 class="col-12 mb-2">Next of kin/emergency contact</h4>
+                    <div class="col-12" id="heading">
+                        <h4 class="mb-4 bg-flat-color-1 p-3 text-white">
+                            Next of kin/emergency contact
+                        </h4>
+                    </div>
 
                     <x-form.input label="Name" name="emergency_name" id="emergency_name" type="text"
                                   :value="$student['emergency_name']"
@@ -96,11 +108,86 @@
                                   required="true" pattern="[0-9]{10}"
                                   :value="$student['emergency_mobile']" cols="col-md-8 col-2"/>
                 </div>
+                @isset($survey)
+                    @foreach($survey as $key => $value)
+                        <div class="row">
+                            <div class="col-12" id="heading"><h4
+                                    class="mb-4 bg-flat-color-1 p-3 text-white">{{$value['title']}}</h4></div>
+                            @foreach($value['queries'] as $queryKey => $queryValue)
+                                <div class="col-12"><p class="font-weight-bold">{{$queryValue['title']}}</p></div>
+                                <div class="col-12 my-1"><p class="font-italic">{{$queryValue['subtitle']}}</p></div>
+
+                                <div class="row col-12 m-1">
+                                    @if(count($queryValue['choices']) && array_is_list($queryValue['choices']))
+                                        @foreach($queryValue['choices'] as $choice)
+                                            <div class="form-group form-inline pr-4">
+                                                <label class="p-2" for="{{$choice['id']}}">{{$choice['label']}}</label>
+                                                <input
+                                                    class="form-control"
+                                                    name="{{$choice['name']}}"
+                                                    id="{{$choice['id']}}"
+                                                    value="{{$choice['value']}}"
+                                                    type="{{$choice['type']}}"
+                                                    @checked($choice['checked'] ?? false)
+                                                />
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        @foreach($queryValue['choices'] as $assocKey => $assocChoices)
+                                            <div class="col-12 col-md-4 mb-2">
+                                                <div
+                                                    class="row">{{str($assocKey)->replace('__', '/')->replace('_', ' ')->title()->replace('i', 'I')}}</div>
+                                                <div class="row form-inline">
+                                                    @if(count($assocChoices))
+                                                        @foreach($assocChoices as $assocChoice)
+                                                            <label class="p-2"
+                                                                   for="{{$assocChoice['id']}}">{{$assocChoice['label']}}</label>
+                                                            <input
+                                                                class="form-control mr-3"
+                                                                name="{{$assocChoice['name']}}"
+                                                                id="{{$assocChoice['id']}}"
+                                                                value="{{$assocChoice['value']}}"
+                                                                type="{{$assocChoice['type']}}"
+                                                            />
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
+                @endisset
                 <div>
                     <x-form.button>Update</x-form.button>
                 </div>
             </form>
         </div>
     </div>
-
 @endsection
+@push('js')
+    <script>
+        const setDisplay = (element, value) => element.style.display = value
+
+        const countryBornAustraliaEl = document.getElementById('country-born-australia')
+        const countryBornOtherEl = document.getElementById('country-born-other')
+        const countryBornSpecifyParentEl = document.getElementById('country-born-specify').parentElement
+
+        const speakingLanguageEnglishEl = document.getElementById('speaking-language-english')
+        const speakingLanguageOtherEl = document.getElementById('speaking-language-other')
+        const speakingLanguageSpecifyParentEl = document.getElementById('speaking-language-specify').parentElement
+
+        setDisplay(countryBornSpecifyParentEl, 'none')
+        setDisplay(speakingLanguageSpecifyParentEl, 'none')
+
+        countryBornOtherEl.addEventListener('change', () => setDisplay(countryBornSpecifyParentEl, 'flex'))
+        countryBornAustraliaEl.addEventListener('change', () => setDisplay(countryBornSpecifyParentEl, 'none'))
+
+        speakingLanguageOtherEl.addEventListener('change', () => setDisplay(speakingLanguageSpecifyParentEl, 'flex'))
+        speakingLanguageEnglishEl.addEventListener('change', () => setDisplay(speakingLanguageSpecifyParentEl, 'none'))
+
+
+    </script>
+@endpush

@@ -12,7 +12,7 @@ class Input extends Component
         public string $label,
         public string $name,
         public string $id,
-        public string $cols,
+        public string $cols = '',
         public string $type = 'text',
         public string $placeholder = '',
         public ?string $value = '',
