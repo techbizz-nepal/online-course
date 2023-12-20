@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -55,9 +56,15 @@ class StudentController extends Controller
         return view('admin.students.create');
     }
 
-    public function show()
+    public function show(Student $student)
     {
-        return view('admin.students.show');
+        $notNeeded = ['id', 'title', 'first_name', 'surname', 'key', 'username', 'password', 'remember_token', 'pdf', 'display_order', 'status', 'extra', 'updated_at'];
+        $onlyColumns = array_diff(Schema::getColumnListing('students'), $notNeeded) + ['fullName'];
+        arsort($onlyColumns);
+        $data['student'] = $student->only($onlyColumns);
+        $data['survey'] = Arr::pull($data['student'], 'survey');
+
+        return view('admin.students.show', $data);
     }
 
     public function store(Request $request)
