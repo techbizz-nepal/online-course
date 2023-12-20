@@ -2,8 +2,8 @@
 @section('title', 'Update Profile')
 @section('update-profile', 'active')
 @section('content')
-    <div class="main-content pt-lg-4 bg-flat-color-1 ">
-        <h2 class="m-2 mb-0 d-flex justify-content-between text-white">
+    <div class="main-content pt-lg-4">
+        <h2 class="m-2 mb-0 d-flex justify-content-between ">
             <span>Update profile</span>
         </h2>
         @if(session()->has('success'))
@@ -111,8 +111,9 @@
                 @isset($survey)
                     @foreach($survey as $key => $value)
                         <div class="row">
-                            <div class="col-12" id="heading"><h4
-                                    class="mb-4 bg-flat-color-1 p-3 text-white">{{$value['title']}}</h4></div>
+                            <div class="col-12" id="heading">
+                                <h4 class="mb-4 bg-flat-color-1 p-3 text-white">{{$value['title']}}</h4>
+                            </div>
                             @foreach($value['queries'] as $queryKey => $queryValue)
                                 <div class="col-12"><p class="font-weight-bold">{{$queryValue['title']}}</p></div>
                                 <div class="col-12 my-1"><p class="font-italic">{{$queryValue['subtitle']}}</p></div>
@@ -148,6 +149,7 @@
                                                                 id="{{$assocChoice['id']}}"
                                                                 value="{{$assocChoice['value']}}"
                                                                 type="{{$assocChoice['type']}}"
+                                                                @checked($assocChoice['checked'] ?? null)
                                                             />
                                                         @endforeach
                                                     @endif
@@ -182,9 +184,11 @@
         setDisplay(countryBornSpecifyParentEl, 'none')
         setDisplay(speakingLanguageSpecifyParentEl, 'none')
 
+        countryBornOtherEl && countryBornOtherEl.checked && setDisplay(countryBornSpecifyParentEl, 'flex')
         countryBornOtherEl.addEventListener('change', () => setDisplay(countryBornSpecifyParentEl, 'flex'))
         countryBornAustraliaEl.addEventListener('change', () => setDisplay(countryBornSpecifyParentEl, 'none'))
 
+        speakingLanguageOtherEl && speakingLanguageOtherEl.checked && setDisplay(speakingLanguageSpecifyParentEl, 'flex')
         speakingLanguageOtherEl.addEventListener('change', () => setDisplay(speakingLanguageSpecifyParentEl, 'flex'))
         speakingLanguageEnglishEl.addEventListener('change', () => setDisplay(speakingLanguageSpecifyParentEl, 'none'))
 
