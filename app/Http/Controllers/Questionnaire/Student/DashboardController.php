@@ -8,6 +8,7 @@ use App\Questionnaire\StudentFacade;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -26,7 +27,7 @@ class DashboardController extends Controller
         return view('questionnaire.student.index', $data);
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(Request $request): View|Application|Factory|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $student = StudentData::authenticatedGuard()->user();
         if ($request->method() === 'POST') {
@@ -36,6 +37,7 @@ class DashboardController extends Controller
         }
         $data = $this->studentFacade->getStudentWithFormInputs($student);
         $fetchSurveyData = $student->getAttribute('survey');
+
         $data['survey'] = $this->studentFacade->getEnquiryData($fetchSurveyData);
 
         return view('student.update-profile', $data);
