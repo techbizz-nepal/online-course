@@ -19,7 +19,7 @@ class CourseData extends Data
         public ?string $slug,
         public string $price,
         public Optional|string $booking_dates,
-        public Optional|Collection $assessments,
+        public Optional|Collection $modules,
         public Optional|string $image,
         public ?string $department,
         public string $description,

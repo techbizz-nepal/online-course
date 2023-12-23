@@ -7,8 +7,6 @@ use App\Http\Controllers\Questionnaire\Admin\QuestionController;
 use App\Models\Course;
 use App\Models\Student;
 use App\Questionnaire\AdminFacade;
-use App\Questionnaire\Repositories\AssessmentRepo;
-use App\Questionnaire\Repositories\InterfaceAssessmentRepo;
 use App\Questionnaire\Repositories\InterfaceModuleRepo;
 use App\Questionnaire\Repositories\InterfaceQuestionRepo;
 use App\Questionnaire\Repositories\ModuleRepo;
@@ -54,7 +52,6 @@ class QuestionnaireServiceProvider extends ServiceProvider
 
     private function registerInterfaces(): void
     {
-        $this->app->singleton(InterfaceAssessmentRepo::class, AssessmentRepo::class);
         $this->app->singleton(InterfaceModuleRepo::class, ModuleRepo::class);
         $this->app->singleton(InterfaceQuestionRepo::class, QuestionRepo::class);
         $this->app->singleton(InterfaceQuestionClosedOptionRepo::class, QuestionClosedOptionRepo::class);
@@ -68,7 +65,6 @@ class QuestionnaireServiceProvider extends ServiceProvider
     {
         $this->app->singleton('admin-facade', function ($app) {
             return new AdminFacade(
-                $app->make(InterfaceAssessmentRepo::class),
                 $app->make(InterfaceModuleRepo::class),
                 $app->make(InterfaceQuestionRepo::class),
                 $app->make(InterfaceQuestionClosedOptionRepo::class),
