@@ -36,7 +36,7 @@ class DashboardController extends Controller
             return $this->studentFacade->postUpdateProfile($studentData, $student);
         }
         $data = $this->studentFacade->getStudentWithFormInputs($student);
-        $fetchSurveyData = $student->getAttribute('survey');
+        $fetchSurveyData = $student->getAttribute('survey') ?? ['disabilities' => []];
 
         $data['survey'] = $this->studentFacade->getEnquiryData($fetchSurveyData);
 

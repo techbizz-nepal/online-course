@@ -2,7 +2,7 @@
 @section('content')
     <div class="main-content pt-lg-4">
         <h2 class="m-2 mb-0 d-flex justify-content-evenly">
-            <a href="{{route('student.startExam', [$course, $assessment])}}"
+            <a href="{{route('student.startExam', [$course])}}"
                class="mr-2 py-2 px-4 bg-primary rounded text-white">
                 <i class="fas fa-arrow-left"></i>
             </a>
@@ -15,10 +15,10 @@
             <hr>
             <div class="mt-5">
                 <h3>Please peruse the following learning material for this activity.</h3>
-                <img src="{{asset('assets/images/pdf.png')}}" width="20px" alt="{{$assessment->name}}"/>
+                <img src="{{asset('assets/images/pdf.png')}}" width="20px" alt="{{$module->name}}"/>
                 <a target="_blank"
-                   href="{{asset(sprintf('%s/%s',\App\DTO\Questionnaire\AssessmentData::PUBLIC_PATH,$assessment['material']))}}">
-                    {{str()->title($assessment->name)}}
+                   href="{{asset(sprintf('%s/%s',\App\DTO\Questionnaire\ModuleData::PUBLIC_PATH,$module['material']))}}">
+                    {{str($module->name)->title()}}
                 </a>
             </div>
         </div>
@@ -47,12 +47,12 @@
                             <td>
                                 @switch($question['action'])
                                     @case('open')
-                                        <a href="{{route('student.openQuestion', [$course, $assessment, $module['slug'], $question['id'], $exam])}}">
+                                        <a href="{{route('student.openQuestion', [$course, $module['slug'], $question['id'], $exam])}}">
                                             <button class="btn btn-primary">open</button>
                                         </a>
                                         @break
                                     @case('retake')
-                                        <a href="{{route('student.openQuestion', [$course, $assessment, $module['slug'], $question['id'], $exam])}}">
+                                        <a href="{{route('student.openQuestion', [$course, $module['slug'], $question['id'], $exam])}}">
                                             <button class="btn btn-primary">retake</button>
                                         </a>
                                         @break

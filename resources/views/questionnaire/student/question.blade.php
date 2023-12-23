@@ -3,7 +3,7 @@
     <div class="main-content pt-lg-4">
         <div class="m-2">
             <h2 class="mb-0 d-flex justify-content-between">
-                {{$assessment->name}}
+                {{$module->name}}
             </h2>
             <span>{{$module->name}}</span>
         </div>

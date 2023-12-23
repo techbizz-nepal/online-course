@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Questionnaire\Admin;
 
 use App\DTO\Questionnaire\CourseData;
+use App\Enums\Questionnaire\QuestionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseStoreRequest;
 use App\Http\Requests\CourseUpdateRequest;
@@ -114,7 +115,10 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         $data = [
-            'courseData' => CourseData::from($course->load(['bookingDates', 'assessments'])),
+            'courseData' => CourseData::from($course->load(['bookingDates', 'modules'])),
+            'questionTypes' => Arr::map(QuestionType::cases(), function ($case) {
+                return ['type' => $case->value, 'label' => QuestionType::from($case->value)->value()];
+            }),
         ];
 
         return view('questionnaire.admin.courses.show', $data);

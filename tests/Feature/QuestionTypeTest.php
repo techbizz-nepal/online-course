@@ -18,7 +18,6 @@ uses()->group('questionnaire-crud');
 beforeEach(function () {
     $this->seed(CategorySeeder::class);
     $this->seed(CourseSeeder::class);
-    $this->seed(AssessmentSeeder::class);
     $this->seed(ModuleSeeder::class);
 });
 it('can create module', function () {
