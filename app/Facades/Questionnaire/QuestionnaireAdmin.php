@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static Model createCourseAssessment(AssessmentData $assessmentData, Course $course)
- * @method static Model createCourseAssessmentModule(ModuleData $assessmentData, Course $course, Assessment $assessment)
+ * @method static Model createCourseModule(ModuleData $assessmentData, Course $course)
  * @method static Model createQuestion(Module $module, QuestionData $questionData)
  * @method static Model createQuestionOption(Question $question, QuestionOptionData $questionOptionData)
  * @method static Model createQuestionSeeAndAnswer(Question $question, QuestionSeeAndAnswerData $questionSeeAndAnswer)
@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static Model createQuestionReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData)
  * @method static Model createQuestionDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData)
  * @method static int updateCourseAssessment(Course $course, AssessmentData $assessmentData)
- * @method static int updateCourseAssessmentModule(Assessment $assessment, ModuleData $moduleData)
+ * @method static int updateCourseModule(Course $course, ModuleData $moduleData)
  * @method static int updateQuestion(Question $question, QuestionData $questionData)
  * @method static Model updateQuestionOption(Question $question, QuestionOptionData $questionOptionData)
  * @method static Model updateQuestionTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData)
@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static QuestionTrueFalseData prepareQuestionTrueFalse(int $correctAnswer)
  * @method static QuestionReadAndAnswerData prepareQuestionReadAndAnswer(array $questionsArray)
  * @method static array uploadAssessmentMaterial(Request $request, Course $course)
- * @method static array uploadModuleMaterial(Request $request, Assessment $assessment)
+ * @method static array uploadModuleMaterial(Request $request, Course $course)
  * @method static bool deleteAssessmentMaterial(Assessment $assessment)
  * @method static bool deleteModuleMaterial(Module $module)
  */
