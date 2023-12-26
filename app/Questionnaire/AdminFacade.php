@@ -2,7 +2,6 @@
 
 namespace App\Questionnaire;
 
-use App\DTO\Questionnaire\AssessmentData;
 use App\DTO\Questionnaire\ModuleData;
 use App\DTO\Questionnaire\QuestionData;
 use App\DTO\Questionnaire\QuestionDescribeImageData;
@@ -11,7 +10,6 @@ use App\DTO\Questionnaire\QuestionReadAndAnswerData;
 use App\DTO\Questionnaire\QuestionSeeAndAnswerData;
 use App\DTO\Questionnaire\QuestionTrueFalseData;
 use App\Models\Course;
-use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use App\Questionnaire\Repositories\InterfaceModuleRepo;
@@ -35,31 +33,6 @@ final readonly class AdminFacade
         private InterfaceQuestionTrueFalseRepo $questionTrueFalseRepo,
         private InterfaceQuestionReadAndAnswerRepo $questionReadAndAnswerRepo,
     ) {
-    }
-
-    public function createCourseAssessment(AssessmentData $assessmentData, Course $course): Model
-    {
-        return $this->assessmentRepo->create($assessmentData, $course);
-    }
-
-    public function updateCourseAssessment(Course $course, AssessmentData $assessmentData): int
-    {
-        return $this->assessmentRepo->update($course, $assessmentData);
-    }
-
-    public function deleteAssessmentMaterial(Assessment $assessment): bool
-    {
-        return $this->assessmentRepo->deleteMaterial($assessment);
-    }
-
-    public function uploadAssessmentMaterial(Request $request, Course $course): array
-    {
-        return $this->assessmentRepo->uploadMaterial($request, $course);
-    }
-
-    public function getNewIfAssessmentSlugExists(AssessmentData $assessmentData, Assessment $assessment): string
-    {
-        return $this->assessmentRepo->getOrGenerateSlug($assessmentData, $assessment);
     }
 
     public function createCourseModule(ModuleData $moduleData, Course $course): Model

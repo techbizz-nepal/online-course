@@ -10,7 +10,6 @@ use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\CourseSeeder;
-use Database\Seeders\Questionnaire\AssessmentSeeder;
 use Database\Seeders\Questionnaire\ModuleSeeder;
 use Illuminate\Support\Str;
 
