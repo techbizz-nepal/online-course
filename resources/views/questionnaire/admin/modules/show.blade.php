@@ -4,7 +4,7 @@
     <div class="main-content pt-lg-4">
         <h2 class="m-2 mb-0 d-flex justify-content-evenly">
             <a
-                href="{{route("admin.courses.assessments.show", ['course'=> $course->slug, 'assessment' => $assessment->slug])}}"
+                href="{{route("admin.courses.show", ['course'=> $course->slug])}}"
                 class="mr-2 py-2 px-4 bg-primary rounded text-white">
                 <i class="fas fa-arrow-left"></i>
             </a>
@@ -48,7 +48,7 @@
                     aria-labelledby="dropdownMenuButton">
                     @foreach($questionTypes as $questionType)
                         <a class="dropdown-item"
-                           href="{{route("admin.courses.assessments.modules.questions.create", ["assessment" => $assessment->slug, "course" => $course->slug, "module" => $module->slug, 'type'=> $questionType['type']])}}">
+                           href="{{route("admin.courses.modules.questions.create", ["course" => $course->slug, "module" => $module->slug, 'type'=> $questionType['type']])}}">
                             {{$questionType['label']}}
                         </a>
                     @endforeach
@@ -81,10 +81,10 @@
                             <td class="text-left w-25">
                                 @include('questionnaire.common.list-actions',[
                                 "iteration"=>$loop->iteration,
-                                "editRoute" => ["name"=>"admin.courses.assessments.modules.questions.edit","label"=>"Edit"],
-                                "deleteRoute"=> ["name"=>"admin.courses.assessments.modules.questions.destroy","label"=>"Delete"],
-//                                "showRoute"=> ["name"=>"admin.courses.assessments.modules.questions.show","label"=>"Show Detail"],
-                                "param" => ["assessment" => $assessment->slug, "course" => $course->slug, "module" => $module->slug, "question"=>$question->id, "type" => $question->type]
+                                "editRoute" => ["name"=>"admin.courses.modules.questions.edit","label"=>"Edit"],
+                                "deleteRoute"=> ["name"=>"admin.courses.modules.questions.destroy","label"=>"Delete"],
+//                                "showRoute"=> ["name"=>"admin.courses.modules.questions.show","label"=>"Show Detail"],
+                                "param" => ["course" => $course->slug, "module" => $module->slug, "question"=>$question->id, "type" => $question->type]
                                 ])
                             </td>
                         </tr>

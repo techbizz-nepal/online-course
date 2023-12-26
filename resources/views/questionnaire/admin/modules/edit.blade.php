@@ -7,7 +7,7 @@
         </h2>
         <div class="w-100 h-100 bg-white mx-2 p-2">
             <form
-                action="{{ route('admin.courses.assessments.modules.update', ['course'=>$course->slug, 'assessment'=>$assessment, 'module' => $module]) }}"
+                action="{{ route('admin.courses.modules.update', ['course'=>$course->slug, 'module' => $module]) }}"
                 method="POST"
                 id="moduleForm" enctype="multipart/form-data">
                 @csrf
@@ -79,7 +79,7 @@
                 <div class="row">
                     <div class="col-md-12 text-left">
                         <button class="btn btn-primary" type="submit">Save</button>
-                        <a href="{{ route('admin.courses.assessments.show', ['course' => $course->slug, 'assessment' => $assessment->slug]) }}" class="btn btn-primary"
+                        <a href="{{ route('admin.courses.show', ['course' => $course->slug]) }}" class="btn btn-primary"
                            type="submit">Back</a>
                     </div>
 
@@ -91,7 +91,7 @@
 @push('js')
     <script type="text/javascript" src="{{ URL::asset ('assets/js/admin-utilities.js') }}"></script>
     <script>
-        const requestPath = `{{route('admin.courses.assessments.modules.updateMaterial', [$course, $assessment, $module])}}`
+        const requestPath = `{{route('admin.courses.modules.updateMaterial', [$course, $module])}}`
         const token = `{{csrf_token()}}`
         const fileInputEl = document.getElementById('upload_material')
         const textInputEl = document.getElementById('material')

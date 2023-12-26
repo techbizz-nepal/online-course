@@ -33,10 +33,6 @@ class Exam extends Model
         return $this->hasMany(Answer::class);
     }
 
-    /**
-     * This should be actually named exam_question table name, and method name should be examAnswer
-     * after refactoring codes remove answers() method from this class
-     */
     public function examQuestion(): BelongsToMany
     {
         return $this
@@ -45,7 +41,7 @@ class Exam extends Model
                 table: 'questionnaire_exam_question',
                 foreignPivotKey: 'exam_id',
                 relatedPivotKey: 'question_id'
-            )->withPivot(['answer', 'id', 'score']);
+            )->withPivot(['answer', 'id', 'score', 'is_correct']);
     }
 
     public function module(): BelongsTo

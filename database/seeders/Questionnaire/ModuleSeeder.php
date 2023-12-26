@@ -12,9 +12,8 @@ class ModuleSeeder extends Seeder
 {
     public const TABLE_NAME = 'questionnaire_modules';
 
-    public function __construct(private Module $model)
+    public function __construct(private Module $model = new Module())
     {
-        $this->model = new Module();
     }
 
     /**

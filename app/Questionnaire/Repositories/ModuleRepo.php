@@ -3,7 +3,7 @@
 namespace App\Questionnaire\Repositories;
 
 use App\DTO\Questionnaire\ModuleData;
-use App\Models\Questionnaire\Assessment;
+use App\Models\Course;
 use App\Models\Questionnaire\Module;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -11,25 +11,25 @@ use Illuminate\Support\Str;
 
 class ModuleRepo extends BaseRepo implements InterfaceModuleRepo
 {
-    public function create(ModuleData $moduleData, Assessment $assessment): Model
+    public function create(ModuleData $moduleData, Course $course): Model
     {
-        return $assessment->modules()->create($moduleData->toArray());
+        return $course->modules()->create($moduleData->toArray());
     }
 
-    public function update(Assessment $assessment, ModuleData $moduleData): int
+    public function update(Course $course, ModuleData $moduleData): int
     {
-        return $assessment->modules()->update($moduleData->toArray());
+        return $course->modules()->update($moduleData->toArray());
     }
 
-    public function uploadMaterial(Request $request, Assessment $assessment): array
+    public function uploadMaterial(Request $request, Course $course): array
     {
         $data = $request->validate([
-            'pdfFile' => 'file|mimetypes:application/pdf|max:10000',
+            'pdfFile' => 'file|mimetypes:application/pdf|max:20000',
             'name' => 'required|regex:/[A-Za-z0-9_-]+/',
         ]);
 
         return $this->storeProcess(
-            slug: $assessment->getAttribute('slug'),
+            slug: $course->getAttribute('slug'),
             systemPath: ModuleData::SYSTEM_PATH,
             data: $data
         );

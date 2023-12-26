@@ -13,7 +13,7 @@ return new class() extends Migration
     {
         Schema::create('questionnaire_modules', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('assessment_id')->constrained()->on('questionnaire_assessments');
+            $table->foreignId('course_id')->constrained()->on('courses');
             $table->string('name');
             $table->string('slug')->index();
             $table->text('description')->nullable();

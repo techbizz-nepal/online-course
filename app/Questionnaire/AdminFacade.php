@@ -2,7 +2,6 @@
 
 namespace App\Questionnaire;
 
-use App\DTO\Questionnaire\AssessmentData;
 use App\DTO\Questionnaire\ModuleData;
 use App\DTO\Questionnaire\QuestionData;
 use App\DTO\Questionnaire\QuestionDescribeImageData;
@@ -11,10 +10,8 @@ use App\DTO\Questionnaire\QuestionReadAndAnswerData;
 use App\DTO\Questionnaire\QuestionSeeAndAnswerData;
 use App\DTO\Questionnaire\QuestionTrueFalseData;
 use App\Models\Course;
-use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
-use App\Questionnaire\Repositories\InterfaceAssessmentRepo;
 use App\Questionnaire\Repositories\InterfaceModuleRepo;
 use App\Questionnaire\Repositories\InterfaceQuestionRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionClosedOptionRepo;
@@ -28,7 +25,6 @@ use Illuminate\Http\Request;
 final readonly class AdminFacade
 {
     public function __construct(
-        private InterfaceAssessmentRepo $assessmentRepo,
         private InterfaceModuleRepo $moduleRepo,
         private InterfaceQuestionRepo $questionRepo,
         private InterfaceQuestionClosedOptionRepo $questionClosedOptionRepo,
@@ -39,39 +35,14 @@ final readonly class AdminFacade
     ) {
     }
 
-    public function createCourseAssessment(AssessmentData $assessmentData, Course $course): Model
+    public function createCourseModule(ModuleData $moduleData, Course $course): Model
     {
-        return $this->assessmentRepo->create($assessmentData, $course);
+        return $this->moduleRepo->create($moduleData, $course);
     }
 
-    public function updateCourseAssessment(Course $course, AssessmentData $assessmentData): int
+    public function updateCourseModule(Course $course, ModuleData $moduleData): int
     {
-        return $this->assessmentRepo->update($course, $assessmentData);
-    }
-
-    public function deleteAssessmentMaterial(Assessment $assessment): bool
-    {
-        return $this->assessmentRepo->deleteMaterial($assessment);
-    }
-
-    public function uploadAssessmentMaterial(Request $request, Course $course): array
-    {
-        return $this->assessmentRepo->uploadMaterial($request, $course);
-    }
-
-    public function getNewIfAssessmentSlugExists(AssessmentData $assessmentData, Assessment $assessment): string
-    {
-        return $this->assessmentRepo->getOrGenerateSlug($assessmentData, $assessment);
-    }
-
-    public function createCourseAssessmentModule(ModuleData $moduleData, Course $course, Assessment $assessment): Model
-    {
-        return $this->moduleRepo->create($moduleData, $assessment);
-    }
-
-    public function updateCourseAssessmentModule(Assessment $assessment, ModuleData $moduleData): int
-    {
-        return $this->moduleRepo->update($assessment, $moduleData);
+        return $this->moduleRepo->update($course, $moduleData);
     }
 
     public function deleteModuleMaterial(Module $module): bool
@@ -79,9 +50,9 @@ final readonly class AdminFacade
         return $this->moduleRepo->deleteMaterial($module);
     }
 
-    public function uploadModuleMaterial(Request $request, Assessment $assessment): array
+    public function uploadModuleMaterial(Request $request, Course $course): array
     {
-        return $this->moduleRepo->uploadMaterial($request, $assessment);
+        return $this->moduleRepo->uploadMaterial($request, $course);
     }
 
     public function getNewIfModuleSlugExists(ModuleData $moduleData, Module $module): string

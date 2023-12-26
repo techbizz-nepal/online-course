@@ -4,7 +4,6 @@ namespace App\Questionnaire\Services\Student;
 
 use App\DTO\Questionnaire\AnswerData;
 use App\Models\Course;
-use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Exam;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
@@ -25,12 +24,11 @@ class TrueFalseService extends BaseStudent implements InterfaceStudent
         ]);
     }
 
-    public function getViewData(Course $course, Assessment $assessment, Module $module, Question $question, Exam $exam): array
+    public function getViewData(Course $course, Module $module, Question $question, Exam $exam): array
     {
         return [
             'viewPath' => self::VIEW_PATH,
             'course' => $course,
-            'assessment' => $assessment,
             'module' => $module,
             'exam' => $exam,
             'question' => $question->load([self::RELATION_NAME]),

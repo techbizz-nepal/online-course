@@ -15,17 +15,19 @@
                 @endforeach
             </div>
             <div class="row mb-3">
-                @foreach($survey as $key => $category)
-                    <div class="col-3 mb-2">
-                        <p class="font-weight-bold mb-2 bg-flat-color-4 pl-2 text-white">{{str($key)->replace('_', ' ')->title()}}</p>
-                        @if(!is_array($category))
-                            <span class="font-weight-normal ">{{$category ? str($category)->title() : 'N/A'}}</span>
-                        @else
+                @if(is_array($survey))
+                    @foreach($survey as $key => $category)
+                        <div class="col-3 mb-2">
+                            <p class="font-weight-bold mb-2 bg-flat-color-4 pl-2 text-white">{{str($key)->replace('_', ' ')->title()}}</p>
                             @foreach($category as $categoryKey => $categoryQuestion)
                                 @if($categoryKey == "education_achievement")
                                     <p class="mb-3">{{$categoryQuestion['label']}}</p>
                                     @foreach($categoryQuestion['level'] as $key => $value)
-                                        <p>{{str($key)->replace('_', ' ')->title()->replace('i', 'I')}}: {{str($value['value'])->title()}}</p>
+                                        @isset($value['value'])
+                                            <p>
+                                                {{str($key)->replace('_', ' ')->title()->replace('i', 'I')}}
+                                                : {{str($value['value'])->title() ?? ''}}</p>
+                                        @endisset
                                     @endforeach
                                 @endif
                                 @if($key == 'disabilities' && $categoryQuestion != null)
@@ -43,10 +45,9 @@
                                     </div>
                                 @endif
                             @endforeach
-                        @endif
-
-                    </div>
-                @endforeach
+                        </div>
+                    @endforeach
+                @endif
             </div>
 
         </div>

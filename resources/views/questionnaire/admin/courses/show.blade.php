@@ -41,10 +41,11 @@
         </div>
         {{-- Assessment Section        --}}
         <h2 class="m-2 mb-0 d-flex justify-content-between">
-            <span>Assessments</span>
-            <a href="{{route('admin.courses.assessments.create',['course'=> $courseData->slug])}}"
-               class="btn btn-primary">Add New
-                Assessment</a>
+            <span>Modules</span>
+            <a href="{{route('admin.courses.modules.create',['course'=> $courseData->slug])}}"
+               class="btn btn-primary">
+                Add New Module
+            </a>
         </h2>
 
         <div class="w-100 h-100 bg-white mx-2 p-2">
@@ -60,25 +61,32 @@
                 </tr>
                 </thead>
                 <tbody>
-                @isset($courseData->assessments)
-                    @foreach($courseData->assessments as $assessment)
+                @isset($courseData->modules)
+                    @foreach($courseData->modules as $module)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td class="text-center">{{ $assessment->name }}</td>
-                            <td class="text-center">{{ \Illuminate\Support\Str::words($assessment->description, 10, '...') }}</td>
                             <td class="text-center">
-                                <a href="{{ asset(\App\DTO\Questionnaire\AssessmentData::PUBLIC_PATH.'/'.$assessment->material) }}"
+                                <p>{{ $module->name }}</p>
+                                <p>Full: {{$module->fullMark}}</p>
+                                <p>Pass: {{$module->passMark}}</p>
+                            </td>
+                            <td class="text-center">
+                                <p>{{ \Illuminate\Support\Str::words($module->description, 10, '...') }}</p>
+
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ asset(\App\DTO\Questionnaire\ModuleData::PUBLIC_PATH.'/'.$module['material']) }}"
                                    class="btn btn-blueLight" target="_blank">View File</a>
                             </td>
-                            <td class="text-center">{{ \Carbon\Carbon::parse($assessment->created_at)->format('d M Y') }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($module['created_at'])->format('d M Y') }}</td>
                             <td class="text-left">
                                 @include('questionnaire.common.list-actions',[
                                 "iteration"=>$loop->iteration,
-                                "createRoute" => ["name"=>"admin.courses.assessments.modules.create", "label"=>"Create Module"],
-                                "editRoute" => ["name"=>"admin.courses.assessments.edit","label"=>"Edit"],
-                                "deleteRoute"=> ["name"=>"admin.courses.assessments.destroy","label"=>"Delete"],
-                                "showRoute"=> ["name"=>"admin.courses.assessments.show","label"=>"Show Detail"],
-                                "param" => ["assessment" => $assessment->slug, "course" => $courseData->slug]
+                                "createRoute" => ["name"=>"admin.courses.modules.questions.create", "label"=>"Create Question", "types" => $questionTypes],
+                                "editRoute" => ["name"=>"admin.courses.modules.edit","label"=>"Edit"],
+                                "deleteRoute"=> ["name"=>"admin.courses.modules.destroy","label"=>"Delete"],
+                                "showRoute"=> ["name"=>"admin.courses.modules.show","label"=>"Show Detail"],
+                                "param" => ["course" => $courseData->slug, "module" => $module->slug]
                                 ])
                             </td>
                         </tr>
@@ -91,5 +99,6 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
 @endsection

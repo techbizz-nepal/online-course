@@ -24,7 +24,7 @@
                             <td style="width: 30%" class="text-center">{{$course['title']}}</td>
                             <td style="width: 30%" class="text-center">status</td>
                             <td style="width: 30%" class="text-center">
-                                <a href="{{route('student.courseCover', [$course])}}">
+                                <a href="{{route('student.startExam', [$course])}}">
                                     <button class="btn btn-primary">Open Course</button>
                                 </a>
                             </td>

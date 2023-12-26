@@ -3,6 +3,7 @@
 namespace App\Models\Questionnaire;
 
 use App\Enums\Questionnaire\QuestionType;
+use App\Models\Course;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,9 +29,9 @@ class Module extends Model
         return 'slug';
     }
 
-    public function assessment(): BelongsTo
+    public function course(): BelongsTo
     {
-        return $this->belongsTo(Assessment::class);
+        return $this->belongsTo(Course::class);
     }
 
     public function questions(): HasMany

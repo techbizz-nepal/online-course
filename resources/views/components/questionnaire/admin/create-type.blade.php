@@ -13,7 +13,7 @@
             </div>
         @endif
         <form
-            action="{{ route('admin.courses.assessments.modules.questions.store', $params) }}"
+            action="{{ route('admin.courses.modules.questions.store', $params) }}"
             method="POST"
             id="questionForm">
             @csrf
@@ -21,7 +21,7 @@
             <div class="row mx-auto">
                 <div class="col-md-12 text-left">
                     <button class="btn btn-primary" type="submit">Save</button>
-                    <a href="{{ route('admin.courses.assessments.modules.show', collect($params)->except(['type'])->toArray()) }}"
+                    <a href="{{ route('admin.courses.modules.show', collect($params)->except(['type'])->toArray()) }}"
                        class="btn btn-primary"
                        type="submit">Back</a>
                 </div>

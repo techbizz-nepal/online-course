@@ -26,7 +26,7 @@ class ModuleData extends Data
         public Optional|Carbon|null $created_at,
         public Optional|Carbon|null $updated_at,
         public Optional|Carbon|null $deleted_at,
-        public Optional|string|null $assessment_id,
+        public Optional|string|null $course_id,
         public int $fullMark = 0,
         public int $passMark = 0,
     ) {

@@ -91,7 +91,6 @@ class StudentFacade
         $mapped = collect();
         $questions = $this->populateQuestions($module)->toArray();
         $answeredQuestions = collect($this->populateAnsweredQuestions($exam));
-
         array_walk($questions, function ($value, $key) use ($answeredQuestions, &$mapped) {
             if (in_array($value['id'], $answeredQuestions->pluck('id')->toArray())) {
                 $answered = $answeredQuestions->firstWhere('id', $value['id']);

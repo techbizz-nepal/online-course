@@ -3,18 +3,18 @@
 namespace App\Questionnaire\Repositories;
 
 use App\DTO\Questionnaire\ModuleData;
-use App\Models\Questionnaire\Assessment;
+use App\Models\Course;
 use App\Models\Questionnaire\Module;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 interface InterfaceModuleRepo
 {
-    public function create(ModuleData $moduleData, Assessment $assessment): Model;
+    public function create(ModuleData $moduleData, Course $course): Model;
 
-    public function update(Assessment $assessment, ModuleData $moduleData): int;
+    public function update(Course $course, ModuleData $moduleData): int;
 
-    public function uploadMaterial(Request $request, Assessment $assessment): array;
+    public function uploadMaterial(Request $request, Course $course): array;
 
     public function deleteMaterial(Module $module): bool;
 

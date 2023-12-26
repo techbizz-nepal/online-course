@@ -17,7 +17,7 @@
     </div>
     <div class="w-100 h-100 mx-2 px-4 py-2 text-right" style="background-color: #f5f5f4">
         <button class="btn btn-success"
-                onclick="handleBackToModuleIndex(this, `{{route('student.moduleStart', [$course, $assessment, $module])}}`);return false">
+                onclick="handleBackToModuleIndex(this, `{{route('student.moduleStart', [$course, $module])}}`);return false">
             Back
         </button>
         <button type="submit" class="btn btn-success">Submit answer</button>
@@ -33,8 +33,8 @@
         const submitAnswerForm = document.getElementById('answerForm')
         const backBtnEl = document.getElementById('back-to-index')
         const trueFalseAnswer = document.getElementById('answer')
-        const listLocation = `{{route('student.moduleStart', [$course, $assessment, $module])}}`
-        const answerPostUrl = `{{route('student.submitAnswer', [$course, $assessment, $module, $question, $exam])}}`
+        const listLocation = `{{route('student.moduleStart', [$course, $module])}}`
+        const answerPostUrl = `{{route('student.submitAnswer', [$course, $module, $question, $exam])}}`
         const csrfToken = `{{csrf_token()}}`
 
         const afterSuccessfullyCall = (data) => {

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Course extends Model
@@ -44,19 +42,14 @@ class Course extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function assessments(): HasMany
+    public function modules(): HasMany
     {
-        return $this->hasMany(Assessment::class);
+        return $this->hasMany(Module::class);
     }
 
-    public function modules(): HasManyThrough
+    public function questions(): HasManyThrough
     {
-        return $this->hasManyThrough(Module::class, Assessment::class);
-    }
-
-    public function questions(): HasManyDeep
-    {
-        return $this->hasManyDeep(Question::class, [Assessment::class, Module::class]);
+        return $this->hasManyThrough(Question::class, Module::class);
     }
 
     public function students(): BelongsToMany

@@ -6,7 +6,6 @@ use App\DTO\Questionnaire\ModuleData;
 use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
-use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
 use App\Traits\HasAttributeRepository;
 use App\Traits\HasRedirectResponse;
@@ -25,18 +24,18 @@ class ModuleController extends Controller
     use HasAttributeRepository;
     use HasRedirectResponse;
 
-    public function create(Course $course, Assessment $assessment): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
+    public function create(Course $course): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('questionnaire.admin.modules.create', ['course' => $course, 'assessment' => $assessment]);
+        return view('questionnaire.admin.modules.create', ['course' => $course]);
     }
 
-    public function store(Course $course, Assessment $assessment, ModuleData $moduleData): RedirectResponse
+    public function store(Course $course, ModuleData $moduleData): RedirectResponse
     {
         $newModule = null;
         DB::beginTransaction();
         try {
             $moduleData->slug = QuestionnaireAdmin::getNewIfModuleSlugExists($moduleData, new Module());
-            $newModule = QuestionnaireAdmin::createCourseAssessmentModule($moduleData, $course, $assessment);
+            QuestionnaireAdmin::createCourseModule($moduleData, $course);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -47,33 +46,32 @@ class ModuleController extends Controller
 
         return $this
             ->successRedirectWithParamsResponse(
-                routeName: 'admin.courses.assessments.show',
+                routeName: 'admin.courses.show',
                 routeParams: [
                     'course' => $course->getAttribute('slug'),
-                    'assessment' => $assessment->getAttribute('slug'),
                 ],
                 translationKey: 'module.success.create',
             );
     }
 
-    public function show(Course $course, Assessment $assessment, Module $module)
+    public function show(Course $course, Module $module)
     {
         $module->setAttribute('description', Str::words($module->getAttribute('description'), 50));
-        $data = $this->getModuleShowAttributes($course, $assessment, $module);
+        $data = $this->getModuleShowAttributes($course, $module);
 
         return view('questionnaire.admin.modules.show', $data);
     }
 
-    public function edit(Course $course, Assessment $assessment, Module $module): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
+    public function edit(Course $course, Module $module): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('questionnaire.admin.modules.edit', ['course' => $course, 'assessment' => $assessment, 'module' => $module]);
+        return view('questionnaire.admin.modules.edit', ['course' => $course, 'module' => $module]);
     }
 
-    public function update(Course $course, Assessment $assessment, Module $module, ModuleData $moduleData)
+    public function update(Course $course, Module $module, ModuleData $moduleData)
     {
         DB::beginTransaction();
         try {
-            QuestionnaireAdmin::updateCourseAssessmentModule($assessment, $moduleData);
+            QuestionnaireAdmin::updateCourseModule($course, $moduleData);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -85,13 +83,13 @@ class ModuleController extends Controller
 
         return $this
             ->successRedirectWithParamsResponse(
-                routeName: 'admin.courses.assessments.show',
-                routeParams: ['course' => $course->getAttribute('slug'), 'assessment' => $assessment->getAttribute('slug')],
+                routeName: 'admin.courses.show',
+                routeParams: ['course' => $course->getAttribute('slug')],
                 translationKey: 'module.success.update'
             );
     }
 
-    public function destroy(Course $course, Assessment $assessment, Module $module): RedirectResponse
+    public function destroy(Course $course, Module $module): RedirectResponse
     {
         QuestionnaireAdmin::deleteModuleMaterial($module);
         $module->delete();
@@ -99,13 +97,13 @@ class ModuleController extends Controller
         return $this->successRedirectResponse(translationKey: 'module.success.delete');
     }
 
-    public function uploadMaterial(Request $request, Course $course, Assessment $assessment, Module $module): JsonResponse
+    public function uploadMaterial(Request $request, Course $course, Module $module): JsonResponse
     {
         try {
             if ($module->exists) {
                 QuestionnaireAdmin::deleteModuleMaterial($module);
             }
-            $array = QuestionnaireAdmin::uploadModuleMaterial($request, $assessment);
+            $array = QuestionnaireAdmin::uploadModuleMaterial($request, $course);
 
             return response()->json($array);
         } catch (\Exception $exception) {
