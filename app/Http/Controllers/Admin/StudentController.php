@@ -62,7 +62,8 @@ class StudentController extends Controller
         $onlyColumns = array_diff(Schema::getColumnListing('students'), $notNeeded) + ['fullName'];
         arsort($onlyColumns);
         $data['student'] = $student->only($onlyColumns);
-        $data['survey'] = Arr::pull($data['student'], 'survey') ;
+        $data['survey'] = Arr::pull($data['student'], 'survey');
+
         return view('admin.students.show', $data);
     }
 
