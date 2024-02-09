@@ -7,6 +7,7 @@ use App\DTO\Questionnaire\QuestionSeeAndAnswerData;
 use App\Questionnaire\Services\Admin\ClosedOptionAdmin;
 use App\Questionnaire\Services\Admin\DescribeImage;
 use App\Questionnaire\Services\Admin\InterfaceAdmin;
+use App\Questionnaire\Services\Admin\MultipleChoiceAdmin;
 use App\Questionnaire\Services\Admin\ReadAndAnswerAdmin;
 use App\Questionnaire\Services\Admin\SeeAndAnswerAdmin;
 use App\Questionnaire\Services\Admin\TrueFalseAdmin;
@@ -20,6 +21,8 @@ enum QuestionType: string
     case DESCRIBE_IMAGE = '3';
     case TRUE_FALSE = '4';
     case SEE_AND_ANSWER = '5';
+    case MULTIPLE_CHOICE = '6';
+
 
     public function value(): string
     {
@@ -29,6 +32,7 @@ enum QuestionType: string
             self::SEE_AND_ANSWER => 'See and Answer',
             self::DESCRIBE_IMAGE => 'Describe Image',
             self::TRUE_FALSE => 'True False',
+            self::MULTIPLE_CHOICE => 'Multiple Choice',
         };
     }
 
@@ -39,7 +43,8 @@ enum QuestionType: string
             self::READ_AND_ANSWER => 'readAndAnswer',
             self::DESCRIBE_IMAGE => 'describeImage',
             self::TRUE_FALSE => 'trueFalse',
-            self::SEE_AND_ANSWER => 'seeAndAnswer'
+            self::SEE_AND_ANSWER => 'seeAndAnswer',
+            self::MULTIPLE_CHOICE => 'multipleChoice'
         };
     }
 
@@ -50,7 +55,8 @@ enum QuestionType: string
             self::READ_AND_ANSWER => new ReadAndAnswerAdmin(),
             self::DESCRIBE_IMAGE => new DescribeImage(),
             self::TRUE_FALSE => new TrueFalseAdmin(),
-            self::SEE_AND_ANSWER => new SeeAndAnswerAdmin()
+            self::SEE_AND_ANSWER => new SeeAndAnswerAdmin(),
+            self::MULTIPLE_CHOICE => new MultipleChoiceAdmin()
         };
     }
 
@@ -89,6 +95,9 @@ enum QuestionType: string
         };
     }
 
+    /**
+     * @throws Exception
+     */
     public function getTypePublicPath(): string
     {
         return match ($this) {
@@ -121,6 +130,7 @@ enum QuestionType: string
             self::TRUE_FALSE => 'questionnaire.admin.questions.types.true-false.create',
             self::CLOSE_ENDED_OPTIONS => 'questionnaire.admin.questions.types.closed-option.create',
             self::SEE_AND_ANSWER => 'questionnaire.admin.questions.types.see-and-answer.create',
+            self::MULTIPLE_CHOICE => 'questionnaire.admin.questions.types.multiple-choice.create',
 
         };
     }

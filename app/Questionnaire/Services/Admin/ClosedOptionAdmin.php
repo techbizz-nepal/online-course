@@ -47,7 +47,7 @@ class ClosedOptionAdmin implements InterfaceAdmin
 
     public function deleteProcess(Question $question): void
     {
-        $question->option()->delete();
+        $question->{self::TYPE->relation()}()->delete();
         $question->delete();
     }
 
