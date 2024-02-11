@@ -5,6 +5,7 @@ namespace App\Questionnaire;
 use App\DTO\Questionnaire\ModuleData;
 use App\DTO\Questionnaire\QuestionData;
 use App\DTO\Questionnaire\QuestionDescribeImageData;
+use App\DTO\Questionnaire\QuestionMultipleChoiceData;
 use App\DTO\Questionnaire\QuestionOptionData;
 use App\DTO\Questionnaire\QuestionReadAndAnswerData;
 use App\DTO\Questionnaire\QuestionSeeAndAnswerData;
@@ -16,6 +17,7 @@ use App\Questionnaire\Repositories\InterfaceModuleRepo;
 use App\Questionnaire\Repositories\InterfaceQuestionRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionClosedOptionRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionDescribeImageRepo;
+use App\Questionnaire\Repositories\Types\InterfaceQuestionMultipleChoiceRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionReadAndAnswerRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionSeeAndAnswerRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionTrueFalseRepo;
@@ -28,6 +30,7 @@ final readonly class AdminFacade
         private InterfaceModuleRepo $moduleRepo,
         private InterfaceQuestionRepo $questionRepo,
         private InterfaceQuestionClosedOptionRepo $questionClosedOptionRepo,
+        private InterfaceQuestionMultipleChoiceRepo $questionMultipleChoiceRepo,
         private InterfaceQuestionDescribeImageRepo $questionDescribeImageRepo,
         private InterfaceQuestionSeeAndAnswerRepo $questionSeeAndAnswerRepo,
         private InterfaceQuestionTrueFalseRepo $questionTrueFalseRepo,
@@ -76,6 +79,11 @@ final readonly class AdminFacade
         return $this->questionClosedOptionRepo->prepare($options, $answer);
     }
 
+    public function prepareQuestionMultipleChoice(array $choices): QuestionMultipleChoiceData
+    {
+        return $this->questionMultipleChoiceRepo->prepare($choices);
+    }
+
     public function prepareQuestionTrueFalse(int $correctAnswer): QuestionTrueFalseData
     {
         return $this->questionTrueFalseRepo->prepare($correctAnswer);
@@ -89,6 +97,11 @@ final readonly class AdminFacade
     public function createQuestionOption(Question $question, QuestionOptionData $questionOptionData): Model
     {
         return $this->questionClosedOptionRepo->create($question, $questionOptionData);
+    }
+
+    public function createQuestionMultipleChoice(Question $question, QuestionMultipleChoiceData $questionMultipleChoiceData): Model
+    {
+        return $this->questionMultipleChoiceRepo->create($question, $questionMultipleChoiceData);
     }
 
     public function createQuestionSeeAndAnswer(Question $question, QuestionSeeAndAnswerData $questionSeeAndAnswerData): Model
