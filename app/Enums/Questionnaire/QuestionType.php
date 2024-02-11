@@ -75,10 +75,11 @@ enum QuestionType: string
     {
         return match ($this) {
             self::CLOSE_ENDED_OPTIONS => new \App\Questionnaire\Services\Student\ClosedOptionService(),
+            self::MULTIPLE_CHOICE => new \App\Questionnaire\Services\Student\MultipleChoiceService(),
             self::READ_AND_ANSWER => new \App\Questionnaire\Services\Student\ReadAndAnswerService(),
             self::DESCRIBE_IMAGE => new \App\Questionnaire\Services\Student\DescribeImageService(),
             self::TRUE_FALSE => new \App\Questionnaire\Services\Student\TrueFalseService(),
-            self::SEE_AND_ANSWER => new \App\Questionnaire\Services\Student\SeeAndAnswerService(),
+            self::SEE_AND_ANSWER => new \App\Questionnaire\Services\Student\SeeAndAnswerService()
         };
     }
 
@@ -118,7 +119,7 @@ enum QuestionType: string
 
     public static function getReviewTypes(): array
     {
-        return [self::READ_AND_ANSWER->value, self::DESCRIBE_IMAGE->value, self::SEE_AND_ANSWER->value];
+        return [self::READ_AND_ANSWER->value, self::DESCRIBE_IMAGE->value, self::SEE_AND_ANSWER->value, self::MULTIPLE_CHOICE->value];
     }
 
     public function getCreateViewName(): string
@@ -153,7 +154,8 @@ enum QuestionType: string
             self::DESCRIBE_IMAGE => 'components.questionnaire.admin.types.describe-image',
             self::TRUE_FALSE => 'components.questionnaire.admin.types.true-false',
             self::CLOSE_ENDED_OPTIONS => 'components.questionnaire.admin.types.closed-options',
-            self::SEE_AND_ANSWER => 'components.questionnaire.admin.types.see-and-answer'
+            self::SEE_AND_ANSWER => 'components.questionnaire.admin.types.see-and-answer',
+            self::MULTIPLE_CHOICE => 'components.questionnaire.admin.types.multiple-choice'
         };
     }
 }

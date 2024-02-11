@@ -7,6 +7,7 @@ use App\Models\Questionnaire\Question;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
 class AnsweredType extends Component
@@ -82,5 +83,12 @@ class AnsweredType extends Component
     public function getClosedOptionAnswer(): ?string
     {
         return $this->studentAnswer;
+    }
+
+    public function getMultipleChoiceAnswer(): array
+    {
+        return Arr::where($this->question->multipleChoice->body, function ($choice) {
+            return Str::contains($choice['id'], $this->studentAnswer);
+        });
     }
 }

@@ -9,16 +9,16 @@ use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use Illuminate\Http\Request;
 
-class ReadAndAnswerService extends BaseStudent implements InterfaceStudent
+class MultipleChoiceService extends BaseStudent implements InterfaceStudent
 {
-    public const RELATION_NAME = 'readAndAnswer';
+    public const RELATION_NAME = 'multipleChoice';
 
-    public const VIEW_PATH = 'questionnaire.student.type.read-and-answer';
+    public const VIEW_PATH = 'questionnaire.student.type.multiple-choice';
 
     public function validated(Request $request): array
     {
         return $request->validate([
-            'answer' => ['required', 'array'],
+            'answer' => ['required', 'string'],
             'exam_id' => ['required', 'string'],
             'question_id' => ['required', 'string'],
         ]);
@@ -37,8 +37,9 @@ class ReadAndAnswerService extends BaseStudent implements InterfaceStudent
 
     public function submitAnswer(Question $question, AnswerData $answerData): InterfaceStudent
     {
-        $this->answerData = $answerData;
-        $this->question = $question;
+        $answerData->answer = json_decode($answerData->answer);
+        $this->answerData = $answerData; // initialize answer data
+        $this->question = $question; // initialize question data
 
         return $this->submit();
     }
