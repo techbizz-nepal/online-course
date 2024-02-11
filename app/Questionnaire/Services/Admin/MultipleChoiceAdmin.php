@@ -4,11 +4,13 @@ namespace App\Questionnaire\Services\Admin;
 
 use App\DTO\Questionnaire\QuestionData;
 use App\Enums\Questionnaire\QuestionType;
+use App\Facades\Questionnaire\QuestionnaireAdmin;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use App\Questionnaire\Traits\HasImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class MultipleChoiceAdmin implements InterfaceAdmin
 {
@@ -24,15 +26,20 @@ class MultipleChoiceAdmin implements InterfaceAdmin
     public function validated(Request $request): array
     {
         return $request->validate([
-            'options' => ['required', 'array'],
-            'options.*.id' => ['required', 'string'],
-            'options.*.value' => ['required', 'string'],
+            'choices' => ['required', 'array'],
+            'choices.*.id' => ['required', 'string'],
+            'choices.*.value' => ['required', 'string'],
+            'choices.*.checked' => ['string'],
         ]);
     }
 
     public function storeProcess(array $validated, Module $module, QuestionData $questionData): Model
     {
+        $choices = $validated['choices'];
+        $question = tap(QuestionnaireAdmin::createQuestion($module, $questionData))->target;
+        $answers = QuestionnaireAdmin::prepareQuestionMultipleChoice($choices);
 
+        return QuestionnaireAdmin::createQuestionMultipleChoice($question, $answers);
     }
 
     public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model

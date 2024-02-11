@@ -61,7 +61,6 @@ class QuestionController extends Controller
         Request $request
     ) {
         $validated = $this->type->validated($request);
-return $validated;
         DB::beginTransaction();
         try {
             $this->type->storeProcess($validated, $module, $questionData);

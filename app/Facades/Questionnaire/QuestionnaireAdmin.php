@@ -5,6 +5,7 @@ namespace App\Facades\Questionnaire;
 use App\DTO\Questionnaire\ModuleData;
 use App\DTO\Questionnaire\QuestionData;
 use App\DTO\Questionnaire\QuestionDescribeImageData;
+use App\DTO\Questionnaire\QuestionMultipleChoiceData;
 use App\DTO\Questionnaire\QuestionOptionData;
 use App\DTO\Questionnaire\QuestionReadAndAnswerData;
 use App\DTO\Questionnaire\QuestionSeeAndAnswerData;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static Model createCourseModule(ModuleData $assessmentData, Course $course)
  * @method static Model createQuestion(Module $module, QuestionData $questionData)
  * @method static Model createQuestionOption(Question $question, QuestionOptionData $questionOptionData)
+ * @method static Model createQuestionMultipleChoice(Question $question, QuestionMultipleChoiceData $questionMultipleChoiceData)
  * @method static Model createQuestionSeeAndAnswer(Question $question, QuestionSeeAndAnswerData $questionSeeAndAnswer)
  * @method static Model createQuestionTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData)
  * @method static Model createQuestionReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData)
@@ -32,7 +34,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static Model updateQuestionDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData)
  * @method static Model updateQuestionSeeAndAnswer(Question $question, QuestionSeeAndAnswerData $questionSeeAndAnswerData)
  * @method static string getNewIfModuleSlugExists(ModuleData $moduleData, Module $module)
- * @method static QuestionOptionData prepareQuestionOptions(array $options, string|null $correctAnswer)
+ * @method static QuestionOptionData prepareQuestionOptions(array $choices, string|null $correctAnswer)
+ * @method static QuestionMultipleChoiceData prepareQuestionMultipleChoice(array $choices)
  * @method static QuestionTrueFalseData prepareQuestionTrueFalse(int $correctAnswer)
  * @method static QuestionReadAndAnswerData prepareQuestionReadAndAnswer(array $questionsArray)
  * @method static array uploadModuleMaterial(Request $request, Course $course)
