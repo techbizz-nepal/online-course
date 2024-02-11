@@ -129,6 +129,11 @@ final readonly class AdminFacade
         return $this->questionClosedOptionRepo->update($question, $questionOptionData);
     }
 
+    public function updateQuestionMultipleChoice(Question $question, QuestionMultipleChoiceData $questionMultipleChoiceData): Model
+    {
+        return $this->questionMultipleChoiceRepo->update($question, $questionMultipleChoiceData);
+    }
+
     public function updateQuestionTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData): Model
     {
         return $this->questionTrueFalseRepo->update($question, $questionTrueFalseData);

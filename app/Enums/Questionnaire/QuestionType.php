@@ -23,7 +23,6 @@ enum QuestionType: string
     case SEE_AND_ANSWER = '5';
     case MULTIPLE_CHOICE = '6';
 
-
     public function value(): string
     {
         return match ($this) {
@@ -142,7 +141,8 @@ enum QuestionType: string
             self::DESCRIBE_IMAGE => 'questionnaire.admin.questions.types.describe-image.edit',
             self::TRUE_FALSE => 'questionnaire.admin.questions.types.true-false.edit',
             self::CLOSE_ENDED_OPTIONS => 'questionnaire.admin.questions.types.closed-option.edit',
-            self::SEE_AND_ANSWER => 'questionnaire.admin.questions.types.see-and-answer.edit'
+            self::SEE_AND_ANSWER => 'questionnaire.admin.questions.types.see-and-answer.edit',
+            self::MULTIPLE_CHOICE => 'questionnaire.admin.questions.types.multiple-choice.edit'
         };
     }
 

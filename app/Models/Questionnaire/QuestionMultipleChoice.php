@@ -20,6 +20,6 @@ class QuestionMultipleChoice extends Model
     protected $table = 'questionnaire_question_multiple_choices';
 
     protected $casts = [
-        'body' => 'array'
+        'body' => 'array',
     ];
 }
