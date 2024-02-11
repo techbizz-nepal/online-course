@@ -57,7 +57,7 @@ const handleTrueFalseClick = (el) => {
 const handleOptionClick = (el) => {
     const optionsEl = document.querySelectorAll(".options")
     const trueFalseAnswer = document.getElementById('answer')
-
+    console.log(el)
     optionsEl.forEach((element) => {
         element.classList.add('bg-white')
         element.classList.remove("tb-bg-1-clicked", "tb-bg-2-clicked", "tb-bg-3-clicked", "tb-bg-4-clicked")
@@ -79,4 +79,25 @@ const handleOptionClick = (el) => {
         el.classList.add('tb-bg-4-clicked')
     }
     trueFalseAnswer.value = el.id
+}
+
+/***********************************closed options handle click ***************************************/
+const handleChoiceClick = (el) => {
+    const bgRGB = el.dataset.color
+    const elValue = el.dataset.id
+    const bgWhite = 'bg-white'
+    const hasBgRGB = el.classList.contains(bgRGB)
+    const choices = document.getElementById('choices')
+
+    if (hasBgRGB) {
+        el.classList.add(bgWhite)
+        el.classList.remove(bgRGB)
+        choices.value = choices.value.replace(elValue, "")
+    } else {
+        el.classList.remove(bgWhite)
+        el.classList.add(bgRGB)
+        choices.value = choices.value.concat(elValue, "+")
+    }
+
+    choices.value = choices.value.split("+")
 }
