@@ -5,6 +5,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PurchaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
@@ -33,14 +34,6 @@ Route::get('/payment/zip', [PaymentController::class, 'zipPay'])->name('zip');
 Route::get('/payment/zip/success', [PaymentController::class, 'zipSuccess'])->name('zip.success');
 Route::get('/paymet/eway/success', [PaymentController::class, 'ewaySuccess'])->name('eway.success');
 Route::get('/payment/eway', [PaymentController::class, 'eWay'])->name('eWay');
-
-Route::get('/test', function () {
-    dd(\Illuminate\Support\Facades\Session::all('valentine-bechtelar-phd'));
-
-    //    return auth()->guard('student')->user()->courses()->where('course_id', 10)->get();
-    //    dd(session()->get('user-checkout-details'));
-    //    dd(session()->get('tacs'));
-});
 
 Route::get('fraud-recovery', function (Request $request) {
     $validated = $request->validate(['code' => 'required|string']);
