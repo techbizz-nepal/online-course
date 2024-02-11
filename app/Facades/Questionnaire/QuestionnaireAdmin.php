@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static int updateCourseModule(Course $course, ModuleData $moduleData)
  * @method static int updateQuestion(Question $question, QuestionData $questionData)
  * @method static Model updateQuestionOption(Question $question, QuestionOptionData $questionOptionData)
+ * @method static Model updateQuestionMultipleChoice(Question $question, QuestionMultipleChoiceData $questionMultipleChoiceData)
  * @method static Model updateQuestionTrueFalse(Question $question, QuestionTrueFalseData $questionTrueFalseData)
  * @method static Model updateQuestionReadAndAnswer(Question $question, QuestionReadAndAnswerData $questionReadAndAnswerData)
  * @method static Model updateQuestionDescribeImage(Question $question, QuestionDescribeImageData $questionDescribeImageData)

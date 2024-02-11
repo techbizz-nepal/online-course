@@ -10,7 +10,6 @@ use App\Models\Questionnaire\Question;
 use App\Questionnaire\Traits\HasImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class MultipleChoiceAdmin implements InterfaceAdmin
 {
@@ -44,7 +43,11 @@ class MultipleChoiceAdmin implements InterfaceAdmin
 
     public function updateProcess(array $validated, Question $question, QuestionData $questionData): Model
     {
+        $choices = $validated['choices'];
+        QuestionnaireAdmin::updateQuestion($question, $questionData);
+        $answers = QuestionnaireAdmin::prepareQuestionMultipleChoice($choices);
 
+        return QuestionnaireAdmin::updateQuestionMultipleChoice($question, $answers);
     }
 
     public function deleteProcess(Question $question): void
