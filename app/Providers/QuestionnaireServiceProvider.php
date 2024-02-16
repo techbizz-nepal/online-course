@@ -7,19 +7,19 @@ use App\Http\Controllers\Questionnaire\Admin\QuestionController;
 use App\Models\Course;
 use App\Models\Student;
 use App\Questionnaire\AdminFacade;
-use App\Questionnaire\Repositories\AssessmentRepo;
-use App\Questionnaire\Repositories\InterfaceAssessmentRepo;
 use App\Questionnaire\Repositories\InterfaceModuleRepo;
 use App\Questionnaire\Repositories\InterfaceQuestionRepo;
 use App\Questionnaire\Repositories\ModuleRepo;
 use App\Questionnaire\Repositories\QuestionRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionClosedOptionRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionDescribeImageRepo;
+use App\Questionnaire\Repositories\Types\InterfaceQuestionMultipleChoiceRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionReadAndAnswerRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionSeeAndAnswerRepo;
 use App\Questionnaire\Repositories\Types\InterfaceQuestionTrueFalseRepo;
 use App\Questionnaire\Repositories\Types\QuestionClosedOptionRepo;
 use App\Questionnaire\Repositories\Types\QuestionDescribeImageRepo;
+use App\Questionnaire\Repositories\Types\QuestionMultipleChoiceRepo;
 use App\Questionnaire\Repositories\Types\QuestionReadAndAnswerRepo;
 use App\Questionnaire\Repositories\Types\QuestionSeeAndAnswerRepo;
 use App\Questionnaire\Repositories\Types\QuestionTrueFalseRepo;
@@ -54,10 +54,10 @@ class QuestionnaireServiceProvider extends ServiceProvider
 
     private function registerInterfaces(): void
     {
-        $this->app->singleton(InterfaceAssessmentRepo::class, AssessmentRepo::class);
         $this->app->singleton(InterfaceModuleRepo::class, ModuleRepo::class);
         $this->app->singleton(InterfaceQuestionRepo::class, QuestionRepo::class);
         $this->app->singleton(InterfaceQuestionClosedOptionRepo::class, QuestionClosedOptionRepo::class);
+        $this->app->singleton(InterfaceQuestionMultipleChoiceRepo::class, QuestionMultipleChoiceRepo::class);
         $this->app->singleton(InterfaceQuestionDescribeImageRepo::class, QuestionDescribeImageRepo::class);
         $this->app->singleton(InterfaceQuestionTrueFalseRepo::class, QuestionTrueFalseRepo::class);
         $this->app->singleton(InterfaceQuestionReadAndAnswerRepo::class, QuestionReadAndAnswerRepo::class);
@@ -68,10 +68,10 @@ class QuestionnaireServiceProvider extends ServiceProvider
     {
         $this->app->singleton('admin-facade', function ($app) {
             return new AdminFacade(
-                $app->make(InterfaceAssessmentRepo::class),
                 $app->make(InterfaceModuleRepo::class),
                 $app->make(InterfaceQuestionRepo::class),
                 $app->make(InterfaceQuestionClosedOptionRepo::class),
+                $app->make(InterfaceQuestionMultipleChoiceRepo::class),
                 $app->make(InterfaceQuestionDescribeImageRepo::class),
                 $app->make(InterfaceQuestionSeeAndAnswerRepo::class),
                 $app->make(InterfaceQuestionTrueFalseRepo::class),

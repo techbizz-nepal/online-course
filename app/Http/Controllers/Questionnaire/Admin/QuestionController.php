@@ -7,7 +7,6 @@ use App\Enums\Questionnaire\QuestionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Questionnaire\QuestionImageableRequest;
 use App\Models\Course;
-use App\Models\Questionnaire\Assessment;
 use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use App\Questionnaire\Services\Admin\InterfaceAdmin;
@@ -36,14 +35,12 @@ class QuestionController extends Controller
 
     public function create(
         Course $course,
-        Assessment $assessment,
         Module $module,
         Request $request
     ): View|Application|Factory|\Illuminate\Contracts\Foundation\Application {
         $data = [
             'params' => [
                 'course' => $course->getAttribute('slug'),
-                'assessment' => $assessment->getAttribute('slug'),
                 'module' => $module->getAttribute('slug'),
                 'type' => $request->get('type'),
             ],
@@ -52,20 +49,18 @@ class QuestionController extends Controller
         return view('questionnaire.admin.questions.create', $data);
     }
 
-    public function show(Course $course, Assessment $assessment, Module $module, Question $question): Collection
+    public function show(Course $course, Module $module, Question $question): Collection
     {
         return $question->option()->get();
     }
 
     public function store(
         Course $course,
-        Assessment $assessment,
         Module $module,
         QuestionData $questionData,
         Request $request
     ) {
         $validated = $this->type->validated($request);
-
         DB::beginTransaction();
         try {
             $this->type->storeProcess($validated, $module, $questionData);
@@ -78,15 +73,14 @@ class QuestionController extends Controller
         }
 
         return $this->successRedirectWithParamsResponse(
-            routeName: 'admin.courses.assessments.modules.show',
-            routeParams: ['course' => $course, 'assessment' => $assessment, 'module' => $module],
+            routeName: 'admin.courses.modules.show',
+            routeParams: ['course' => $course, 'module' => $module],
             translationKey: 'question.success.create'
         );
     }
 
     public function edit(
         Course $course,
-        Assessment $assessment,
         Module $module,
         Question $question
     ) {
@@ -94,7 +88,6 @@ class QuestionController extends Controller
             'question' => $question->load(QuestionType::from($question->type->value)->relation()),
             'params' => [
                 'course' => $course->getAttribute('slug'),
-                'assessment' => $assessment->getAttribute('slug'),
                 'module' => $module->getAttribute('slug'),
                 'question' => $question->getAttribute('id'),
                 'type' => $question->type,
@@ -106,7 +99,6 @@ class QuestionController extends Controller
 
     public function update(
         Course $course,
-        Assessment $assessment,
         Module $module,
         Question $question,
         QuestionData $questionData,
@@ -129,13 +121,13 @@ class QuestionController extends Controller
         }
 
         return $this->successRedirectWithParamsResponse(
-            routeName: 'admin.courses.assessments.modules.show',
-            routeParams: ['course' => $course, 'assessment' => $assessment, 'module' => $module],
+            routeName: 'admin.courses.modules.show',
+            routeParams: ['course' => $course, 'module' => $module],
             translationKey: 'question.success.edit'
         );
     }
 
-    public function destroy(Course $course, Assessment $assessment, Module $module, Question $question): RedirectResponse
+    public function destroy(Course $course, Module $module, Question $question): RedirectResponse
     {
         $this->type->deleteProcess($question);
 

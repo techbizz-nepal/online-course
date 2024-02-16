@@ -54,6 +54,11 @@ class Question extends Model
         return $this->hasOne(QuestionOption::class);
     }
 
+    public function multipleChoice(): HasOne
+    {
+        return $this->hasOne(QuestionMultipleChoice::class);
+    }
+
     public function readAndAnswer(): HasOne
     {
         return $this->hasOne(QuestionReadAndAnswer::class);

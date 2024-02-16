@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class QuestionTrueFalse extends Model
+class QuestionMultipleChoice extends Model
 {
     use HasBelongsToQuestion;
     use HasFactory;
@@ -17,7 +17,7 @@ class QuestionTrueFalse extends Model
 
     protected $guarded = [];
 
-    protected $table = 'questionnaire_question_true_falses';
+    protected $table = 'questionnaire_question_multiple_choices';
 
     protected $casts = [
         'body' => 'array',

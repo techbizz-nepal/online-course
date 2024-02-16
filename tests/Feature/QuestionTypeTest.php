@@ -10,7 +10,6 @@ use App\Models\Questionnaire\Module;
 use App\Models\Questionnaire\Question;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\CourseSeeder;
-use Database\Seeders\Questionnaire\AssessmentSeeder;
 use Database\Seeders\Questionnaire\ModuleSeeder;
 use Illuminate\Support\Str;
 
@@ -18,7 +17,6 @@ uses()->group('questionnaire-crud');
 beforeEach(function () {
     $this->seed(CategorySeeder::class);
     $this->seed(CourseSeeder::class);
-    $this->seed(AssessmentSeeder::class);
     $this->seed(ModuleSeeder::class);
 });
 it('can create module', function () {

@@ -33,7 +33,7 @@ class StudentController extends Controller
     {
         $students = Student::query()
             ->when($request->get('query'), function (Builder $builder) use ($request) {
-                $builder->where('name', 'like', "%{$request->get('query')}%")
+                $builder->where('first_name', 'like', "%{$request->get('query')}%")
                     ->orWhere('email', 'like', "%{$request->get('query')}%");
             })
             ->select(['id', 'first_name', 'surname', 'email', 'pdf'])
