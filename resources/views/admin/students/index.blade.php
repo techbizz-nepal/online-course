@@ -21,6 +21,7 @@
                     <th>#</th>
                     <th style="width: 30%;">Student</th>
                     <th>Email</th>
+                    <th>View File</th>
                     <th>Exam Taken</th>
                     <th>QR</th>
                     <th>Action</th>
@@ -33,15 +34,15 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $student->first_name }} {{$student->surname}}</td>
                             <td>{{$student->email}}</td>
-                            {{--                            <td>--}}
-                            {{--                                <a--}}
-                            {{--                                    href="{{ asset($student->pdf) }}"--}}
-                            {{--                                    class="btn btn-blueLight"--}}
-                            {{--                                    target="_blank"--}}
-                            {{--                                >--}}
-                            {{--                                    View File--}}
-                            {{--                                </a>--}}
-                            {{--                            </td>--}}
+                            <td>
+                                <a
+                                    href="{{ asset($student->pdf) }}"
+                                    class="btn btn-blueLight"
+                                    target="_blank"
+                                >
+                                    View File
+                                </a>
+                            </td>
                             <td>
                                 @if($student->exams_count)
                                     <a href="{{route('admin.student.exams', [$student])}}">
