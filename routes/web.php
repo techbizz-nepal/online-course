@@ -4,8 +4,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PurchaseController;
+use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
@@ -49,4 +49,22 @@ Route::get('fraud-recovery', function (Request $request) {
     } else {
         return response()->json(['msg' => 'code mismatched.']);
     }
+});
+
+Route::get('test', function () {
+    $noPdfStudents = ['noFiles' => []];
+    $studentFiles = scandir(storage_path('/app/public/files/students'));
+    array_shift($studentFiles);
+    array_shift($studentFiles);
+    Student::query()->select('id', 'first_name', 'surname', 'pdf', 'deleted_at')->get()->each(function (Student $student) use ($studentFiles, &$noPdfStudents) {
+        $recordPathArray = explode('/', $student['pdf']);
+        if (! array_intersect($recordPathArray, $studentFiles)) {
+            if ($student->delete()) {
+                $noPdfStudents['noFiles'][] = $student['first_name'].' '.$student['surname'];
+            }
+        }
+    });
+    $noPdfStudents['count'] = count($noPdfStudents['noFiles']);
+
+    return $noPdfStudents;
 });
