@@ -22,6 +22,7 @@ class CreateStudentsTable extends Migration
             $table->tinyInteger('status')->default(1);
             $table->json('extra')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
