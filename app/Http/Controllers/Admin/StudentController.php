@@ -36,8 +36,9 @@ class StudentController extends Controller
                 $builder->where('first_name', 'like', "%{$request->get('query')}%")
                     ->orWhere('email', 'like', "%{$request->get('query')}%");
             })
-            ->select(['id', 'first_name', 'surname', 'email', 'pdf'])
+            ->select(['id', 'first_name', 'surname', 'email', 'pdf', 'created_at'])
             ->withCount('exams')
+            ->orderBy('created_at', 'desc')
             ->simplePaginate(5)
             ->appends($request->except('page'));
 

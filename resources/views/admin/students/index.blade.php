@@ -24,6 +24,7 @@
                     <th>View File</th>
                     <th>Exam Taken</th>
                     <th>QR</th>
+                    <th>Registered On</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -54,6 +55,9 @@
                             </td>
                             <td>
                                 {!! QrCode::format('svg')->size(100)->generate(asset($student->pdf)); !!}
+                            </td>
+                            <td>
+                                {{$student->created_at->diffForHumans()}}
                             </td>
                             <td class="text-center">
                                 <a href="{{route('admin.student.show', $student)}}" class="btn btn-outline-success mb-1">View Detail</a>
