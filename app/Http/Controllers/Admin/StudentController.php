@@ -31,19 +31,24 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
+        $query = $request->get('query');
+
         $students = Student::query()
-            ->when($request->get('query'), function (Builder $builder) use ($request) {
-                $builder->where('first_name', 'like', "%{$request->get('query')}%")
-                    ->orWhere('email', 'like', "%{$request->get('query')}%");
+            ->when($query, function (Builder $builder) use ($query) {
+                $builder->where('first_name', 'like', "%{$query}%")
+                    ->orWhere('email', 'like', "%{$query}%");
             })
             ->select(['id', 'first_name', 'surname', 'email', 'pdf', 'created_at'])
             ->withCount('exams')
             ->orderBy('created_at', 'desc')
             ->simplePaginate(5)
             ->appends($request->except('page'));
-
+        $studentFiles = scandir(storage_path('/app/public/files/students'));
+        array_shift($studentFiles);
+        array_shift($studentFiles);
         $viewData = [
             'viewDetailUrl' => '',
+            'studentFiles' => $studentFiles,
             'students' => $students,
             'next_page_url' => $students->nextPageUrl(),
             'prev_page_url' => $students->previousPageUrl(),

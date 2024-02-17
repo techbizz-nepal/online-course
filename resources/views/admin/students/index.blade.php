@@ -36,13 +36,18 @@
                             <td>{{ $student->first_name }} {{$student->surname}}</td>
                             <td>{{$student->email}}</td>
                             <td>
-                                <a
-                                    href="{{ asset($student->pdf) }}"
-                                    class="btn btn-blueLight"
-                                    target="_blank"
-                                >
-                                    View File
-                                </a>
+                                @if(array_intersect(explode('/', $student->pdf), $studentFiles))
+                                    <a
+                                        href="{{ asset($student->pdf) }}"
+                                        class="btn btn-blueLight"
+                                        target="_blank"
+                                    >
+                                        View File
+                                    </a>
+                                @else
+                                    No file Available
+                                @endif
+
                             </td>
                             <td>
                                 @if($student->exams_count)
@@ -54,7 +59,11 @@
                                 @endif
                             </td>
                             <td>
-                                {!! QrCode::format('svg')->size(100)->generate(asset($student->pdf)); !!}
+                                @if(array_intersect(explode('/', $student->pdf), $studentFiles))
+                                    {!! QrCode::format('svg')->size(100)->generate(asset($student->pdf)); !!}
+                                @else
+                                    No Qr Available
+                                @endif
                             </td>
                             <td>
                                 {{$student->created_at->diffForHumans()}}
