@@ -56,12 +56,12 @@ Route::get('test', function () {
     $studentFiles = scandir(storage_path('/app/public/files/students'));
     array_shift($studentFiles);
     array_shift($studentFiles);
-    Student::query()->select('id', 'first_name', 'surname', 'pdf', 'deleted_at')->get()->each(function (Student $student) use ($studentFiles, &$noPdfStudents) {
+    Student::query()->get()->each(function (Student $student) use ($studentFiles, &$noPdfStudents) {
         $recordPathArray = explode('/', $student['pdf']);
         if (! array_intersect($recordPathArray, $studentFiles)) {
-            if ($student->delete()) {
-                $noPdfStudents['noFiles'][] = $student['first_name'].' '.$student['surname'];
-            }
+            //            if ($student->delete()) {
+            $noPdfStudents['noFiles'][] = ['fullName' => $student['first_name'].' '.$student['surname'], 'email' => $student['email'], 'Registered On' => $student['created_at']->format('d M, Y')];
+            //            }
         }
     });
     $noPdfStudents['count'] = count($noPdfStudents['noFiles']);
