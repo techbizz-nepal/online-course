@@ -45,7 +45,7 @@
                                         View File
                                     </a>
                                 @else
-                                    No file Available
+                                    {{explode('/', $student->pdf)[3]}}
                                 @endif
 
                             </td>
